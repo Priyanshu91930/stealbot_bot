@@ -31,6 +31,18 @@ BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/(\w+)\?start=([\w-]+)")
 MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)")
 user_settings = {} 
 
+def parse_chat_id(ch_id):
+    if not ch_id: return None
+    if isinstance(ch_id, (int, float)): return int(ch_id)
+    if isinstance(ch_id, str):
+        ch_id = ch_id.strip()
+        if ch_id.startswith("-100"):
+            try: return int(ch_id)
+            except: pass
+        if ch_id.isdigit():
+            return int(f"-100{ch_id}")
+    return ch_id
+
 # GLOBAL LOCK to prevent overlapping interactions
 interaction_lock = asyncio.Lock()
 
@@ -102,8 +114,10 @@ async def check_link_handler(client, message):
     link = message.command[1]
     match = MSG_LINK_RE.match(link)
     if not match: return await message.reply_text("❌ Invalid link.")
-    ch_id, msg_id = match.group(1), int(match.group(2))
-    if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
+    
+    ch_id = parse_chat_id(match.group(1))
+    msg_id = int(match.group(2))
+    
     status_msg = await message.reply_text("⏳ Processing...")
     try:
         msg = await user_bot.get_messages(ch_id, msg_id)
@@ -127,7 +141,8 @@ async def search_handler(client, message):
     status_msg = await message.reply_text(f"🔍 Searching for <code>{query}</code>...")
     
     all_messages = []
-    for ch_id in target_channels:
+    for raw_ch_id in target_channels:
+        ch_id = parse_chat_id(raw_ch_id)
         async for msg in user_bot.search_messages(ch_id, query=query):
             all_messages.append((ch_id, msg))
     
@@ -342,16 +357,20 @@ async def get_batch_link(fs_bot_username, files):
 
 async def main():
     await bot.start()
-    if user_bot: await user_bot.start()
+    if user_bot: 
+        try:
+            await user_bot.start()
+        except Exception as e:
+            print(f"ERROR: Could not start user_bot: {e}")
+    
     print("Banana Bot Strict Sequential Ready!")
-    try:
-        await idle()
-    finally:
-        await bot.stop()
-        if user_bot: await user_bot.stop()
+    await idle()
+    
+    await bot.stop()
+    if user_bot: await user_bot.stop()
 
 if __name__ == "__main__":
-    bot.run(main())
+    asyncio.run(main())
 else:
     # Start bot in background when imported by Vercel
     threading.Thread(target=run_bot_in_thread, daemon=True).start()
