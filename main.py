@@ -8,6 +8,16 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait, MessageNotModified
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, ADMINS, LOG_CHANNEL
 from database import add_channel, remove_channel, get_channels
+import logging
+
+# Logging Setup
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger("BananaBot")
+# Set pyrogram logging to WARNING to avoid flood of internal logs
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 # Clients
 bot = Client("BananaBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
@@ -89,8 +99,15 @@ async def smart_copy(client, message, chat_id, caption=None, reply_markup=None):
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+@bot.on_message(group=-1)
+async def monitor_messages(client, message):
+    user_id = message.from_user.id if message.from_user else "Unknown"
+    text = message.text or message.caption or "(Media/Other)"
+    logger.info(f"Incoming Message: [User: {user_id}] [Text: {text[:50]}]")
+
 @bot.on_message(filters.command("start") & filters.private)
 async def start_cmd(client, message):
+    logger.info(f"Start command received from {message.from_user.id}")
     await message.reply_text(
         "<b>🍌 Banana Bot (Strict Lock)</b>\n\n"
         "• /set_bot @BotName\n"
@@ -108,6 +125,7 @@ async def set_bot_handler(client, message):
 
 @bot.on_message(filters.command("check") & filters.user(ADMINS))
 async def check_link_handler(client, message):
+    logger.info(f"Check link command received from {message.from_user.id}")
     if not user_bot: return await message.reply_text("STRING_SESSION missing!")
     settings = user_settings.get(message.from_user.id)
     if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
@@ -130,6 +148,7 @@ async def check_link_handler(client, message):
 
 @bot.on_message(filters.command("search") & filters.user(ADMINS))
 async def search_handler(client, message):
+    logger.info(f"Search command received from {message.from_user.id}")
     if not user_bot: return await message.reply_text("STRING_SESSION missing!")
     settings = user_settings.get(message.from_user.id)
     if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
@@ -364,6 +383,7 @@ async def main():
             print(f"ERROR: Could not start user_bot: {e}")
     
     print("Banana Bot Strict Sequential Ready!")
+    logger.info("Banana Bot is now running and idling...")
     await idle()
     
     # bot is stopped automatically by bot.run()
