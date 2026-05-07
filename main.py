@@ -356,7 +356,7 @@ async def get_batch_link(fs_bot_username, files):
     return None
 
 async def main():
-    await bot.start()
+    # bot is started automatically by bot.run()
     if user_bot: 
         try:
             await user_bot.start()
@@ -366,11 +366,11 @@ async def main():
     print("Banana Bot Strict Sequential Ready!")
     await idle()
     
-    await bot.stop()
+    # bot is stopped automatically by bot.run()
     if user_bot: await user_bot.stop()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    bot.run(main())
 else:
     # Start bot in background when imported by Vercel
     threading.Thread(target=run_bot_in_thread, daemon=True).start()
