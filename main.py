@@ -1,23 +1,11 @@
 import asyncio
 import re
 import os
-import threading
-from flask import Flask
 from pyrogram import Client, filters, idle
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait, MessageNotModified
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, ADMINS, LOG_CHANNEL
 from database import add_channel, remove_channel, get_channels
-import logging
-
-# Logging Setup
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger("BananaBot")
-# Set pyrogram logging to WARNING to avoid flood of internal logs
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 # Clients
 bot = Client("BananaBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
@@ -25,89 +13,15 @@ user_bot = None
 if STRING_SESSION:
     user_bot = Client("BananaUser", api_id=API_ID, api_hash=API_HASH, session_string=STRING_SESSION, in_memory=True)
 
-# Flask App for Vercel
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Banana Bot is Running!"
-
-def run_bot_in_thread():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(main())
-
 BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/(\w+)\?start=([\w-]+)")
 MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)")
 user_settings = {} 
 
-def parse_chat_id(ch_id):
-    if not ch_id: return None
-    if isinstance(ch_id, (int, float)): return int(ch_id)
-    if isinstance(ch_id, str):
-        ch_id = ch_id.strip()
-        if ch_id.startswith("-100"):
-            try: return int(ch_id)
-            except: pass
-        if ch_id.isdigit():
-            return int(f"-100{ch_id}")
-    return ch_id
-
 # GLOBAL LOCK to prevent overlapping interactions
 interaction_lock = asyncio.Lock()
 
-async def smart_copy(client, message, chat_id, caption=None, reply_markup=None):
-    """
-    Tries to copy a message. If it fails (e.g., restricted content), 
-    it downloads the media and uploads it manually.
-    """
-    try:
-        return await message.copy(chat_id, caption=caption, reply_markup=reply_markup)
-    except Exception as e:
-        print(f"DEBUG: Copy failed ({e}), attempting download/upload...")
-        if message.text:
-            return await client.send_message(chat_id, text=caption or message.text, reply_markup=reply_markup)
-        
-        # Download media
-        file_path = await client.download_media(message)
-        if not file_path:
-            return None
-            
-        try:
-            cap = caption if caption is not None else (message.caption or "")
-            if message.document:
-                return await client.send_document(chat_id, file_path, caption=cap, reply_markup=reply_markup)
-            elif message.video:
-                return await client.send_video(chat_id, file_path, caption=cap, reply_markup=reply_markup)
-            elif message.audio:
-                return await client.send_audio(chat_id, file_path, caption=cap, reply_markup=reply_markup)
-            elif message.photo:
-                return await client.send_photo(chat_id, file_path, caption=cap, reply_markup=reply_markup)
-            elif message.animation:
-                return await client.send_animation(chat_id, file_path, caption=cap, reply_markup=reply_markup)
-            elif message.voice:
-                return await client.send_voice(chat_id, file_path, caption=cap, reply_markup=reply_markup)
-            elif message.video_note:
-                return await client.send_video_note(chat_id, file_path, reply_markup=reply_markup)
-            elif message.sticker:
-                return await client.send_sticker(chat_id, file_path, reply_markup=reply_markup)
-            return None
-        except Exception as upload_err:
-            print(f"DEBUG: Upload failed: {upload_err}")
-            return None
-        finally:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-
-@bot.on_message(group=-1)
-async def monitor_messages(client, message):
-    user_id = message.from_user.id if message.from_user else "Unknown"
-    text = message.text or message.caption or "(Media/Other)"
-    logger.info(f"Incoming Message: [User: {user_id}] [Text: {text[:50]}]")
-
 @bot.on_message(filters.command("start") & filters.private)
 async def start_cmd(client, message):
-    logger.info(f"Start command received from {message.from_user.id}")
     await message.reply_text(
         "<b>🍌 Banana Bot (Strict Lock)</b>\n\n"
         "• /set_bot @BotName\n"
@@ -125,30 +39,24 @@ async def set_bot_handler(client, message):
 
 @bot.on_message(filters.command("check") & filters.user(ADMINS))
 async def check_link_handler(client, message):
-    logger.info(f"Check link command received from {message.from_user.id}")
     if not user_bot: return await message.reply_text("STRING_SESSION missing!")
     settings = user_settings.get(message.from_user.id)
     if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
     link = message.command[1]
     match = MSG_LINK_RE.match(link)
     if not match: return await message.reply_text("❌ Invalid link.")
-    
-    ch_id = parse_chat_id(match.group(1))
-    msg_id = int(match.group(2))
-    
+    ch_id, msg_id = match.group(1), int(match.group(2))
+    if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
     status_msg = await message.reply_text("⏳ Processing...")
     try:
         msg = await user_bot.get_messages(ch_id, msg_id)
         # Use LOCK
         async with interaction_lock:
             await process_single_post(status_msg, ch_id, msg, settings["file_store_bot"], 1, 1)
-    except Exception as e:
-        try: await status_msg.edit(f"❌ Error: {e}")
-        except: pass
+    except Exception as e: await status_msg.edit(f"❌ Error: {e}")
 
 @bot.on_message(filters.command("search") & filters.user(ADMINS))
 async def search_handler(client, message):
-    logger.info(f"Search command received from {message.from_user.id}")
     if not user_bot: return await message.reply_text("STRING_SESSION missing!")
     settings = user_settings.get(message.from_user.id)
     if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
@@ -160,8 +68,7 @@ async def search_handler(client, message):
     status_msg = await message.reply_text(f"🔍 Searching for <code>{query}</code>...")
     
     all_messages = []
-    for raw_ch_id in target_channels:
-        ch_id = parse_chat_id(raw_ch_id)
+    for ch_id in target_channels:
         async for msg in user_bot.search_messages(ch_id, query=query):
             all_messages.append((ch_id, msg))
     
@@ -175,17 +82,11 @@ async def search_handler(client, message):
     # USE LOCK for the whole loop of posts
     async with interaction_lock:
         for i, (ch_id, msg) in enumerate(all_messages, 1):
-            try:
-                await status_msg.edit(
-                    f"⏳ <b>Processing:</b> [{i}/{total}]\n"
-                    f"<b>Channel:</b> <code>{ch_id}</code>\n"
-                    f"<b>✅ Success:</b> {success_count} | <b>❌ Skipped:</b> {skip_count}"
-                )
-            except MessageNotModified:
-                pass
-            except Exception as e:
-                print(f"DEBUG: Status edit failed: {e}")
-
+            await status_msg.edit(
+                f"⏳ <b>Processing:</b> [{i}/{total}]\n"
+                f"<b>Channel:</b> <code>{ch_id}</code>\n"
+                f"<b>✅ Success:</b> {success_count} | <b>❌ Skipped:</b> {skip_count}"
+            )
             res = await process_single_post(status_msg, ch_id, msg, fs_bot, i, total)
             if res: success_count += 1
             else: skip_count += 1
@@ -224,38 +125,24 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         processed_any = True
         old_link = f"t.me/{bot_username}?start={start_param}"
         new_text = new_text.replace(old_link, new_bot_link.replace("https://", ""))
-        if new_reply_markup and hasattr(new_reply_markup, "inline_keyboard"):
+        if new_reply_markup:
             for row in new_reply_markup.inline_keyboard:
                 for btn in row:
-                    if btn.url and old_link in btn.url: 
-                        btn.url = new_bot_link
+                    if btn.url and old_link in btn.url: btn.url = new_bot_link
 
     if processed_any:
         try:
-            # Check if text/caption actually changed or reply_markup changed
-            # (In a real scenario, you'd compare new_text with text and new_reply_markup with msg.reply_markup)
-            
-            if msg.text: 
-                await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
-            else: 
-                await smart_copy(user_bot, msg, LOG_CHANNEL, caption=new_text, reply_markup=new_reply_markup)
-            
+            if msg.text: await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
+            else: await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
             print(f"DEBUG: Success for post index {index}. Link updated.")
-            
             try:
-                if msg.text:
-                    if new_text != text or new_reply_markup != msg.reply_markup:
-                        await user_bot.edit_message_text(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
-                else:
-                    if new_text != text or new_reply_markup != msg.reply_markup:
-                        await user_bot.edit_message_caption(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
-            except MessageNotModified:
-                print(f"DEBUG: Post {index} already has the updated link. Skipping edit.")
+                if msg.text: await user_bot.edit_message_text(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
+                else: await user_bot.edit_message_caption(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
             except Exception as e: 
-                print(f"DEBUG: Edit failed for post {index}: {e}")
+                print(f"DEBUG: Edit failed: {e}")
             return True
         except Exception as e: 
-            print(f"DEBUG: Send to LOG_CHANNEL failed: {e}")
+            print(f"DEBUG: Send failed: {e}")
     else:
         print(f"DEBUG: No links processed for post index {index}.")
     return False
@@ -263,11 +150,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
 async def collect_files_from_bot(bot_username, start_param):
     files_by_unique_id = {}
     try:
-        try:
-            await user_bot.read_chat_history(bot_username)
-        except Exception as e:
-            print(f"DEBUG: Could not read history for {bot_username}: {e}")
-        
+        await user_bot.read_chat_history(bot_username)
         last_id = 0
         async for m in user_bot.get_chat_history(bot_username, limit=1):
             last_id = m.id
@@ -285,14 +168,14 @@ async def collect_files_from_bot(bot_username, start_param):
                 if msg.from_user and msg.from_user.is_self: continue
 
                 # Log bot text responses for debugging
-                media = msg.document or msg.video or msg.audio or msg.voice or msg.video_note or msg.photo
-                if not media:
+                if not (msg.document or msg.video or msg.audio):
                     if msg.text:
                         print(f"DEBUG: [{bot_username}] Text received: {msg.text[:60]}...")
                         if "t.me/" in msg.text:
                             print(f"DEBUG: [{bot_username}] Bot sent a link instead of a file. Skipping as requested.")
                     continue
 
+                media = msg.document or msg.video or msg.audio
                 unique_id = getattr(media, "file_unique_id", None)
                 if unique_id and unique_id not in files_by_unique_id:
                     files_by_unique_id[unique_id] = msg
@@ -301,9 +184,9 @@ async def collect_files_from_bot(bot_username, start_param):
             if new_found:
                 print(f"DEBUG: Found {len(files_by_unique_id)} files so far...")
                 await asyncio.sleep(5) # Wait for remaining files in batch
-                async for msg in user_bot.get_chat_history(bot_username, limit=30):
+                async for msg in user_bot.get_chat_history(bot_username, limit=20):
                     if msg.id <= last_id: break
-                    media = msg.document or msg.video or msg.audio or msg.voice or msg.video_note or msg.photo
+                    media = msg.document or msg.video or msg.audio
                     if media:
                         unique_id = getattr(media, "file_unique_id", None)
                         if unique_id and unique_id not in files_by_unique_id:
@@ -317,6 +200,50 @@ async def collect_files_from_bot(bot_username, start_param):
         print(f"DEBUG: Error in collect_files: {e}")
     return sorted(files_by_unique_id.values(), key=lambda x: x.id)
 
+async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
+    """Tries to copy a message; if restricted, downloads and uploads it."""
+    try:
+        return await msg.copy(chat_id, caption=caption, reply_markup=reply_markup)
+    except Exception as e:
+        print(f"DEBUG: Copy failed ({e}). Falling back to download/upload...")
+        try:
+            # Download the media
+            file_path = await client.download_media(msg)
+            if not file_path:
+                return None
+            
+            # Use provided caption/markup or fall back to msg defaults
+            final_caption = caption if caption is not None else (msg.caption or "")
+            final_markup = reply_markup if reply_markup is not None else msg.reply_markup
+            
+            if msg.document:
+                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            elif msg.video:
+                res = await client.send_video(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            elif msg.audio:
+                res = await client.send_audio(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            elif msg.photo:
+                res = await client.send_photo(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            elif msg.voice:
+                res = await client.send_voice(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            elif msg.video_note:
+                res = await client.send_video_note(chat_id, file_path, reply_markup=final_markup)
+            elif msg.animation:
+                res = await client.send_animation(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            elif msg.sticker:
+                res = await client.send_sticker(chat_id, file_path, reply_markup=final_markup)
+            else:
+                # Fallback for unknown media types
+                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+            
+            # Clean up
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            return res
+        except Exception as err:
+            print(f"DEBUG: Fallback failed: {err}")
+            return None
+
 async def get_link_with_command(fs_bot_username, media_msg):
     try:
         await user_bot.read_chat_history(fs_bot_username)
@@ -324,8 +251,9 @@ async def get_link_with_command(fs_bot_username, media_msg):
         async for m in user_bot.get_chat_history(fs_bot_username, limit=1):
             last_id = m.id
 
-        sent = await smart_copy(user_bot, media_msg, fs_bot_username)
+        sent = await robust_copy(user_bot, fs_bot_username, media_msg)
         if not sent: return None
+        
         await asyncio.sleep(3)
         await sent.reply("/link")
         
@@ -350,9 +278,11 @@ async def get_batch_link(fs_bot_username, files):
 
         log_files = []
         for f in files:
-            lf = await smart_copy(user_bot, f, LOG_CHANNEL)
+            lf = await robust_copy(user_bot, LOG_CHANNEL, f)
             if lf: log_files.append(lf)
             await asyncio.sleep(3)
+        
+        if not log_files: return None
         
         first_file, last_file = log_files[0], log_files[-1]
         await user_bot.send_message(fs_bot_username, "/batch")
@@ -375,22 +305,10 @@ async def get_batch_link(fs_bot_username, files):
     return None
 
 async def main():
-    # bot is started automatically by bot.run()
-    if user_bot: 
-        try:
-            await user_bot.start()
-        except Exception as e:
-            print(f"ERROR: Could not start user_bot: {e}")
-    
+    await bot.start()
+    if user_bot: await user_bot.start()
     print("Banana Bot Strict Sequential Ready!")
-    logger.info("Banana Bot is now running and idling...")
     await idle()
-    
-    # bot is stopped automatically by bot.run()
-    if user_bot: await user_bot.stop()
 
 if __name__ == "__main__":
     bot.run(main())
-else:
-    # Start bot in background when imported by Vercel
-    threading.Thread(target=run_bot_in_thread, daemon=True).start()

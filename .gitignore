@@ -1,6 +1,7 @@
+.env
 *.session
 *.session-journal
-.env
 __pycache__/
-*.pyc
 downloads/
+node_modules/
+.gemini/
