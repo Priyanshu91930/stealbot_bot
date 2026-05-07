@@ -1,6 +1,8 @@
 import asyncio
 import re
 import os
+import threading
+from flask import Flask
 from pyrogram import Client, filters, idle
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait, MessageNotModified
@@ -12,6 +14,18 @@ bot = Client("BananaBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 user_bot = None
 if STRING_SESSION:
     user_bot = Client("BananaUser", api_id=API_ID, api_hash=API_HASH, session_string=STRING_SESSION, in_memory=True)
+
+# Flask App for Vercel
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Banana Bot is Running!"
+
+def run_bot_in_thread():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(main())
 
 BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/(\w+)\?start=([\w-]+)")
 MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)")
@@ -338,3 +352,6 @@ async def main():
 
 if __name__ == "__main__":
     bot.run(main())
+else:
+    # Start bot in background when imported by Vercel
+    threading.Thread(target=run_bot_in_thread, daemon=True).start()
