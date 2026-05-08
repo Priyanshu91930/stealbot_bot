@@ -1,8 +1,20 @@
 import asyncio
 import re
 import os
-from pyrogram import Client, filters, idle, enums
+from pyrogram import Client, filters, idle, enums, utils
 from pyrogram.enums import ChatType
+
+# --- PATCH FOR LONG IDs ---
+# This fixes "ValueError: Peer id invalid" for IDs starting with -1002...
+def get_peer_type_patched(peer_id: int) -> str:
+    if peer_id < 0:
+        if str(peer_id).startswith("-100"):
+            return "channel"
+        return "chat"
+    return "user"
+
+utils.get_peer_type = get_peer_type_patched
+# --------------------------
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait, MessageNotModified
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, ADMINS, LOG_CHANNEL
@@ -359,7 +371,17 @@ async def get_batch_link(fs_bot_username, files):
 
 async def main():
     await bot.start()
-    if user_bot: await user_bot.start()
+    if user_bot: 
+        await user_bot.start()
+        # Warm up peer cache so the bot recognizes channels it's in
+        # This prevents "KeyError: ID not found" on Railway restarts
+        print("Warming up user_bot cache...")
+        try:
+            async for _ in user_bot.get_dialogs(limit=100):
+                pass
+        except Exception as e:
+            print(f"Cache warmup warning: {e}")
+            
     print("Banana Bot Strict Sequential Ready!")
     await idle()
 
