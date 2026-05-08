@@ -1,7 +1,8 @@
 import asyncio
 import re
 import os
-from pyrogram import Client, filters, idle
+from pyrogram import Client, filters, idle, enums
+from pyrogram.enums import ChatType
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait, MessageNotModified
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, ADMINS, LOG_CHANNEL
@@ -25,6 +26,9 @@ async def start_cmd(client, message):
     await message.reply_text(
         "<b>🍌 Banana Bot (Strict Lock)</b>\n\n"
         "• /set_bot @BotName\n"
+        "• /add - Forward a msg from target channel\n"
+        "• /del [id] - Remove a channel\n"
+        "• /channels - List target channels\n"
         "• /check [link]\n"
         "• /search [query]\n"
         "<i>Processes only one post at a time.</i>"
@@ -36,6 +40,55 @@ async def set_bot_handler(client, message):
     bot_username = message.command[1].replace("@", "")
     user_settings[message.from_user.id] = {"file_store_bot": bot_username}
     await message.reply_text(f"✅ FS Bot set to @{bot_username}")
+
+@bot.on_message(filters.command("add") & filters.user(ADMINS))
+async def add_channel_cmd(client, message):
+    await message.reply_text("Forward a message from the target channel to add it.")
+
+@bot.on_message(filters.forwarded & filters.private & filters.user(ADMINS))
+async def handle_forward(client, message):
+    if message.forward_from_chat:
+        f_chat = message.forward_from_chat
+        if f_chat.type not in [ChatType.CHANNEL, ChatType.SUPERGROUP]:
+            return await message.reply_text(f"❌ Please forward from a Channel or Supergroup. (Type: {f_chat.type})")
+        
+        ch_id = f_chat.id
+        title = f_chat.title
+        await add_channel(ch_id)
+        await message.reply_text(f"✅ Channel Added: <b>{title}</b> (<code>{ch_id}</code>)")
+    else:
+        await message.reply_text("❌ This doesn't seem to be a message forwarded from a channel. Make sure the channel allows forwarding.")
+
+@bot.on_message(filters.command("del") & filters.user(ADMINS))
+async def del_channel_cmd(client, message):
+    if len(message.command) < 2:
+        return await message.reply_text("Usage: `/del -100xxxxxx`")
+    try:
+        ch_id = int(message.command[1])
+        await remove_channel(ch_id)
+        await message.reply_text(f"✅ Channel <code>{ch_id}</code> removed.")
+    except:
+        await message.reply_text("Invalid ID.")
+
+@bot.on_message(filters.command("channels") & filters.user(ADMINS))
+async def list_channels_cmd(client, message):
+    channels = await get_channels()
+    if not channels:
+        return await message.reply_text("No target channels added.")
+    
+    text = "<b>Target Channels:</b>\n\n"
+    for ch_id in channels:
+        try:
+            # Try to get info using user_bot if available, else just show ID
+            chat = await user_bot.get_chat(ch_id) if user_bot else None
+            if chat:
+                text += f"• {chat.title} (<code>{ch_id}</code>)\n"
+            else:
+                text += f"• <code>{ch_id}</code>\n"
+        except:
+            text += f"• <code>{ch_id}</code>\n"
+    
+    await message.reply_text(text)
 
 @bot.on_message(filters.command("check") & filters.user(ADMINS))
 async def check_link_handler(client, message):
