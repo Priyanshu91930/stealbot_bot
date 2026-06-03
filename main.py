@@ -52,6 +52,7 @@ async def start_cmd(client, message):
         "• /fetch - Fetch files by forwarding a range (first & last msg)\n"
         "• /scheduler - Manage scheduler settings\n"
         "• /queue - View scheduled posts queue\n"
+        "• /q - Add ready-made posts directly to queue\n"
         "<i>Processes only one post at a time.</i>"
     )
 
@@ -96,6 +97,17 @@ async def handle_forward(client, message):
             f"• Msg ID: <code>{msg_id}</code>\n\n"
             f"Now forward the **last message** of the range from the same chat."
         )
+        return
+
+    elif state_info and state_info.get("state") == "AWAITING_Q_MSG":
+        user_states.pop(user_id, None)
+        status_msg = await message.reply_text("⏳ Storing post to LOG_CHANNEL and queueing...")
+        sent_msg = await robust_copy(bot, LOG_CHANNEL, message)
+        if sent_msg:
+            await add_to_queue(sent_msg.id)
+            await status_msg.edit("✅ Successfully added your ready-made post to the scheduler queue!")
+        else:
+            await status_msg.edit("❌ Failed to save post to LOG_CHANNEL.")
         return
 
     elif state_info and state_info.get("state") == "AWAITING_LAST_MSG":
@@ -567,6 +579,11 @@ async def queue_cmd(client, message):
     ]
     await message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
 
+@bot.on_message(filters.command("q") & filters.user(ADMINS))
+async def q_cmd_handler(client, message):
+    user_states[message.from_user.id] = {"state": "AWAITING_Q_MSG"}
+    await message.reply_text("Forward the ready-made post (or send the text) you want to add directly to the scheduler queue.")
+
 @bot.on_message(filters.text & filters.private & filters.user(ADMINS))
 async def handle_admin_text(client, message):
     if message.text.startswith("/"):
@@ -577,7 +594,18 @@ async def handle_admin_text(client, message):
         return
         
     state = state_info.get("state")
-    if state == "SET_CHAN":
+    if state == "AWAITING_Q_MSG":
+        user_states.pop(user_id, None)
+        status_msg = await message.reply_text("⏳ Storing post to LOG_CHANNEL and queueing...")
+        sent_msg = await bot.send_message(LOG_CHANNEL, message.text, reply_markup=message.reply_markup)
+        if sent_msg:
+            await add_to_queue(sent_msg.id)
+            await status_msg.edit("✅ Successfully added your ready-made post to the scheduler queue!")
+        else:
+            await status_msg.edit("❌ Failed to save post to LOG_CHANNEL.")
+        return
+
+    elif state == "SET_CHAN":
         chan = message.text.strip()
         settings = await get_scheduler_settings()
         settings["target_channel"] = chan
