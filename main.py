@@ -1,6 +1,7 @@
 import asyncio
 import re
 import os
+from datetime import datetime, time
 from pyrogram import Client, filters, idle, enums, utils
 from pyrogram.enums import ChatType
 
@@ -18,7 +19,11 @@ utils.get_peer_type = get_peer_type_patched
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait, MessageNotModified
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, ADMINS, LOG_CHANNEL
-from database import add_channel, remove_channel, get_channels
+from database import (
+    add_channel, remove_channel, get_channels,
+    get_scheduler_settings, update_scheduler_settings,
+    add_to_queue, get_queue_count, pop_queue_batch
+)
 
 # Clients
 bot = Client("BananaBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
@@ -29,11 +34,12 @@ if STRING_SESSION:
 BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/(\w+)\?start=([\w-]+)")
 MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)")
 user_settings = {} 
+user_states = {} 
 
 # GLOBAL LOCK to prevent overlapping interactions
 interaction_lock = asyncio.Lock()
 
-@bot.on_message(filters.command("start") & filters.private)
+@bot.on_message(filters.command("start") & filters.private & filters.user(ADMINS))
 async def start_cmd(client, message):
     await message.reply_text(
         "<b>🍌 Banana Bot (Strict Lock)</b>\n\n"
@@ -43,6 +49,9 @@ async def start_cmd(client, message):
         "• /channels - List target channels\n"
         "• /check [link]\n"
         "• /search [query]\n"
+        "• /fetch - Fetch files by forwarding a range (first & last msg)\n"
+        "• /scheduler - Manage scheduler settings\n"
+        "• /queue - View scheduled posts queue\n"
         "<i>Processes only one post at a time.</i>"
     )
 
@@ -57,8 +66,121 @@ async def set_bot_handler(client, message):
 async def add_channel_cmd(client, message):
     await message.reply_text("Forward a message from the target channel to add it.")
 
+@bot.on_message(filters.command("fetch") & filters.user(ADMINS))
+async def fetch_range_cmd(client, message):
+    user_states[message.from_user.id] = {"state": "AWAITING_FIRST_MSG"}
+    await message.reply_text("Forward the **first message** of the range from the target channel/chat.")
+
 @bot.on_message(filters.forwarded & filters.private & filters.user(ADMINS))
 async def handle_forward(client, message):
+    user_id = message.from_user.id
+    state_info = user_states.get(user_id)
+    
+    if state_info and state_info.get("state") == "AWAITING_FIRST_MSG":
+        if not message.forward_from_chat:
+            return await message.reply_text("❌ Could not detect the original chat. Make sure it's a channel or group message.")
+        
+        chat_id = message.forward_from_chat.id
+        msg_id = message.forward_from_message_id
+        
+        import time
+        user_states[user_id] = {
+            "state": "AWAITING_LAST_MSG",
+            "chat_id": chat_id,
+            "first_msg_id": msg_id,
+            "time": time.time()
+        }
+        await message.reply_text(
+            f"✅ First message received.\n"
+            f"• Chat: <code>{chat_id}</code>\n"
+            f"• Msg ID: <code>{msg_id}</code>\n\n"
+            f"Now forward the **last message** of the range from the same chat."
+        )
+        return
+
+    elif state_info and state_info.get("state") == "AWAITING_LAST_MSG":
+        import time
+        elapsed = time.time() - state_info.get("time", 0)
+        if elapsed < 2.0:
+            return
+            
+        if not message.forward_from_chat:
+            return await message.reply_text("❌ Could not detect the original chat.")
+        
+        chat_id = message.forward_from_chat.id
+        msg_id = message.forward_from_message_id
+        
+        if chat_id != state_info["chat_id"]:
+            return await message.reply_text("❌ The last message must be from the same chat as the first message. Please try again or use /fetch to restart.")
+        
+        first_msg_id = state_info["first_msg_id"]
+        # Clear state
+        user_states.pop(user_id, None)
+        
+        status_msg = await message.reply_text("⏳ Processing range...")
+        
+        # Ensure we have user_bot
+        if not user_bot:
+            return await status_msg.edit("❌ STRING_SESSION missing!")
+        
+        settings = user_settings.get(user_id)
+        if not settings:
+            return await status_msg.edit("❌ Pehle `/set_bot` karein.")
+        
+        fs_bot = settings["file_store_bot"]
+        
+        # Determine start/end range
+        start_id = min(first_msg_id, msg_id)
+        end_id = max(first_msg_id, msg_id)
+        
+        # Fetch files in range
+        try:
+            all_messages = []
+            total_ids = list(range(start_id, end_id + 1))
+            chunk_size = 100
+            for i in range(0, len(total_ids), chunk_size):
+                chunk = total_ids[i:i + chunk_size]
+                msgs = await user_bot.get_messages(chat_id, chunk)
+                if not isinstance(msgs, list):
+                    msgs = [msgs]
+                for m in msgs:
+                    if m and not m.empty:
+                        # check if message contains file link
+                        text = m.text or m.caption or ""
+                        links = BOT_LINK_RE.findall(text)
+                        if m.reply_markup and m.reply_markup.inline_keyboard:
+                            for row in m.reply_markup.inline_keyboard:
+                                for btn in row:
+                                    if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
+                        if links:
+                            all_messages.append(m)
+            
+            total = len(all_messages)
+            if total == 0:
+                return await status_msg.edit("❌ No posts with file links found in the specified range.")
+            
+            await status_msg.edit(f"✅ Found {total} posts. Processing sequentially...")
+            
+            success_count = 0
+            skip_count = 0
+            async with interaction_lock:
+                for i, msg in enumerate(all_messages, 1):
+                    await status_msg.edit(
+                        f"⏳ <b>Processing:</b> [{i}/{total}]\n"
+                        f"<b>Msg ID:</b> <code>{msg.id}</code>\n"
+                        f"<b>✅ Success:</b> {success_count} | <b>❌ Skipped:</b> {skip_count}"
+                    )
+                    res = await process_single_post(status_msg, chat_id, msg, fs_bot, i, total)
+                    if res: success_count += 1
+                    else: skip_count += 1
+                    await asyncio.sleep(1)
+            
+            await status_msg.edit(f"🏁 <b>Done!</b>\nTotal: {total}\nSuccess: {success_count}\nSkipped: {skip_count}")
+        except Exception as e:
+            await status_msg.edit(f"❌ Error while fetching/processing: {e}")
+        return
+
+    # default behavior (add channel)
     if message.forward_from_chat:
         f_chat = message.forward_from_chat
         if f_chat.type not in [ChatType.CHANNEL, ChatType.SUPERGROUP]:
@@ -197,9 +319,15 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
 
     if processed_any:
         try:
-            if msg.text: await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
-            else: await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
-            print(f"DEBUG: Success for post index {index}. Link updated.")
+            sent_msg = None
+            if msg.text: 
+                sent_msg = await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
+            else: 
+                sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
+            
+            if sent_msg:
+                await add_to_queue(sent_msg.id)
+                print(f"DEBUG: Success for post index {index}. Added to scheduler queue.")
             try:
                 if msg.text: await user_bot.edit_message_text(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
                 else: await user_bot.edit_message_caption(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
@@ -265,6 +393,19 @@ async def collect_files_from_bot(bot_username, start_param):
         print(f"DEBUG: Error in collect_files: {e}")
     return sorted(files_by_unique_id.values(), key=lambda x: x.id)
 
+class ProgressTracker:
+    def __init__(self, action="Progress"):
+        self.action = action
+        self.last_percent = -1
+        
+    async def __call__(self, current, total):
+        if total == 0 or total is None:
+            return
+        percent = int((current / total) * 10) * 10
+        if percent != self.last_percent:
+            self.last_percent = percent
+            print(f"DEBUG: {self.action}: {percent}% ({current}/{total} bytes)")
+
 async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
     """Tries to copy a message; if restricted, downloads and uploads it."""
     try:
@@ -272,38 +413,42 @@ async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
     except Exception as e:
         print(f"DEBUG: Copy failed ({e}). Falling back to download/upload...")
         try:
-            # Download the media
-            file_path = await client.download_media(msg)
+            # Download the media with progress tracking
+            dl_tracker = ProgressTracker("Downloading")
+            file_path = await client.download_media(msg, progress=dl_tracker)
             if not file_path:
+                print("DEBUG: Download failed (returned None).")
                 return None
             
             # Use provided caption/markup or fall back to msg defaults
             final_caption = caption if caption is not None else (msg.caption or "")
             final_markup = reply_markup if reply_markup is not None else msg.reply_markup
             
+            print(f"DEBUG: Starting upload to {chat_id}...")
+            ul_tracker = ProgressTracker("Uploading")
             if msg.document:
-                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             elif msg.video:
-                res = await client.send_video(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_video(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             elif msg.audio:
-                res = await client.send_audio(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_audio(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             elif msg.photo:
-                res = await client.send_photo(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_photo(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             elif msg.voice:
-                res = await client.send_voice(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_voice(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             elif msg.video_note:
-                res = await client.send_video_note(chat_id, file_path, reply_markup=final_markup)
+                res = await client.send_video_note(chat_id, file_path, reply_markup=final_markup, progress=ul_tracker)
             elif msg.animation:
-                res = await client.send_animation(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_animation(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             elif msg.sticker:
-                res = await client.send_sticker(chat_id, file_path, reply_markup=final_markup)
+                res = await client.send_sticker(chat_id, file_path, reply_markup=final_markup, progress=ul_tracker)
             else:
-                # Fallback for unknown media types
-                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup)
+                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
             
             # Clean up
             if os.path.exists(file_path):
                 os.remove(file_path)
+            print("DEBUG: Upload completed successfully.")
             return res
         except Exception as err:
             print(f"DEBUG: Fallback failed: {err}")
@@ -369,6 +514,221 @@ async def get_batch_link(fs_bot_username, files):
         print(f"Error in get_batch: {e}")
     return None
 
+@bot.on_message(filters.command("scheduler") & filters.user(ADMINS))
+async def scheduler_menu_cmd(client, message):
+    settings = await get_scheduler_settings()
+    text, markup = get_scheduler_menu_content(settings)
+    await message.reply_text(text, reply_markup=markup)
+
+def get_scheduler_menu_content(settings):
+    status = "🟢 Active" if settings["active"] else "🔴 Inactive"
+    target = settings["target_channel"] or "Not Set"
+    batch_size = settings["batch_size"]
+    times_str = ", ".join(settings["times"]) or "None"
+    
+    # Days map
+    day_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    days_str = ", ".join([day_names[d] for d in settings["days"]]) or "None"
+    
+    text = (
+        f"📅 **Banana Scheduler Settings**\n\n"
+        f"• **Status**: {status}\n"
+        f"• **Target Channel**: <code>{target}</code>\n"
+        f"• **Batch Size**: `{batch_size}` posts\n"
+        f"• **Posting Times**: `{times_str}`\n"
+        f"• **Posting Days**: `{days_str}`\n"
+    )
+    
+    keyboard = [
+        [
+            InlineKeyboardButton("Toggle Status", callback_data="sched_toggle"),
+            InlineKeyboardButton("Set Target Channel", callback_data="sched_set_chan")
+        ],
+        [
+            InlineKeyboardButton("Set Batch Size", callback_data="sched_set_batch"),
+            InlineKeyboardButton("Set Times", callback_data="sched_set_times")
+        ],
+        [
+            InlineKeyboardButton("Set Days", callback_data="sched_set_days"),
+            InlineKeyboardButton("Trigger Now", callback_data="sched_trigger_now")
+        ]
+    ]
+    return text, InlineKeyboardMarkup(keyboard)
+
+@bot.on_message(filters.command("queue") & filters.user(ADMINS))
+async def queue_cmd(client, message):
+    count = await get_queue_count()
+    text = f"📦 **Scheduler Queue**\n\nTotal posts waiting in queue: `{count}`"
+    keyboard = [
+        [
+            InlineKeyboardButton("Post 1 Batch Now", callback_data="sched_trigger_now"),
+            InlineKeyboardButton("Clear Queue", callback_data="sched_clear_queue")
+        ]
+    ]
+    await message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+@bot.on_message(filters.text & filters.private & filters.user(ADMINS))
+async def handle_admin_text(client, message):
+    if message.text.startswith("/"):
+        return
+    user_id = message.from_user.id
+    state_info = user_states.get(user_id)
+    if not state_info:
+        return
+        
+    state = state_info.get("state")
+    if state == "SET_CHAN":
+        chan = message.text.strip()
+        settings = await get_scheduler_settings()
+        settings["target_channel"] = chan
+        await update_scheduler_settings(settings)
+        user_states.pop(user_id, None)
+        await message.reply_text(f"✅ Target channel updated to `{chan}`.")
+        
+    elif state == "SET_BATCH":
+        try:
+            batch = int(message.text.strip())
+            settings = await get_scheduler_settings()
+            settings["batch_size"] = batch
+            await update_scheduler_settings(settings)
+            user_states.pop(user_id, None)
+            await message.reply_text(f"✅ Batch size updated to `{batch}`.")
+        except ValueError:
+            await message.reply_text("❌ Invalid number. Please enter an integer.")
+            
+    elif state == "SET_TIMES":
+        times = [t.strip() for t in message.text.split(",") if t.strip()]
+        valid = []
+        for t in times:
+            if re.match(r"^\d{2}:\d{2}$", t):
+                valid.append(t)
+        if not valid:
+            return await message.reply_text("❌ No valid times found. Format should be: `09:00, 18:00`.")
+        
+        settings = await get_scheduler_settings()
+        settings["times"] = valid
+        await update_scheduler_settings(settings)
+        user_states.pop(user_id, None)
+        await message.reply_text(f"✅ Posting times updated to: `{', '.join(valid)}`.")
+        
+    elif state == "SET_DAYS":
+        try:
+            days = [int(d.strip()) for d in message.text.split(",") if d.strip()]
+            valid = [d for d in days if 0 <= d <= 6]
+            if not valid:
+                return await message.reply_text("❌ No valid days found. Enter numbers 0-6 separated by commas.")
+            
+            settings = await get_scheduler_settings()
+            settings["days"] = sorted(list(set(valid)))
+            await update_scheduler_settings(settings)
+            user_states.pop(user_id, None)
+            await message.reply_text(f"✅ Posting days updated.")
+        except ValueError:
+            await message.reply_text("❌ Invalid format. Use numbers 0 to 6 separated by commas.")
+
+@bot.on_callback_query(filters.user(ADMINS))
+async def handle_callbacks(client, query):
+    data = query.data
+    user_id = query.from_user.id
+    
+    if data == "sched_toggle":
+        settings = await get_scheduler_settings()
+        settings["active"] = not settings["active"]
+        await update_scheduler_settings(settings)
+        text, markup = get_scheduler_menu_content(settings)
+        await query.message.edit_text(text, reply_markup=markup)
+        
+    elif data == "sched_set_chan":
+        user_states[user_id] = {"state": "SET_CHAN"}
+        await query.message.reply_text("Please send the target channel ID or username (e.g. `@mychannel` or `-100xxxxxxx`).")
+        await query.answer()
+        
+    elif data == "sched_set_batch":
+        user_states[user_id] = {"state": "SET_BATCH"}
+        await query.message.reply_text("Please send the batch size (number of posts) to send in each interval.")
+        await query.answer()
+        
+    elif data == "sched_set_times":
+        user_states[user_id] = {"state": "SET_TIMES"}
+        await query.message.reply_text("Please send the posting times separated by commas (e.g. `09:00, 18:00, 21:00`).")
+        await query.answer()
+        
+    elif data == "sched_set_days":
+        user_states[user_id] = {"state": "SET_DAYS"}
+        await query.message.reply_text(
+            "Please send the posting days as numbers separated by commas:\n"
+            "• `0` = Monday\n• `1` = Tuesday\n• `2` = Wednesday\n• `3` = Thursday\n• `4` = Friday\n• `5` = Saturday\n• `6` = Sunday\n\n"
+            "For everyday send: `0,1,2,3,4,5,6`"
+        )
+        await query.answer()
+        
+    elif data == "sched_trigger_now":
+        await query.answer("Triggering scheduler batch run...")
+        run_res = await trigger_scheduler_batch()
+        await query.message.reply_text(run_res)
+        
+    elif data == "sched_clear_queue":
+        from database import queue_col
+        await queue_col.delete_many({})
+        await query.message.edit_text("✅ Queue cleared successfully.")
+        await query.answer()
+
+async def trigger_scheduler_batch():
+    settings = await get_scheduler_settings()
+    if not settings["target_channel"]:
+        return "❌ Error: Target channel not set in scheduler settings."
+    
+    msg_ids = await pop_queue_batch(settings["batch_size"])
+    if not msg_ids:
+        return "ℹ️ Queue is empty. No posts to send."
+    
+    success = 0
+    for mid in msg_ids:
+        try:
+            msg = await bot.get_messages(LOG_CHANNEL, mid)
+            if msg and not msg.empty:
+                copied = await robust_copy(bot, settings["target_channel"], msg)
+                if copied:
+                    success += 1
+                await asyncio.sleep(2)
+        except Exception as e:
+            print(f"Error posting scheduled msg {mid}: {e}")
+            
+    return f"🏁 **Scheduler Run Completed**\n• Successfully posted: `{success}/{len(msg_ids)}`"
+
+async def scheduler_loop():
+    print("Scheduler loop started...")
+    while True:
+        try:
+            await asyncio.sleep(60)
+            settings = await get_scheduler_settings()
+            if not settings["active"] or not settings["target_channel"]:
+                continue
+                
+            now = datetime.now()
+            current_day = now.weekday()
+            if current_day not in settings["days"]:
+                continue
+                
+            current_time_str = now.strftime("%H:%M")
+            if current_time_str in settings["times"]:
+                last_run_date = settings.get("last_run_date")
+                last_run_time = settings.get("last_run_time")
+                today_str = now.strftime("%Y-%m-%d")
+                
+                if last_run_date == today_str and last_run_time == current_time_str:
+                    continue
+                    
+                print(f"Triggering scheduled posting batch for {current_time_str}...")
+                await trigger_scheduler_batch()
+                
+                settings["last_run_date"] = today_str
+                settings["last_run_time"] = current_time_str
+                await update_scheduler_settings(settings)
+                
+        except Exception as e:
+            print(f"Error in scheduler loop: {e}")
+
 async def main():
     await bot.start()
     if user_bot: 
@@ -381,6 +741,8 @@ async def main():
                 pass
         except Exception as e:
             print(f"Cache warmup warning: {e}")
+    # Start scheduler loop
+    asyncio.create_task(scheduler_loop())
             
     print("Banana Bot Strict Sequential Ready!")
     await idle()
