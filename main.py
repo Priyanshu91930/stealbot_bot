@@ -16,7 +16,7 @@ def get_peer_type_patched(peer_id: int) -> str:
 
 utils.get_peer_type = get_peer_type_patched
 # --------------------------
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument, InputMediaAnimation
 from pyrogram.errors import FloodWait, MessageNotModified
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, ADMINS, LOG_CHANNEL
 from database import (
@@ -148,6 +148,7 @@ async def handle_forward(client, message):
         # Fetch files in range
         try:
             all_messages = []
+            processed_media_groups = set()
             total_ids = list(range(start_id, end_id + 1))
             chunk_size = 100
             for i in range(0, len(total_ids), chunk_size):
@@ -157,15 +158,39 @@ async def handle_forward(client, message):
                     msgs = [msgs]
                 for m in msgs:
                     if m and not m.empty:
-                        # check if message contains file link
-                        text = m.text or m.caption or ""
-                        links = BOT_LINK_RE.findall(text)
-                        if m.reply_markup and m.reply_markup.inline_keyboard:
-                            for row in m.reply_markup.inline_keyboard:
-                                for btn in row:
-                                    if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
-                        if links:
-                            all_messages.append(m)
+                        if m.media_group_id:
+                            if m.media_group_id in processed_media_groups:
+                                continue
+                            processed_media_groups.add(m.media_group_id)
+                            try:
+                                group_msgs = await user_bot.get_media_group(chat_id, m.id)
+                            except Exception as e:
+                                print(f"DEBUG: Failed to get media group {m.media_group_id}: {e}")
+                                group_msgs = [m]
+                            
+                            has_links = False
+                            for gm in group_msgs:
+                                text = gm.text or gm.caption or ""
+                                links = BOT_LINK_RE.findall(text)
+                                if gm.reply_markup and gm.reply_markup.inline_keyboard:
+                                    for row in gm.reply_markup.inline_keyboard:
+                                        for btn in row:
+                                            if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
+                                if links:
+                                    has_links = True
+                                    break
+                            
+                            if has_links:
+                                all_messages.append(group_msgs)
+                        else:
+                            text = m.text or m.caption or ""
+                            links = BOT_LINK_RE.findall(text)
+                            if m.reply_markup and m.reply_markup.inline_keyboard:
+                                for row in m.reply_markup.inline_keyboard:
+                                    for btn in row:
+                                        if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
+                            if links:
+                                all_messages.append(m)
             
             total = len(all_messages)
             if total == 0:
@@ -177,9 +202,10 @@ async def handle_forward(client, message):
             skip_count = 0
             async with interaction_lock:
                 for i, msg in enumerate(all_messages, 1):
+                    msg_id_display = msg[0].id if isinstance(msg, list) else msg.id
                     await status_msg.edit(
                         f"⏳ <b>Processing:</b> [{i}/{total}]\n"
-                        f"<b>Msg ID:</b> <code>{msg.id}</code>\n"
+                        f"<b>Msg ID:</b> <code>{msg_id_display}</code>\n"
                         f"<b>✅ Success:</b> {success_count} | <b>❌ Skipped:</b> {skip_count}"
                     )
                     res = await process_single_post(status_msg, chat_id, msg, fs_bot, i, total)
@@ -294,15 +320,27 @@ async def search_handler(client, message):
     await status_msg.edit(f"🏁 <b>Done!</b>\nTotal: {total}\nSuccess: {success_count}\nSkipped: {skip_count}")
 
 async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
-    text = msg.text or msg.caption or ""
+    is_media_group = isinstance(msg, list)
+    if is_media_group:
+        text_msg = None
+        for m in msg:
+            if m.text or m.caption:
+                text_msg = m
+                break
+        if not text_msg:
+            text_msg = msg[0]
+    else:
+        text_msg = msg
+
+    text = text_msg.text or text_msg.caption or ""
     links = BOT_LINK_RE.findall(text)
-    if msg.reply_markup and msg.reply_markup.inline_keyboard:
-        for row in msg.reply_markup.inline_keyboard:
+    if text_msg.reply_markup and text_msg.reply_markup.inline_keyboard:
+        for row in text_msg.reply_markup.inline_keyboard:
             for btn in row:
                 if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
     if not links: return False
     
-    new_text, new_reply_markup, processed_any = text, msg.reply_markup, False
+    new_text, new_reply_markup, processed_any = text, text_msg.reply_markup, False
     for bot_username, start_param in set(links):
         files = await collect_files_from_bot(bot_username, start_param)
         if not files: 
@@ -332,17 +370,23 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
     if processed_any:
         try:
             sent_msg = None
-            if msg.text: 
-                sent_msg = await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
-            else: 
-                sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
+            if is_media_group:
+                sent_msg = await robust_copy_media_group(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
+            else:
+                if msg.text: 
+                    sent_msg = await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
+                else: 
+                    sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
             
             if sent_msg:
                 await add_to_queue(sent_msg.id)
                 print(f"DEBUG: Success for post index {index}. Added to scheduler queue.")
             try:
-                if msg.text: await user_bot.edit_message_text(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
-                else: await user_bot.edit_message_caption(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
+                if is_media_group:
+                    await user_bot.edit_message_caption(ch_id, text_msg.id, new_text, reply_markup=new_reply_markup)
+                else:
+                    if msg.text: await user_bot.edit_message_text(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
+                    else: await user_bot.edit_message_caption(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
             except Exception as e: 
                 print(f"DEBUG: Edit failed: {e}")
             return True
@@ -465,6 +509,76 @@ async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
         except Exception as err:
             print(f"DEBUG: Fallback failed: {err}")
             return None
+
+async def robust_copy_media_group(client, chat_id, messages, caption=None, reply_markup=None):
+    """Tries to copy a media group; if restricted, downloads and uploads it."""
+    caption_index = 0
+    for idx, m in enumerate(messages):
+        if m.caption or m.text:
+            caption_index = idx
+            break
+            
+    try:
+        captions = ["" for _ in messages]
+        if caption is not None:
+            captions[caption_index] = caption
+        else:
+            for idx, m in enumerate(messages):
+                captions[idx] = m.caption or ""
+        
+        copied_msgs = await client.copy_media_group(
+            chat_id=chat_id,
+            from_chat_id=messages[0].chat.id,
+            message_id=messages[0].id,
+            captions=captions
+        )
+        if copied_msgs:
+            return copied_msgs[caption_index] if len(copied_msgs) > caption_index else copied_msgs[0]
+    except Exception as e:
+        print(f"DEBUG: copy_media_group failed ({e}). Falling back to download/upload media group...")
+        
+    file_paths = []
+    try:
+        media_items = []
+        for idx, m in enumerate(messages):
+            dl_tracker = ProgressTracker(f"Downloading media group item {idx+1}")
+            file_path = await client.download_media(m, progress=dl_tracker)
+            if not file_path:
+                print(f"DEBUG: Failed to download media group item {idx+1}")
+                for path in file_paths:
+                    if os.path.exists(path):
+                        os.remove(path)
+                return None
+            file_paths.append(file_path)
+            
+            item_caption = caption if idx == caption_index else ""
+            
+            if m.photo:
+                media_items.append(InputMediaPhoto(file_path, caption=item_caption))
+            elif m.video:
+                media_items.append(InputMediaVideo(file_path, caption=item_caption))
+            elif m.audio:
+                media_items.append(InputMediaAudio(file_path, caption=item_caption))
+            elif m.animation:
+                media_items.append(InputMediaAnimation(file_path, caption=item_caption))
+            else:
+                media_items.append(InputMediaDocument(file_path, caption=item_caption))
+                
+        print(f"DEBUG: Uploading media group with {len(media_items)} items...")
+        sent_msgs = await client.send_media_group(chat_id, media_items)
+        if sent_msgs:
+            return sent_msgs[caption_index] if len(sent_msgs) > caption_index else sent_msgs[0]
+    except Exception as err:
+        print(f"DEBUG: Media group fallback failed: {err}")
+    finally:
+        for path in file_paths:
+            try:
+                if os.path.exists(path):
+                    os.remove(path)
+            except Exception as e:
+                print(f"DEBUG: Error cleaning up file {path}: {e}")
+                
+    return None
 
 async def get_link_with_command(fs_bot_username, media_msg):
     try:
@@ -715,7 +829,15 @@ async def trigger_scheduler_batch():
         try:
             msg = await bot.get_messages(LOG_CHANNEL, mid)
             if msg and not msg.empty:
-                copied = await robust_copy(bot, settings["target_channel"], msg)
+                if msg.media_group_id:
+                    try:
+                        group_msgs = await bot.get_media_group(LOG_CHANNEL, msg.id)
+                    except Exception as e:
+                        print(f"DEBUG: Failed to get media group {msg.media_group_id} from LOG: {e}")
+                        group_msgs = [msg]
+                    copied = await robust_copy_media_group(bot, settings["target_channel"], group_msgs)
+                else:
+                    copied = await robust_copy(bot, settings["target_channel"], msg)
                 if copied:
                     success += 1
                 await asyncio.sleep(2)
