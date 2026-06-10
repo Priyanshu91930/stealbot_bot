@@ -313,6 +313,12 @@ async def handle_forward(client, message):
         
         # Fetch files in range
         try:
+            try:
+                await user_bot.join_chat(chat_id)
+                print(f"DEBUG JOIN: Successfully joined or already in chat {chat_id}")
+            except Exception as je:
+                print(f"DEBUG JOIN: Could not join chat {chat_id}: {je}")
+                
             all_messages = []
             processed_media_groups = set()
             total_ids = list(range(start_id, end_id + 1))
