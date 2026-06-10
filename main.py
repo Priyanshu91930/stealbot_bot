@@ -33,7 +33,173 @@ if STRING_SESSION:
 
 BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/(\w+)\?start=([\w-]+)")
 MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)")
-user_settings = {} 
+
+# Relaxed pattern to match t.me links that may contain newlines/whitespace inside the username or start parameter.
+BOT_LINK_RE_RELAXED = re.compile(
+    r"(?:https?://\s*)?t\s*\.\s*m\s*e\s*/\s*([\w\s]+)\s*\?\s*s\s*t\s*a\s*r\s*t\s*=\s*([\w\s-]+)",
+    re.IGNORECASE
+)
+
+def extract_bot_links(text):
+    if not text:
+        return []
+    results = []
+    pos = 0
+    while True:
+        idx = text.lower().find("t.me", pos)
+        if idx == -1:
+            break
+        
+        match_start = idx
+        if match_start >= 8 and text[match_start-8:match_start].lower() == "https://":
+            match_start -= 8
+        elif match_start >= 7 and text[match_start-7:match_start].lower() == "http://":
+            match_start -= 7
+            
+        scan_idx = idx + 4
+        # Consume '/' with optional whitespace
+        while scan_idx < len(text) and text[scan_idx].isspace():
+            scan_idx += 1
+        if scan_idx < len(text) and text[scan_idx] == '/':
+            scan_idx += 1
+        else:
+            pos = idx + 4
+            continue
+            
+        while scan_idx < len(text) and text[scan_idx].isspace():
+            scan_idx += 1
+            
+        username_chars = []
+        raw_username_span_end = scan_idx
+        while scan_idx < len(text):
+            char = text[scan_idx]
+            if char.isalnum() or char == '_':
+                username_chars.append(char)
+                scan_idx += 1
+                raw_username_span_end = scan_idx
+            elif char.isspace():
+                scan_idx += 1
+            else:
+                break
+                
+        username = "".join(username_chars)
+        if not username:
+            pos = idx + 4
+            continue
+            
+        scan_idx = raw_username_span_end
+        while scan_idx < len(text) and text[scan_idx].isspace():
+            scan_idx += 1
+            
+        if scan_idx >= len(text) or text[scan_idx] != '?':
+            pos = idx + 4
+            continue
+        scan_idx += 1
+        
+        while scan_idx < len(text) and text[scan_idx].isspace():
+            scan_idx += 1
+            
+        if scan_idx + 5 <= len(text) and text[scan_idx:scan_idx+5].lower() == "start":
+            scan_idx += 5
+        else:
+            pos = idx + 4
+            continue
+            
+        while scan_idx < len(text) and text[scan_idx].isspace():
+            scan_idx += 1
+            
+        if scan_idx >= len(text) or text[scan_idx] != '=':
+            pos = idx + 4
+            continue
+        scan_idx += 1
+        
+        while scan_idx < len(text) and text[scan_idx].isspace():
+            scan_idx += 1
+            
+        start_chars = []
+        raw_start_span_end = scan_idx
+        while scan_idx < len(text):
+            char = text[scan_idx]
+            if char.isalnum() or char in ['_', '-']:
+                start_chars.append(char)
+                scan_idx += 1
+                raw_start_span_end = scan_idx
+            elif char.isspace():
+                peek_idx = scan_idx
+                has_more_param_chars = False
+                newlines_count = 0
+                while peek_idx < len(text):
+                    peek_char = text[peek_idx]
+                    if peek_char == '\n':
+                        newlines_count += 1
+                    if newlines_count >= 2:
+                        break
+                    if peek_char.isalnum() or peek_char in ['_', '-']:
+                        has_more_param_chars = True
+                        break
+                    if not peek_char.isspace():
+                        break
+                    peek_idx += 1
+                
+                if has_more_param_chars:
+                    scan_idx = peek_idx
+                else:
+                    break
+            else:
+                break
+                
+        start_param = "".join(start_chars)
+        if not start_param:
+            pos = idx + 4
+            continue
+            
+        raw_match = text[match_start:raw_start_span_end]
+        results.append((raw_match, username, start_param))
+        pos = raw_start_span_end
+        
+    return results
+
+def get_all_bot_links(text_msg):
+    if not text_msg:
+        return []
+    text = text_msg.text or text_msg.caption or ""
+    links = extract_bot_links(text)
+    
+    entities = text_msg.entities or text_msg.caption_entities or []
+    for entity in entities:
+        type_str = str(entity.type).lower()
+        if "text_link" in type_str and entity.url:
+            clean_url = "".join(entity.url.split())
+            m = BOT_LINK_RE.search(clean_url)
+            if m:
+                links.append((entity.url, m.group(1), m.group(2)))
+        elif "url" in type_str:
+            raw_url = text[entity.offset : entity.offset + entity.length]
+            clean_url = "".join(raw_url.split())
+            m = BOT_LINK_RE.search(clean_url)
+            if m:
+                links.append((raw_url, m.group(1), m.group(2)))
+                
+    if text_msg.reply_markup and text_msg.reply_markup.inline_keyboard:
+        for row in text_msg.reply_markup.inline_keyboard:
+            for btn in row:
+                if btn.url:
+                    clean_url = "".join(btn.url.split())
+                    m = BOT_LINK_RE.search(clean_url)
+                    if m:
+                        links.append((btn.url, m.group(1), m.group(2)))
+                        
+    unique_links = []
+    seen = set()
+    for raw_match, bot_username, start_param in links:
+        key = (raw_match, bot_username.lower(), start_param)
+        if key not in seen:
+            seen.add(key)
+            unique_links.append((raw_match, bot_username, start_param))
+            
+    return unique_links
+
+user_settings = {}
 user_states = {} 
 
 # GLOBAL LOCK to prevent overlapping interactions
@@ -170,26 +336,14 @@ async def handle_forward(client, message):
                             
                             has_links = False
                             for gm in group_msgs:
-                                text = gm.text or gm.caption or ""
-                                links = BOT_LINK_RE.findall(text)
-                                if gm.reply_markup and gm.reply_markup.inline_keyboard:
-                                    for row in gm.reply_markup.inline_keyboard:
-                                        for btn in row:
-                                            if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
-                                if links:
+                                if get_all_bot_links(gm):
                                     has_links = True
                                     break
                             
                             if has_links:
                                 all_messages.append(group_msgs)
                         else:
-                            text = m.text or m.caption or ""
-                            links = BOT_LINK_RE.findall(text)
-                            if m.reply_markup and m.reply_markup.inline_keyboard:
-                                for row in m.reply_markup.inline_keyboard:
-                                    for btn in row:
-                                        if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
-                            if links:
+                            if get_all_bot_links(m):
                                 all_messages.append(m)
             
             total = len(all_messages)
@@ -333,15 +487,11 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         text_msg = msg
 
     text = text_msg.text or text_msg.caption or ""
-    links = BOT_LINK_RE.findall(text)
-    if text_msg.reply_markup and text_msg.reply_markup.inline_keyboard:
-        for row in text_msg.reply_markup.inline_keyboard:
-            for btn in row:
-                if btn.url: links.extend(BOT_LINK_RE.findall(btn.url))
+    links = get_all_bot_links(text_msg)
     if not links: return False
     
     new_text, new_reply_markup, processed_any = text, text_msg.reply_markup, False
-    for bot_username, start_param in set(links):
+    for raw_match, bot_username, start_param in links:
         files = await collect_files_from_bot(bot_username, start_param)
         if not files: 
             print(f"DEBUG: No files found for {bot_username} in post {index}. Skipping link.")
@@ -360,12 +510,13 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
             continue
         
         processed_any = True
-        old_link = f"t.me/{bot_username}?start={start_param}"
-        new_text = new_text.replace(old_link, new_bot_link.replace("https://", ""))
+        if raw_match and raw_match in new_text:
+            new_text = new_text.replace(raw_match, new_bot_link.replace("https://", ""))
         if new_reply_markup:
             for row in new_reply_markup.inline_keyboard:
                 for btn in row:
-                    if btn.url and old_link in btn.url: btn.url = new_bot_link
+                    if btn.url and raw_match and raw_match in btn.url:
+                        btn.url = new_bot_link
 
     if processed_any:
         try:
@@ -599,8 +750,10 @@ async def get_link_with_command(fs_bot_username, media_msg):
                 if msg.id <= last_id: break
                 if msg.from_user and msg.from_user.username and msg.from_user.username.lower() == fs_bot_username.lower():
                     text = msg.text or msg.caption or ""
-                    found = BOT_LINK_RE.search(text)
-                    if found: return f"https://t.me/{found.group(1)}?start={found.group(2)}"
+                    found = extract_bot_links(text)
+                    if found:
+                        _, bot_username, start_param = found[0]
+                        return f"https://t.me/{bot_username}?start={start_param}"
     except Exception as e:
         print(f"Error in get_link: {e}")
     return None
@@ -634,8 +787,10 @@ async def get_batch_link(fs_bot_username, files):
                 if msg.from_user and msg.from_user.username and msg.from_user.username.lower() == fs_bot_username.lower():
                     text = msg.text or msg.caption or ""
                     if "t.me/" in text:
-                        found = BOT_LINK_RE.search(text)
-                        if found: return f"https://t.me/{found.group(1)}?start={found.group(2)}"
+                        found = extract_bot_links(text)
+                        if found:
+                            _, bot_username, start_param = found[0]
+                            return f"https://t.me/{bot_username}?start={start_param}"
     except Exception as e:
         print(f"Error in get_batch: {e}")
     return None
