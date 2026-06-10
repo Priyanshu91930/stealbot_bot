@@ -337,6 +337,9 @@ async def handle_forward(client, message):
                             processed_media_groups.add(m.media_group_id)
                             try:
                                 group_msgs = await user_bot.get_media_group(chat_id, m.id)
+                                print(f"DEBUG MEDIA GROUP: fetched {len(group_msgs)} messages for ID {m.id}")
+                                for gm in group_msgs:
+                                    print(f"DEBUG MEDIA GROUP MSG: ID={gm.id}, text_len={len(gm.text or gm.caption or '')}, links={get_all_bot_links(gm)}")
                             except Exception as e:
                                 print(f"DEBUG: Failed to get media group {m.media_group_id}: {e}")
                                 group_msgs = [m]
