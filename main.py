@@ -326,6 +326,7 @@ async def handle_forward(client, message):
                 print(f"DEBUG FETCH: Chunk starting {chunk[0]} returned {len(msgs)} messages.")
                 for m in msgs:
                     if m:
+                        print(f"DEBUG FETCH RAW: {m}")
                         print(f"DEBUG FETCH: Msg ID={m.id}, empty={getattr(m, 'empty', None)}")
                         if not m.empty:
                             text_val = m.text or m.caption or ""
