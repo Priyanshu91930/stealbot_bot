@@ -4,6 +4,21 @@ import os
 from datetime import datetime, time
 from pyrogram import Client, filters, idle, enums, utils
 from pyrogram.enums import ChatType
+from pyrogram.parser import Parser
+
+def get_message_html(msg):
+    if not msg:
+        return ""
+    text = msg.text or msg.caption or ""
+    entities = msg.entities or msg.caption_entities or []
+    if not entities:
+        return text
+    try:
+        return Parser.unparse(text, entities, is_html=True)
+    except Exception as e:
+        print(f"Error unparsing message: {e}")
+        return text
+
 
 # --- PATCH FOR LONG IDs ---
 # This fixes "ValueError: Peer id invalid" for IDs starting with -1002...
@@ -574,13 +589,15 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         print(f"DEBUG: No links found in post {index} (including reply_to_message).")
         return False
 
-    # Determine where the text lives - main message or reply_to_message
-    main_text = text_msg.text or text_msg.caption or ""
+    # Get formatting-preserved HTML text/caption
     replied_msg = getattr(text_msg, 'reply_to_message', None)
-    replied_text = (replied_msg.text or replied_msg.caption or "") if replied_msg else ""
-    
-    # Track where each link was found for correct replacement
-    new_text = main_text if main_text else replied_text
+    if text_msg.text or text_msg.caption:
+        html_text = get_message_html(text_msg)
+    elif replied_msg and (replied_msg.text or replied_msg.caption):
+        html_text = get_message_html(replied_msg)
+    else:
+        html_text = ""
+
     new_reply_markup, processed_any = text_msg.reply_markup, False
     
     for raw_match, bot_username, start_param in links:
@@ -602,11 +619,13 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
             continue
         
         processed_any = True
-        if raw_match and raw_match in new_text:
-            new_text = new_text.replace(raw_match, new_bot_link.replace("https://", ""))
-        elif raw_match and replied_text and raw_match in replied_text:
-            # Link is inside the quote/reply - rebuild new_text from replied text
-            new_text = replied_text.replace(raw_match, new_bot_link.replace("https://", ""))
+        # Determine if we should keep https:// prefix
+        replacement_link = new_bot_link
+        if not raw_match.lower().startswith("http"):
+            replacement_link = new_bot_link.replace("https://", "").replace("http://", "")
+
+        if raw_match and raw_match in html_text:
+            html_text = html_text.replace(raw_match, replacement_link)
         if new_reply_markup:
             for row in new_reply_markup.inline_keyboard:
                 for btn in row:
@@ -617,22 +636,22 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         try:
             sent_msg = None
             if is_media_group:
-                sent_msg = await robust_copy_media_group(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
+                sent_msg = await robust_copy_media_group(user_bot, LOG_CHANNEL, msg, caption=html_text, reply_markup=new_reply_markup)
             else:
                 if msg.text or (not msg.text and not msg.caption and not any([msg.photo, msg.video, msg.document, msg.audio])):
-                    sent_msg = await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
+                    sent_msg = await bot.send_message(LOG_CHANNEL, html_text, reply_markup=new_reply_markup)
                 else: 
-                    sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
+                    sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=html_text, reply_markup=new_reply_markup)
             
             if sent_msg:
                 await add_to_queue(sent_msg.id)
                 print(f"DEBUG: Success for post index {index}. Added to scheduler queue.")
             try:
                 if is_media_group:
-                    await user_bot.edit_message_caption(ch_id, text_msg.id, new_text, reply_markup=new_reply_markup)
+                    await user_bot.edit_message_caption(ch_id, text_msg.id, html_text, reply_markup=new_reply_markup)
                 else:
-                    if msg.text: await user_bot.edit_message_text(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
-                    else: await user_bot.edit_message_caption(ch_id, msg.id, new_text, reply_markup=new_reply_markup)
+                    if msg.text: await user_bot.edit_message_text(ch_id, msg.id, html_text, reply_markup=new_reply_markup)
+                    else: await user_bot.edit_message_caption(ch_id, msg.id, html_text, reply_markup=new_reply_markup)
             except Exception as e: 
                 print(f"DEBUG: Edit failed: {e}")
             return True
@@ -700,7 +719,7 @@ class ProgressTracker:
         self.action = action
         self.last_percent = -1
         
-    async def __call__(self, current, total):
+    def __call__(self, current, total):
         if total == 0 or total is None:
             return
         percent = int((current / total) * 10) * 10
@@ -729,23 +748,23 @@ async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
             print(f"DEBUG: Starting upload to {chat_id}...")
             ul_tracker = ProgressTracker("Uploading")
             if msg.document:
-                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.video:
-                res = await client.send_video(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_video(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.audio:
-                res = await client.send_audio(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_audio(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.photo:
-                res = await client.send_photo(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_photo(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.voice:
-                res = await client.send_voice(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_voice(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.video_note:
                 res = await client.send_video_note(chat_id, file_path, reply_markup=final_markup, progress=ul_tracker)
             elif msg.animation:
-                res = await client.send_animation(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_animation(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.sticker:
                 res = await client.send_sticker(chat_id, file_path, reply_markup=final_markup, progress=ul_tracker)
             else:
-                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker)
+                res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             
             # Clean up
             if os.path.exists(file_path):
@@ -800,15 +819,15 @@ async def robust_copy_media_group(client, chat_id, messages, caption=None, reply
             item_caption = caption if idx == caption_index else ""
             
             if m.photo:
-                media_items.append(InputMediaPhoto(file_path, caption=item_caption))
+                media_items.append(InputMediaPhoto(file_path, caption=item_caption, parse_mode=enums.ParseMode.HTML))
             elif m.video:
-                media_items.append(InputMediaVideo(file_path, caption=item_caption))
+                media_items.append(InputMediaVideo(file_path, caption=item_caption, parse_mode=enums.ParseMode.HTML))
             elif m.audio:
-                media_items.append(InputMediaAudio(file_path, caption=item_caption))
+                media_items.append(InputMediaAudio(file_path, caption=item_caption, parse_mode=enums.ParseMode.HTML))
             elif m.animation:
-                media_items.append(InputMediaAnimation(file_path, caption=item_caption))
+                media_items.append(InputMediaAnimation(file_path, caption=item_caption, parse_mode=enums.ParseMode.HTML))
             else:
-                media_items.append(InputMediaDocument(file_path, caption=item_caption))
+                media_items.append(InputMediaDocument(file_path, caption=item_caption, parse_mode=enums.ParseMode.HTML))
                 
         print(f"DEBUG: Uploading media group with {len(media_items)} items...")
         sent_msgs = await client.send_media_group(chat_id, media_items)
