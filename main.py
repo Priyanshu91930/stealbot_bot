@@ -375,11 +375,20 @@ async def handle_forward(client, message):
                 print(f"DEBUG FETCH: Chunk starting {chunk[0]} returned {len(msgs)} messages.")
                 for m in msgs:
                     if m:
-                        print(f"DEBUG FETCH RAW: {m}")
                         print(f"DEBUG FETCH: Msg ID={m.id}, empty={getattr(m, 'empty', None)}")
                         if not m.empty:
                             text_val = m.text or m.caption or ""
-                            print(f"DEBUG FETCH: Msg text len={len(text_val)}, links={get_all_bot_links(m)}")
+                            rtm = getattr(m, 'reply_to_message', None)
+                            quote = getattr(m, 'quote', None)
+                            fwd_text = ""
+                            if hasattr(m, 'forward_from_chat') and m.forward_from_chat:
+                                fwd_text = "(has forward_from_chat)"
+                            print(f"DEBUG FETCH FIELDS: "
+                                  f"text={repr(text_val[:80]) if text_val else 'EMPTY'} | "
+                                  f"reply_to_message={'YES text='+repr((rtm.text or rtm.caption or '')[:60]) if rtm else 'NONE'} | "
+                                  f"quote={'YES text='+repr(getattr(quote,'text','')[:60]) if quote else 'NONE'} | "
+                                  f"fwd={fwd_text} | "
+                                  f"links_found={get_all_bot_links(m)}")
                         if m.media_group_id:
                             if m.media_group_id in processed_media_groups:
                                 continue
@@ -388,7 +397,14 @@ async def handle_forward(client, message):
                                 group_msgs = await user_bot.get_media_group(chat_id, m.id)
                                 print(f"DEBUG MEDIA GROUP: fetched {len(group_msgs)} messages for ID {m.id}")
                                 for gm in group_msgs:
-                                    print(f"DEBUG MEDIA GROUP MSG: ID={gm.id}, text_len={len(gm.text or gm.caption or '')}, links={get_all_bot_links(gm)}")
+                                    gm_text = gm.text or gm.caption or ""
+                                    gm_rtm = getattr(gm, 'reply_to_message', None)
+                                    gm_quote = getattr(gm, 'quote', None)
+                                    print(f"DEBUG MEDIA GROUP MSG: ID={gm.id} | "
+                                          f"text={repr(gm_text[:60]) if gm_text else 'EMPTY'} | "
+                                          f"reply_to={'YES text='+repr((gm_rtm.text or gm_rtm.caption or '')[:50]) if gm_rtm else 'NONE'} | "
+                                          f"quote={'YES text='+repr(getattr(gm_quote,'text','')[:50]) if gm_quote else 'NONE'} | "
+                                          f"links={get_all_bot_links(gm)}")
                             except Exception as e:
                                 print(f"DEBUG: Failed to get media group {m.media_group_id}: {e}")
                                 group_msgs = [m]
