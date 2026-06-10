@@ -563,6 +563,45 @@ async def search_handler(client, message):
 
     await status_msg.edit(f"🏁 <b>Done!</b>\nTotal: {total}\nSuccess: {success_count}\nSkipped: {skip_count}")
 
+def format_caption_with_new_template(html_text, raw_match, new_bot_link):
+    # Try to find the link tag in html_text
+    pattern = rf'<a\s+href\s*=\s*["\']?{re.escape(raw_match)}["\']?\s*>.*?</a>'
+    match = re.search(pattern, html_text, re.IGNORECASE)
+    
+    # Also search for raw_match directly if it's plain text
+    if not match:
+        pattern = re.escape(raw_match)
+        match = re.search(pattern, html_text, re.IGNORECASE)
+        
+    if match:
+        start_idx = match.start()
+        before_text = html_text[:start_idx]
+        
+        # Clean up any preceding "here is your link" or similar markers to avoid duplicates
+        truncate_idx = start_idx
+        for marker in ["✨ here is your link ✨", "✨ here is your link  ✨", "here is your link"]:
+            idx = before_text.lower().rfind(marker.lower())
+            if idx != -1:
+                truncate_idx = idx
+                break
+                
+        cleaned_base = html_text[:truncate_idx].rstrip()
+        
+        new_footer = (
+            f"✨ here is your link  ✨ \n\n"
+            f"👉 {new_bot_link}  \n\n"
+            f"╭─────────────────⭓\n"
+            f"💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ : 𝗩ɪʀᴀ𝗟𝗩ᴇʀsᴇ\n"
+            f"https://t.me/viralvideosmodel \n"
+            f"╰─────────────────⭓\n\n"
+            f"❤️ 𝗚ɪᴠᴇ sᴏᴍᴇ ʟᴏᴠᴇ ᴛᴏ ᴜs, ʜɪᴛ ᴛʜᴇ ʀᴇᴀᴄᴛɪᴏɴ!\n"
+            f"🔥 💫 ⚡️ 🚀"
+        )
+        
+        return f"{cleaned_base}\n\n{new_footer}"
+    
+    return html_text
+
 async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
     is_media_group = isinstance(msg, list)
     if is_media_group:
@@ -624,8 +663,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         if not raw_match.lower().startswith("http"):
             replacement_link = new_bot_link.replace("https://", "").replace("http://", "")
 
-        if raw_match and raw_match in html_text:
-            html_text = html_text.replace(raw_match, replacement_link)
+        html_text = format_caption_with_new_template(html_text, raw_match, replacement_link)
         if new_reply_markup:
             for row in new_reply_markup.inline_keyboard:
                 for btn in row:
