@@ -329,6 +329,20 @@ async def handle_forward(client, message):
                 msgs = await user_bot.get_messages(chat_id, chunk)
                 if not isinstance(msgs, list):
                     msgs = [msgs]
+                import json
+                try:
+                    debug_data = []
+                    for m in msgs:
+                        if m:
+                            try:
+                                debug_data.append(json.loads(str(m)))
+                            except Exception as je:
+                                debug_data.append({"id": getattr(m, "id", None), "error": str(je)})
+                    with open("debug_messages.json", "w", encoding="utf-8") as df:
+                        json.dump(debug_data, df, indent=4, ensure_ascii=False)
+                    print("DEBUG: Saved fetched chunk messages to debug_messages.json")
+                except Exception as ex:
+                    print(f"DEBUG: Failed to write debug_messages.json: {ex}")
                 print(f"DEBUG FETCH: Chunk starting {chunk[0]} returned {len(msgs)} messages.")
                 for m in msgs:
                     if m:
