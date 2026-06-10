@@ -863,8 +863,7 @@ async def get_link_with_command(fs_bot_username, media_msg):
             async for msg in user_bot.get_chat_history(fs_bot_username, limit=10):
                 if msg.id <= last_id: break
                 if msg.from_user and msg.from_user.username and msg.from_user.username.lower() == fs_bot_username.lower():
-                    text = msg.text or msg.caption or ""
-                    found = extract_bot_links(text)
+                    found = get_all_bot_links(msg)
                     if found:
                         _, bot_username, start_param = found[0]
                         return f"https://t.me/{bot_username}?start={start_param}"
@@ -899,12 +898,10 @@ async def get_batch_link(fs_bot_username, files):
             async for msg in user_bot.get_chat_history(fs_bot_username, limit=10):
                 if msg.id <= last_id: break
                 if msg.from_user and msg.from_user.username and msg.from_user.username.lower() == fs_bot_username.lower():
-                    text = msg.text or msg.caption or ""
-                    if "t.me/" in text:
-                        found = extract_bot_links(text)
-                        if found:
-                            _, bot_username, start_param = found[0]
-                            return f"https://t.me/{bot_username}?start={start_param}"
+                    found = get_all_bot_links(msg)
+                    if found:
+                        _, bot_username, start_param = found[0]
+                        return f"https://t.me/{bot_username}?start={start_param}"
     except Exception as e:
         print(f"Error in get_batch: {e}")
     return None
