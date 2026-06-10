@@ -1,0 +1,122 @@
+[
+    {
+        "id": 523,
+        "text": null,
+        "caption": "\u231a\ufe0f A fully native Telegram app for Apple Watch is out.",
+        "media": "MessageMediaType.ANIMATION"
+    },
+    {
+        "id": 522,
+        "text": null,
+        "caption": null,
+        "media": "MessageMediaType.PHOTO"
+    },
+    {
+        "id": 521,
+        "text": "\ud83d\udc8e TON\u2019s native currency is becoming Gram.\n\n\ud83e\udd11 Gram was the original name of TON\u2019s currency in the first white paper.\n\n\ud83c\udf31 We\u2019re returning to our roots \u2014 and starting a new chapter.\n\n\u2708\ufe0f This rebranding will pave the way for what comes next.\n\n\u23f3 The transition will take around 3 weeks. \n\n\ud83d\udcaa TON remains the name of the blockchain.\n\n\ud83e\ude99 This is step 4 of 7 to Make TON Great Again.",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 520,
+        "text": "\ud83c\udfad WhatsApp encryption is a giant fraud.\n\n\ud83c\uddfa\ud83c\uddf8 The state of Texas just sued WhatsApp for lying to users about privacy \u2014 because WhatsApp employees have access to \u201cvirtually all\u201d private messages.\n\nNow we know what WhatsApp\u2019s founder meant when he said he \u201csold his users\u2019 privacy.\u201d\n\nStay safe \u2014 stay Telegram! \ud83d\udcf1",
+        "caption": null,
+        "media": null
+    },
+    {
+        "id": 519,
+        "text": null,
+        "caption": "\ud83e\udd16 Your Telegram inbox can now run itself.\n\nAssign a bot to read and reply for you \u2014 with granular control over its rights and chat access. \ud83e\udde0\n\n\u2699\ufe0f Start building!",
+        "media": "MessageMediaType.VIDEO"
+    },
+    {
+        "id": 518,
+        "text": null,
+        "caption": "\ud83d\udcaa Anyone can now prompt their own text transformation style \u2014 for example, \u201cGym Bro\u201d \u2014 and turn any message into motivational protein poetry.\n\n\ud83d\udcaa Then share the style with friends so they can reply like gym bros too.\n\n\ud83e\udd10 All fully confidential. No AI-related privacy leaks.",
+        "media": "MessageMediaType.VIDEO"
+    },
+    {
+        "id": 517,
+        "text": null,
+        "caption": "\ud83e\udde0 AI devs asked for this \u2014 and we delivered.\n\n\ud83e\udd16 Bots can now talk to other bots on Telegram.\n\n\ud83d\udcac Autonomous agents now have a communication layer humans can follow.\n\n\ud83d\udee0 Start building!",
+        "media": "MessageMediaType.VIDEO"
+    },
+    {
+        "id": 516,
+        "text": "\ud83c\udf81",
+        "caption": null,
+        "media": null
+    },
+    {
+        "id": 515,
+        "text": null,
+        "caption": "\ud83c\udfc6 We just awarded $52,420 to the winners of the Telegram Art Contest.\n\n\ud83c\udfa8 The participants did an amazing job with the MiniDurov collectibles.\n\n\ud83d\udc8e Their skills and ideas will enrich Telegram\u2019s TON-based NFT ecosystem.",
+        "media": "MessageMediaType.VIDEO"
+    },
+    {
+        "id": 514,
+        "text": "\ud83c\udde6\ud83c\uddea Dubai is full of traffic and crowds again. Already missing the Iranian fireworks \u2014 they helped clear the city of the easily impressed.\n\nThe UAE\u2019s air defenses proved excellent under fire. For 0% tax, we get better protection than Europeans paying 50%.",
+        "caption": null,
+        "media": null
+    },
+    {
+        "id": 513,
+        "text": "$100,400 just went to the 15 winners of the TON Consensus Challenge. \n\n\ud83e\udde0 The smartest engineers on the planet \u2014 some armed with loyal AI sidekicks \u2014 helped us maximize the security of the new consensus mechanism.\n\n\ud83c\udfc6 Telegram contests offer generous prize money \u2014 and the only path to joining our engineering team.",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 512,
+        "text": null,
+        "caption": "\ud83d\udd75\ufe0f\u200d\u2642\ufe0f Now you can search 100M+ Telegram stickers and emoji by keyword \u2014 in 36 languages.\n\nTelegram\u2019s AI scans and labels millions of public stickers so you can finally find the exact suspicious frog you need. \ud83e\udd14",
+        "media": "MessageMediaType.VIDEO"
+    },
+    {
+        "id": 511,
+        "text": null,
+        "caption": null,
+        "media": "MessageMediaType.PHOTO"
+    },
+    {
+        "id": 510,
+        "text": null,
+        "caption": "\ud83c\udf0d With 400 validators across 6 continents, TON is one of the most decentralized blockchain networks on the planet. \n\n\ud83e\uddd1\u200d\ud83d\udcbb Telegram becoming the largest validator opened the door for major exchanges and custodians to stake TON without increasing centralization risk.",
+        "media": "MessageMediaType.PHOTO"
+    },
+    {
+        "id": 509,
+        "text": "\ud83d\udee0 Developing for TON just became 10x faster. The new toolchain makes smart contracts easy to create, test, and deploy.\n\nMost importantly, fully AI-ready.\n\nIt replaces TON\u2019s fragmented tooling stack with one developer flow. Start building!",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 508,
+        "text": null,
+        "caption": "\ud83d\udcca Channel admins can now run massive polls limited to subscribers or specific countries \u2014 making fake-vote inflation much harder.\n\nNow people in places like Russia can see real results. For example, only 5% support internet restrictions \u2014 not 52%, as old rigged polls claimed \ud83d\ude0f",
+        "media": "MessageMediaType.PHOTO"
+    },
+    {
+        "id": 507,
+        "text": null,
+        "caption": "\ud83e\udd56 The French government is accusing X and Elon Musk of the very things the French government itself is doing:\n\n- Illegally collecting personal data\n- Processing personal data without proper security\n- Extracting data from automated systems\n- Violating the secrecy of electronic communications\n\nThe French government is panicking. They know a major political shift in 2027 will expose their misdeeds. So they\u2019re trying to silence free speech platforms under whatever pretext they think they can get away with.\n\n\u270a The free world should stand with Elon and X against this immoral assault by the French state. Telegram supports our brothers and sisters from X in their fight for our freedoms.",
+        "media": "MessageMediaType.PHOTO"
+    },
+    {
+        "id": 506,
+        "text": "\ud83c\udfc6 We\u2019ve distributed $75,000 among the best designers who imagined a new way to communicate \u2014 Telegram Nodes (see here).\n\n\u2696 I joined the judging process and spent 10+ hours reviewing thousands of designs from nearly 200 participants. Great work! \ud83d\udc4f\n\n\ud83d\udd1c We\u2019ve now invited the 19 winners to suggest improvements to existing Telegram features. \n\n\u2b50\ufe0f We\u2019re looking for people who \u2014 like us \u2014 have a burning desire to make Telegram better every day, with no exceptions.",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 505,
+        "text": null,
+        "caption": "\ud83e\udef4 TON is #1 in annual staking rewards among the 50 largest cryptocurrencies. \n\nAnd that\u2019s on top of the coin\u2019s price growth \u2014 which doubled over the past week.",
+        "media": "MessageMediaType.PHOTO"
+    },
+    {
+        "id": 504,
+        "text": "Huge Telegram update \u2014 10 major new features, 200+ improvements. https://telegram.org/blog/ai-bot-revolution-11-new-features",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    }
+]

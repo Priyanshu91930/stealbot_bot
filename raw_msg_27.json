@@ -1,0 +1,75 @@
+{
+    "_": "Message",
+    "id": 27,
+    "sender_chat": {
+        "_": "Chat",
+        "id": -1003600083308,
+        "type": "ChatType.CHANNEL",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_creator": false,
+        "is_scam": false,
+        "is_fake": false,
+        "title": "Cute Heaven",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADBQADkhJrGwy0QFUAEAIAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "small_photo_unique_id": "AgADkhJrGwy0QFU",
+            "big_file_id": "AQADBQADkhJrGwy0QFUAEAMAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "big_photo_unique_id": "AgADkhJrGwy0QFU"
+        },
+        "dc_id": 5,
+        "has_protected_content": false
+    },
+    "date": "2026-06-10 00:43:26",
+    "chat": {
+        "_": "Chat",
+        "id": -1003600083308,
+        "type": "ChatType.CHANNEL",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_creator": false,
+        "is_scam": false,
+        "is_fake": false,
+        "title": "Cute Heaven",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADBQADkhJrGwy0QFUAEAIAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "small_photo_unique_id": "AgADkhJrGwy0QFU",
+            "big_file_id": "AQADBQADkhJrGwy0QFUAEAMAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "big_photo_unique_id": "AgADkhJrGwy0QFU"
+        },
+        "dc_id": 5,
+        "has_protected_content": false
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "media": "MessageMediaType.PHOTO",
+    "edit_date": "2026-06-10 00:43:29",
+    "media_group_id": 14248259249883709,
+    "has_protected_content": false,
+    "has_media_spoiler": false,
+    "photo": {
+        "_": "Photo",
+        "file_id": "AgACAgUAAyEFAATWlOlsAAMbaijuXDn0lM_202CxoZyyROXDXvQAAoMSaxtDWelUoCL-HQW2lT8ACAEAAwIAA3kABx4E",
+        "file_unique_id": "AgADgxJrG0NZ6VQ",
+        "width": 958,
+        "height": 1280,
+        "file_size": 96402,
+        "date": "2026-06-02 00:44:28",
+        "thumbs": [
+            {
+                "_": "Thumbnail",
+                "file_id": "AgACAgUAAyEFAATWlOlsAAMbaijuXDn0lM_202CxoZyyROXDXvQAAoMSaxtDWelUoCL-HQW2lT8ACAEAAwIAA20ABx4E",
+                "file_unique_id": "AgADgxJrG0NZ6VQ",
+                "width": 240,
+                "height": 320,
+                "file_size": 14995
+            }
+        ]
+    },
+    "views": 2786,
+    "forwards": 22,
+    "outgoing": false
+}

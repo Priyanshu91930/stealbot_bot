@@ -1,0 +1,358 @@
+{
+    "_": "types.messages.ChannelMessages",
+    "pts": 110,
+    "count": 3,
+    "messages": [
+        {
+            "_": "types.Message",
+            "id": 36,
+            "peer_id": {
+                "_": "types.PeerChannel",
+                "channel_id": 3600083308
+            },
+            "date": 1781063990,
+            "message": "",
+            "out": false,
+            "mentioned": false,
+            "media_unread": false,
+            "silent": false,
+            "post": true,
+            "from_scheduled": false,
+            "legacy": false,
+            "edit_hide": true,
+            "pinned": false,
+            "noforwards": false,
+            "media": {
+                "_": "types.MessageMediaUnsupported"
+            },
+            "entities": [],
+            "views": 678,
+            "forwards": 6,
+            "replies": {
+                "_": "types.MessageReplies",
+                "replies": 0,
+                "replies_pts": 8055,
+                "comments": true,
+                "recent_repliers": [],
+                "channel_id": 3670831839
+            },
+            "edit_date": 1781064061,
+            "grouped_id": 14248511923262277,
+            "reactions": {
+                "_": "types.MessageReactions",
+                "results": [
+                    {
+                        "_": "types.ReactionCount",
+                        "reaction": {
+                            "_": "types.ReactionEmoji",
+                            "emoticon": "❤"
+                        },
+                        "count": 5
+                    },
+                    {
+                        "_": "types.ReactionCount",
+                        "reaction": {
+                            "_": "types.ReactionEmoji",
+                            "emoticon": "🥰"
+                        },
+                        "count": 1
+                    }
+                ],
+                "min": false,
+                "can_see_list": false,
+                "recent_reactions": []
+            },
+            "restriction_reason": []
+        },
+        {
+            "_": "types.Message",
+            "id": 37,
+            "peer_id": {
+                "_": "types.PeerChannel",
+                "channel_id": 3600083308
+            },
+            "date": 1781063990,
+            "message": "",
+            "out": false,
+            "mentioned": false,
+            "media_unread": false,
+            "silent": false,
+            "post": true,
+            "from_scheduled": false,
+            "legacy": false,
+            "edit_hide": true,
+            "pinned": false,
+            "noforwards": false,
+            "media": {
+                "_": "types.MessageMediaPhoto",
+                "spoiler": false,
+                "photo": {
+                    "_": "types.Photo",
+                    "id": 6107405738314502493,
+                    "access_hash": 4480917431146075941,
+                    "file_reference": "b'\\x05\\x00\\x00\\x00\\x00\\xd6\\x94\\xe9l\\x00\\x00\\x00%j(\\xef\\x88\\x06\\x1b\\x9a\\x94\\x17\\x9a\\xe5\\xcav\\x80\\t\\x99N\\x81uW'",
+                    "date": 1779964962,
+                    "sizes": [
+                        {
+                            "_": "types.PhotoStrippedSize",
+                            "type": "i",
+                            "bytes": "b'\\x01(\\x1e\\xca(T\\xf22?\\x9d\\n\\x85\\x8f\\x02\\xa5\\x85\\xceH\\xcd\\\\\\x8a\\x16\\x90pI\\xa4\\xaeo\\xc9\\x1d\\xeeC\\xcaE\\x85\\xc0\\xc2\\xfa{U_:_\\xef5]t\\xda\\x8e\\rQ4\\x92\\t\\xf91c8sZ\\x96\\xd2\\x95\\x00\\xc6FH\\xac\\xe1\\x19\\xf9\\xdb\\xb08\\x1e\\xf5j4d\\xb7\\xcfF_\\x9a\\x9d\\xc4\\x93\\xd8.\\x1c\\x82\\xe0\\xf5\\xac\\xf2j\\xf5\\xd0\\xfd\\xe1>\\xa2\\xaa@\\x9b\\xdc\\x83\\xe9E\\xc55\\xd8\\xb2\\xce\\x19\\x968\\x8eUO_SZ;U\\x94\\x93\\x8e\\x98\\xa2\\x8a\\x92\\x9b3\\xee[2\\x1faU\\xe2\\xccM\\xb9\\xd4\\xa8#\\x82GZ(\\xa6\\xb6\\x14\\xde\\xcc'"
+                        },
+                        {
+                            "_": "types.PhotoSize",
+                            "type": "m",
+                            "w": 240,
+                            "h": 320,
+                            "size": 17225
+                        },
+                        {
+                            "_": "types.PhotoSize",
+                            "type": "x",
+                            "w": 600,
+                            "h": 800,
+                            "size": 66447
+                        },
+                        {
+                            "_": "types.PhotoSizeProgressive",
+                            "type": "y",
+                            "w": 736,
+                            "h": 981,
+                            "sizes": [
+                                11910,
+                                27562,
+                                36429,
+                                54452,
+                                74959
+                            ]
+                        }
+                    ],
+                    "dc_id": 5,
+                    "has_stickers": false,
+                    "video_sizes": []
+                }
+            },
+            "entities": [],
+            "views": 679,
+            "forwards": 6,
+            "edit_date": 1781063993,
+            "grouped_id": 14248511923262277,
+            "restriction_reason": []
+        },
+        {
+            "_": "types.Message",
+            "id": 38,
+            "peer_id": {
+                "_": "types.PeerChannel",
+                "channel_id": 3600083308
+            },
+            "date": 1781063990,
+            "message": "",
+            "out": false,
+            "mentioned": false,
+            "media_unread": false,
+            "silent": false,
+            "post": true,
+            "from_scheduled": false,
+            "legacy": false,
+            "edit_hide": true,
+            "pinned": false,
+            "noforwards": false,
+            "media": {
+                "_": "types.MessageMediaPhoto",
+                "spoiler": false,
+                "photo": {
+                    "_": "types.Photo",
+                    "id": 6107405738314502494,
+                    "access_hash": 2943183337784051289,
+                    "file_reference": "b\"\\x05\\x00\\x00\\x00\\x00\\xd6\\x94\\xe9l\\x00\\x00\\x00&j(\\xef\\x88G'\\x06\\xa4\\xd2\\xea\\xc1\\xe6\\xa05[\\x8b+\\x00\\x11M\"",
+                    "date": 1779964962,
+                    "sizes": [
+                        {
+                            "_": "types.PhotoStrippedSize",
+                            "type": "i",
+                            "bytes": "b\"\\x01\\x17(]\\xdc\\xfa\\xd29\\x1c\\x1a\\x8d2\\xf9\\xf4\\x035*E\\xe6\\x1ex\\x1e\\xb5\\x08\\xb7\\xae\\x82@\\xfb\\xd6O\\xde\\x01\\x93\\xe9T\\xae\\x10\\x14'\\xba\\x9a\\xb0\\x96\\xee\\x97\\x0c\\x15\\x98G\\x8e\\xb8\\xebQ\\xc7\\x10w)'\\nz\\x9c\\xd0\\x04\\x11)\\xca\\x9e\\xc4\\xd1V\\x1e\\xd9\\xa0\\x950wG\\x9e\\r\\x14\\xeeN\\xa4\\xd6\\xee\\x15\\xc8=\\xeayX\\xaa6:\\x9e\\x94QS\\xd4\\xbe\\x84p\\\\\\x94\\x8fi\\x19\\x14\\xdb\\x89C\\xc0F\\xd0=\\xe8\\xa2\\xae\\xc4_A\\xb6\\xd7\\x1b\\x97i\\xea:\\x8a(\\xa2\\xa5\\x94\\x99\""
+                        },
+                        {
+                            "_": "types.PhotoSize",
+                            "type": "m",
+                            "w": 320,
+                            "h": 180,
+                            "size": 14282
+                        },
+                        {
+                            "_": "types.PhotoSize",
+                            "type": "x",
+                            "w": 800,
+                            "h": 450,
+                            "size": 65958
+                        },
+                        {
+                            "_": "types.PhotoSize",
+                            "type": "y",
+                            "w": 1280,
+                            "h": 720,
+                            "size": 149901
+                        },
+                        {
+                            "_": "types.PhotoSizeProgressive",
+                            "type": "w",
+                            "w": 1308,
+                            "h": 736,
+                            "sizes": [
+                                14589,
+                                33553,
+                                49349,
+                                92941,
+                                137745
+                            ]
+                        }
+                    ],
+                    "dc_id": 5,
+                    "has_stickers": false,
+                    "video_sizes": []
+                }
+            },
+            "entities": [],
+            "views": 679,
+            "forwards": 6,
+            "edit_date": 1781063993,
+            "grouped_id": 14248511923262277,
+            "restriction_reason": []
+        }
+    ],
+    "topics": [],
+    "chats": [
+        {
+            "_": "types.Channel",
+            "id": 3600083308,
+            "title": "Cute Heaven",
+            "photo": {
+                "_": "types.ChatPhoto",
+                "photo_id": 6143107855825965714,
+                "dc_id": 5,
+                "has_video": false,
+                "stripped_thumb": "b'\\x01\\x08\\x08\\x8a\\xeaRD\\x8a\\x19\\x8a\\x8d\\xa5O\\xd6\\x8a(\\xa0\\x0f'"
+            },
+            "date": 1781026080,
+            "creator": false,
+            "left": false,
+            "broadcast": true,
+            "verified": false,
+            "megagroup": false,
+            "restricted": false,
+            "signatures": false,
+            "min": false,
+            "scam": false,
+            "has_link": true,
+            "has_geo": false,
+            "slowmode_enabled": false,
+            "call_active": false,
+            "call_not_empty": false,
+            "fake": false,
+            "gigagroup": false,
+            "noforwards": false,
+            "join_to_send": false,
+            "join_request": false,
+            "forum": false,
+            "access_hash": -2505469408364710646,
+            "restriction_reason": [],
+            "usernames": []
+        },
+        {
+            "_": "types.Channel",
+            "id": 3670831839,
+            "title": "Sanskari Ladki 😌 chat",
+            "photo": {
+                "_": "types.ChatPhotoEmpty"
+            },
+            "date": 1774800456,
+            "creator": false,
+            "left": true,
+            "broadcast": false,
+            "verified": false,
+            "megagroup": true,
+            "restricted": false,
+            "signatures": false,
+            "min": false,
+            "scam": false,
+            "has_link": true,
+            "has_geo": false,
+            "slowmode_enabled": false,
+            "call_active": false,
+            "call_not_empty": false,
+            "fake": false,
+            "gigagroup": false,
+            "noforwards": false,
+            "join_to_send": false,
+            "join_request": false,
+            "forum": false,
+            "access_hash": 6389006880801632899,
+            "restriction_reason": [],
+            "default_banned_rights": {
+                "_": "types.ChatBannedRights",
+                "until_date": 2147483647,
+                "view_messages": false,
+                "send_messages": false,
+                "send_media": false,
+                "send_stickers": false,
+                "send_gifs": false,
+                "send_games": false,
+                "send_inline": false,
+                "embed_links": false,
+                "send_polls": false,
+                "change_info": true,
+                "invite_users": true,
+                "pin_messages": true,
+                "manage_topics": false,
+                "send_photos": false,
+                "send_videos": false,
+                "send_roundvideos": false,
+                "send_audios": false,
+                "send_voices": false,
+                "send_docs": false,
+                "send_plain": false
+            },
+            "usernames": []
+        }
+    ],
+    "users": [
+        {
+            "_": "types.User",
+            "id": 136817688,
+            "is_self": false,
+            "contact": false,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": true,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
+            "apply_min_photo": true,
+            "fake": false,
+            "bot_attach_menu": false,
+            "premium": false,
+            "attach_menu_enabled": false,
+            "bot_can_edit": false,
+            "access_hash": -4391495831824061346,
+            "first_name": "Channel",
+            "username": "Channel_Bot",
+            "photo": {
+                "_": "types.UserProfilePhoto",
+                "photo_id": 587627495930570665,
+                "dc_id": 1,
+                "has_video": false,
+                "personal": false,
+                "stripped_thumb": "b'\\x01\\x08\\x08\\xb1\\xf2\\xf9_\\xedg4QEp3\\xad\\x1f'"
+            },
+            "bot_info_version": 4,
+            "restriction_reason": [],
+            "usernames": []
+        }
+    ],
+    "inexact": false
+}

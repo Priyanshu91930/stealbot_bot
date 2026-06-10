@@ -1,0 +1,735 @@
+Msg ID=20 is empty/None
+--- MSG ID 21 ---
+media_group_id: 14248243047507325
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 9, 40)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 11, 39)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 26
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/21'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=5), pyrogram.types.Reaction(emoji='🥰', count=1)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 3104
+  vote: <bound method Message.vote of pyrogram.types.Message(id=21, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 22 ---
+media_group_id: 14248243047507325
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 9, 41)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 9, 44)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 24
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/22'
+  media: pyrogram.enums.MessageMediaType.PHOTO
+  photo: pyrogram.types.Photo(file_id='AgACAgUAAyEFAATWlOlsAAMWaijuRDNJt-1gw4JLZQABXSHb3qRAAAKWD2sbEmNwVqyDip3tJiWWAAgBAAMCAAN5AAceBA', file_unique_id='AgADlg9rGxJjcFY', width=1079, height=907, file_size=21151
+  pin: <bound method Message.pin of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 3097
+  vote: <bound method Message.vote of pyrogram.types.Message(id=22, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 23 ---
+media_group_id: None
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 9, 57)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 11, 46)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 23
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/23'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=5), pyrogram.types.Reaction(emoji='🥰', count=2)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 3140
+  vote: <bound method Message.vote of pyrogram.types.Message(id=23, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 24 ---
+media_group_id: 14248243287637909
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 10, 10)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 11, 57)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 34
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/24'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=7), pyrogram.types.Reaction(emoji='🥰', count=2)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 3100
+  vote: <bound method Message.vote of pyrogram.types.Message(id=24, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 25 ---
+media_group_id: 14248243287637909
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 10, 11)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 10, 14)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 33
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/25'
+  media: pyrogram.enums.MessageMediaType.PHOTO
+  photo: pyrogram.types.Photo(file_id='AgACAgUAAyEFAATWlOlsAAMZaijuRP7DH-zTZcdkUoC4a3gXT-QAAncPaxvdc3BWRPql7hrvAqEACAEAAwIAA3kABx4E', file_unique_id='AgADdw9rG91zcFY', width=562, height=894, file_size=93937, d
+  pin: <bound method Message.pin of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 3093
+  vote: <bound method Message.vote of pyrogram.types.Message(id=25, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 26 ---
+media_group_id: 14248259249883709
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 43, 26)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 50, 48)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 22
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/26'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=5)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 2835
+  vote: <bound method Message.vote of pyrogram.types.Message(id=26, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 27 ---
+media_group_id: 14248259249883709
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 43, 26)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 43, 29)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 22
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/27'
+  media: pyrogram.enums.MessageMediaType.PHOTO
+  photo: pyrogram.types.Photo(file_id='AgACAgUAAyEFAATWlOlsAAMbaijuRHngXeaFgmkGo7HAPa2kwh8AAoMSaxtDWelUoCL-HQW2lT8ACAEAAwIAA3kABx4E', file_unique_id='AgADgxJrG0NZ6VQ', width=958, height=1280, file_size=96402, 
+  pin: <bound method Message.pin of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 2786
+  vote: <bound method Message.vote of pyrogram.types.Message(id=27, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 28 ---
+media_group_id: 14248259343614205
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 43, 37)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 56, 46)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 36
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/28'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=9)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 2902
+  vote: <bound method Message.vote of pyrogram.types.Message(id=28, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 29 ---
+media_group_id: 14248259343614205
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 0, 43, 38)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 0, 43, 42)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 36
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/29'
+  media: pyrogram.enums.MessageMediaType.PHOTO
+  photo: pyrogram.types.Photo(file_id='AgACAgUAAyEFAATWlOlsAAMdaijuRM5VsGHDMfTkdfXk9GcU9hYAApMRaxsMCuFUFrOHhNnXDmQACAEAAwIAA3gABx4E', file_unique_id='AgADkxFrGwwK4VQ', width=480, height=798, file_size=41746, d
+  pin: <bound method Message.pin of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 2973
+  vote: <bound method Message.vote of pyrogram.types.Message(id=29, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 30 ---
+media_group_id: None
+text: 'Good morning 🥰'
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 8, 23, 18)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 8, 23, 27)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 1
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/30'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='👍', count=5), pyrogram.types.Reaction(emoji='🙉', count=1)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 1174
+  vote: <bound method Message.vote of pyrogram.types.Message(id=30, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 31 ---
+media_group_id: None
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 9, 26, 2)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 9, 27, 34)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 5
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/31'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=3), pyrogram.types.Reaction(emoji='🥰', count=1)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 682
+  vote: <bound method Message.vote of pyrogram.types.Message(id=31, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 32 ---
+media_group_id: 14248510975744901
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 9, 27, 51)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 9, 31, 4)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 2
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/32'
+  pin: <bound method Message.pin of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reactions: pyrogram.types.MessageReactions(reactions=[pyrogram.types.Reaction(emoji='❤', count=4)])
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 685
+  vote: <bound method Message.vote of pyrogram.types.Message(id=32, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 33 ---
+media_group_id: 14248510975744901
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 9, 27, 52)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 9, 27, 55)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 3
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/33'
+  media: pyrogram.enums.MessageMediaType.PHOTO
+  photo: pyrogram.types.Photo(file_id='AgACAgUAAyEFAATWlOlsAAMhaijuRG92ligKVK4pSrF0pT5sSE8AAooSaxsp3cFUQ8nutg3Irs0ACAEAAwIAA3kABx4E', file_unique_id='AgADihJrGyndwVQ', width=736, height=913, file_size=165146, 
+  pin: <bound method Message.pin of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 651
+  vote: <bound method Message.vote of pyrogram.types.Message(id=33, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+--- MSG ID 34 ---
+media_group_id: 14248510975744901
+text: None
+caption: None
+reply_to_message: None
+  bind: <bound method Object.bind of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  click: <bound method Message.click of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  continue_propagation: <bound method Update.continue_propagation of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fal
+  copy: <bound method Message.copy of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=
+  date: datetime.datetime(2026, 6, 10, 9, 27, 52)
+  default: <function Object.default at 0x0000019C65EBA290>
+  delete: <bound method Message.delete of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creato
+  download: <bound method Message.download of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_crea
+  edit: <bound method Message.edit_text of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  edit_caption: <bound method Message.edit_caption of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  edit_date: datetime.datetime(2026, 6, 10, 9, 27, 55)
+  edit_media: <bound method Message.edit_media of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  edit_reply_markup: <bound method Message.edit_reply_markup of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  edit_text: <bound method Message.edit_text of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cre
+  forward: <bound method Message.forward of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creat
+  forwards: 2
+  get_media_group: <bound method Message.get_media_group of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  link: 'https://t.me/c/3600083308/34'
+  media: pyrogram.enums.MessageMediaType.PHOTO
+  photo: pyrogram.types.Photo(file_id='AgACAgUAAyEFAATWlOlsAAMiaijuRIUDSb7Qk0uqqoGewC_tREAAAosSaxsp3cFUWxOat6rdesUACAEAAwIAA3kABx4E', file_unique_id='AgADixJrGyndwVQ', width=720, height=1280, file_size=103239,
+  pin: <bound method Message.pin of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=F
+  react: <bound method Message.react of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  reply: <bound method Message.reply_text of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_animation: <bound method Message.reply_animation of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  reply_audio: <bound method Message.reply_audio of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_cached_media: <bound method Message.reply_cached_media of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=Fals
+  reply_chat_action: <bound method Message.reply_chat_action of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_contact: <bound method Message.reply_contact of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_document: <bound method Message.reply_document of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_game: <bound method Message.reply_game of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_inline_bot_result: <bound method Message.reply_inline_bot_result of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted
+  reply_location: <bound method Message.reply_location of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, i
+  reply_media_group: <bound method Message.reply_media_group of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False
+  reply_photo: <bound method Message.reply_photo of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_poll: <bound method Message.reply_poll of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_sticker: <bound method Message.reply_sticker of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is
+  reply_text: <bound method Message.reply_text of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_cr
+  reply_venue: <bound method Message.reply_venue of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video: <bound method Message.reply_video of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  reply_video_note: <bound method Message.reply_video_note of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False,
+  reply_voice: <bound method Message.reply_voice of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_c
+  retract_vote: <bound method Message.retract_vote of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_
+  sender_chat: pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=False, is_scam=False, is_fake=False, title='Cute Heaven', photo=pyrogram
+  stop_propagation: <bound method Update.stop_propagation of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, 
+  unpin: <bound method Message.unpin of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator
+  views: 680
+  vote: <bound method Message.vote of pyrogram.types.Message(id=34, sender_chat=pyrogram.types.Chat(id=-1003600083308, type=pyrogram.enums.ChatType.CHANNEL, is_verified=False, is_restricted=False, is_creator=

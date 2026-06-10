@@ -638,7 +638,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
             if is_media_group:
                 sent_msg = await robust_copy_media_group(user_bot, LOG_CHANNEL, msg, caption=html_text, reply_markup=new_reply_markup)
             else:
-                if msg.text or (not msg.text and not msg.caption and not any([msg.photo, msg.video, msg.document, msg.audio])):
+                if msg.text or (not msg.text and not msg.caption and not any([msg.photo, msg.video, msg.document, msg.audio, msg.animation])):
                     sent_msg = await bot.send_message(LOG_CHANNEL, html_text, reply_markup=new_reply_markup)
                 else: 
                     sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=html_text, reply_markup=new_reply_markup)
@@ -682,14 +682,14 @@ async def collect_files_from_bot(bot_username, start_param):
                 if msg.from_user and msg.from_user.is_self: continue
 
                 # Log bot text responses for debugging
-                if not (msg.document or msg.video or msg.audio):
+                if not (msg.document or msg.video or msg.audio or msg.photo or msg.animation):
                     if msg.text:
                         print(f"DEBUG: [{bot_username}] Text received: {msg.text[:60]}...")
                         if "t.me/" in msg.text:
                             print(f"DEBUG: [{bot_username}] Bot sent a link instead of a file. Skipping as requested.")
                     continue
 
-                media = msg.document or msg.video or msg.audio
+                media = msg.document or msg.video or msg.audio or msg.photo or msg.animation
                 unique_id = getattr(media, "file_unique_id", None)
                 if unique_id and unique_id not in files_by_unique_id:
                     files_by_unique_id[unique_id] = msg
@@ -700,7 +700,7 @@ async def collect_files_from_bot(bot_username, start_param):
                 await asyncio.sleep(5) # Wait for remaining files in batch
                 async for msg in user_bot.get_chat_history(bot_username, limit=20):
                     if msg.id <= last_id: break
-                    media = msg.document or msg.video or msg.audio
+                    media = msg.document or msg.video or msg.audio or msg.photo or msg.animation
                     if media:
                         unique_id = getattr(media, "file_unique_id", None)
                         if unique_id and unique_id not in files_by_unique_id:

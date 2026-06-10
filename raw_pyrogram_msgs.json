@@ -1,0 +1,56 @@
+[
+    {
+        "id": 49,
+        "text": "Thanks everyone for using Pyrogram! The project has become one of the most appreciated frameworks for Telegram's API and I'm thankful to everyone who supported it. Thank you!\n\nYou might have noticed that there have been no updates for quite some time and that's because the project hasn't had any use to me anymore and I no longer have time to maintain it or conduct further developments. An option to continue the project would be to hand it over to someone else or delegate new maintainers; however, that would still require guidance and upkeep from my side.\n\nThat being said, I'm announcing that the development of the project has stopped. The project is therefore no longer maintained or supported, the repositories have been archived and the related group chats have been closed. The reason this announcement has arrived with such delay is that I was pondering whether to resume the development at some point, but I ultimately decided to sunset the project.\n\nThanks again for your appreciation and support! It has been a nice journey and I hope everyone has enjoyed creating things with Pyrogram.",
+        "caption": null,
+        "media": null
+    },
+    {
+        "id": 45,
+        "text": "\u2728 New website homepage\n\nThe new website homepage at https://pyrogram.org is live to provide visitors a more elegant way to learn about Pyrogram.",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 44,
+        "text": "\ud83d\udd25 Pyrogram updated to v2.0\n\nPerformance improvements, In-Memory Downloads, Media Streaming, Enumerations, Datetime objects and more\n\n\u2022 Release notes: https://docs.pyrogram.org/releases/v2.0\n\u2022 Update with pip3 install -U pyrogram",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 43,
+        "text": "\ud83d\udd25 Pyrogram updated to v1.4\n\nLayer 138, Video Stickers, New Emojis and more\n\n\u2022 Release notes: https://docs.pyrogram.org/releases/v1/v1.4\n\u2022 Update with pip3 install -U pyrogram",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 41,
+        "text": "\ud83d\udd25 Pyrogram updated to v1.3\n\nDocs Dark mode, Reactions, Spoiler Texts and more\n\n\u2022 Release notes: https://docs.pyrogram.org/releases/v1/v1.3\n\u2022 Update with pip3 install -U pyrogram",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 40,
+        "text": "\ud83d\udd25 Pyrogram updated to v1.2\n\nLayer 126, Chat Event Log, Invite Links 2.0, Chat Member events and more\n\n\u2022 Release notes: https://docs.pyrogram.org/releases/v1/v1.2\n\u2022 Update with pip3 install -U pyrogram",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 38,
+        "text": "\ud83d\udd25 Pyrogram updated to v1.1\n\nLayer 122, Performance gains, Bot API file ids and more\n\n\u2022 Release notes: https://docs.pyrogram.org/releases/v1/v1.1\n\u2022 Update with pip3 install -U pyrogram",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 36,
+        "text": "\ud83d\udd25 Welcome to Pyrogram 1.0!\n\nSince the first release almost three years ago, we've made over 3,000 commits by continuously delivering plenty of new features and fixes, which account for more than 300,000 lines of code added, edited or removed. Thousands of developers across the world have shown their appreciation to the project by kind words praising the way Pyrogram is built and performing, by donations or by simply giving a star to the repository.\n\nThis really means a lot, and today I'm pleased to announce the next step taken towards what represents over two and a half years worth of Open Source software development and community management efforts.\n\n\u2022 Release notes: https://docs.pyrogram.org/releases/v1/v1.0\n\u2022 Update with pip3 install -U pyrogram",
+        "caption": null,
+        "media": "MessageMediaType.WEB_PAGE"
+    },
+    {
+        "id": 1,
+        "text": null,
+        "caption": null,
+        "media": null
+    }
+]

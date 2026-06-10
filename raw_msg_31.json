@@ -1,0 +1,68 @@
+{
+    "_": "Message",
+    "id": 31,
+    "sender_chat": {
+        "_": "Chat",
+        "id": -1003600083308,
+        "type": "ChatType.CHANNEL",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_creator": false,
+        "is_scam": false,
+        "is_fake": false,
+        "title": "Cute Heaven",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADBQADkhJrGwy0QFUAEAIAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "small_photo_unique_id": "AgADkhJrGwy0QFU",
+            "big_file_id": "AQADBQADkhJrGwy0QFUAEAMAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "big_photo_unique_id": "AgADkhJrGwy0QFU"
+        },
+        "dc_id": 5,
+        "has_protected_content": false
+    },
+    "date": "2026-06-10 09:26:02",
+    "chat": {
+        "_": "Chat",
+        "id": -1003600083308,
+        "type": "ChatType.CHANNEL",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_creator": false,
+        "is_scam": false,
+        "is_fake": false,
+        "title": "Cute Heaven",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADBQADkhJrGwy0QFUAEAIAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "small_photo_unique_id": "AgADkhJrGwy0QFU",
+            "big_file_id": "AQADBQADkhJrGwy0QFUAEAMAA5QGxlQW____CjXQ_tjIOt0ABB4E",
+            "big_photo_unique_id": "AgADkhJrGwy0QFU"
+        },
+        "dc_id": 5,
+        "has_protected_content": false
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "edit_date": "2026-06-10 09:27:34",
+    "has_protected_content": false,
+    "views": 712,
+    "forwards": 5,
+    "outgoing": false,
+    "reactions": {
+        "_": "MessageReactions",
+        "reactions": [
+            {
+                "_": "Reaction",
+                "emoji": "❤",
+                "count": 3
+            },
+            {
+                "_": "Reaction",
+                "emoji": "🥰",
+                "count": 1
+            }
+        ]
+    }
+}
