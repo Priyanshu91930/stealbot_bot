@@ -317,13 +317,19 @@ async def handle_forward(client, message):
             processed_media_groups = set()
             total_ids = list(range(start_id, end_id + 1))
             chunk_size = 100
+            print(f"DEBUG FETCH: Range start_id={start_id}, end_id={end_id}, total_ids={len(total_ids)}")
             for i in range(0, len(total_ids), chunk_size):
                 chunk = total_ids[i:i + chunk_size]
                 msgs = await user_bot.get_messages(chat_id, chunk)
                 if not isinstance(msgs, list):
                     msgs = [msgs]
+                print(f"DEBUG FETCH: Chunk starting {chunk[0]} returned {len(msgs)} messages.")
                 for m in msgs:
-                    if m and not m.empty:
+                    if m:
+                        print(f"DEBUG FETCH: Msg ID={m.id}, empty={getattr(m, 'empty', None)}")
+                        if not m.empty:
+                            text_val = m.text or m.caption or ""
+                            print(f"DEBUG FETCH: Msg text len={len(text_val)}, links={get_all_bot_links(m)}")
                         if m.media_group_id:
                             if m.media_group_id in processed_media_groups:
                                 continue
