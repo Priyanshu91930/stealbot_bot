@@ -159,7 +159,8 @@ def extract_bot_links(text):
         
     return results
 
-def get_all_bot_links(text_msg):
+def _extract_links_from_msg_obj(text_msg):
+    """Extract bot links from a single message object's text, caption, entities and buttons."""
     if not text_msg:
         return []
     text = text_msg.text or text_msg.caption or ""
@@ -188,7 +189,35 @@ def get_all_bot_links(text_msg):
                     m = BOT_LINK_RE.search(clean_url)
                     if m:
                         links.append((btn.url, m.group(1), m.group(2)))
-                        
+    return links
+
+def get_all_bot_links(text_msg):
+    """Get all bot links from message, including quoted/replied-to message content."""
+    if not text_msg:
+        return []
+    
+    links = _extract_links_from_msg_obj(text_msg)
+    
+    # Also check reply_to_message (the blue 'quote' block in Telegram)
+    # The link may live inside the quoted/replied message rather than the main text
+    replied = getattr(text_msg, 'reply_to_message', None)
+    if replied:
+        links.extend(_extract_links_from_msg_obj(replied))
+    
+    # Also check quote field (newer Pyrogram versions expose this separately)
+    quote = getattr(text_msg, 'quote', None)
+    if quote:
+        quote_text = getattr(quote, 'text', '') or ''
+        if quote_text:
+            links.extend(extract_bot_links(quote_text))
+        for entity in (getattr(quote, 'entities', None) or []):
+            type_str = str(entity.type).lower()
+            if "text_link" in type_str and entity.url:
+                clean_url = "".join(entity.url.split())
+                m = BOT_LINK_RE.search(clean_url)
+                if m:
+                    links.append((entity.url, m.group(1), m.group(2)))
+                    
     unique_links = []
     seen = set()
     for raw_match, bot_username, start_param in links:
@@ -512,15 +541,32 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
                 text_msg = m
                 break
         if not text_msg:
+            # Check reply_to_message for any group member
+            for m in msg:
+                if getattr(m, 'reply_to_message', None):
+                    replied = m.reply_to_message
+                    if replied.text or replied.caption:
+                        text_msg = m
+                        break
+        if not text_msg:
             text_msg = msg[0]
     else:
         text_msg = msg
 
-    text = text_msg.text or text_msg.caption or ""
     links = get_all_bot_links(text_msg)
-    if not links: return False
+    if not links:
+        print(f"DEBUG: No links found in post {index} (including reply_to_message).")
+        return False
+
+    # Determine where the text lives - main message or reply_to_message
+    main_text = text_msg.text or text_msg.caption or ""
+    replied_msg = getattr(text_msg, 'reply_to_message', None)
+    replied_text = (replied_msg.text or replied_msg.caption or "") if replied_msg else ""
     
-    new_text, new_reply_markup, processed_any = text, text_msg.reply_markup, False
+    # Track where each link was found for correct replacement
+    new_text = main_text if main_text else replied_text
+    new_reply_markup, processed_any = text_msg.reply_markup, False
+    
     for raw_match, bot_username, start_param in links:
         files = await collect_files_from_bot(bot_username, start_param)
         if not files: 
@@ -542,6 +588,9 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         processed_any = True
         if raw_match and raw_match in new_text:
             new_text = new_text.replace(raw_match, new_bot_link.replace("https://", ""))
+        elif raw_match and replied_text and raw_match in replied_text:
+            # Link is inside the quote/reply - rebuild new_text from replied text
+            new_text = replied_text.replace(raw_match, new_bot_link.replace("https://", ""))
         if new_reply_markup:
             for row in new_reply_markup.inline_keyboard:
                 for btn in row:
@@ -554,7 +603,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
             if is_media_group:
                 sent_msg = await robust_copy_media_group(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
             else:
-                if msg.text: 
+                if msg.text or (not msg.text and not msg.caption and not any([msg.photo, msg.video, msg.document, msg.audio])):
                     sent_msg = await bot.send_message(LOG_CHANNEL, new_text, reply_markup=new_reply_markup)
                 else: 
                     sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=new_text, reply_markup=new_reply_markup)
