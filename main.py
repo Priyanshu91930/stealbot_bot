@@ -422,52 +422,61 @@ async def handle_forward(client, message):
                 print(f"DEBUG FETCH: Chunk starting {chunk[0]} returned {len(msgs)} messages.")
                 for m in msgs:
                     if m:
-                        print(f"DEBUG FETCH: Msg ID={m.id}, empty={getattr(m, 'empty', None)}")
-                        if not m.empty:
-                            text_val = m.text or m.caption or ""
-                            rtm = getattr(m, 'reply_to_message', None)
-                            quote = getattr(m, 'quote', None)
-                            fwd_text = ""
-                            fwd_chat, _ = get_forward_info(m)
-                            if fwd_chat:
-                                fwd_text = "(has forward_origin or forward_from_chat)"
-                            print(f"DEBUG FETCH FIELDS: "
-                                  f"text={repr(text_val[:80]) if text_val else 'EMPTY'} | "
-                                  f"reply_to_message={'YES text='+repr((rtm.text or rtm.caption or '')[:60]) if rtm else 'NONE'} | "
-                                  f"quote={'YES text='+repr(getattr(quote,'text','')[:60]) if quote else 'NONE'} | "
-                                  f"fwd={fwd_text} | "
-                                  f"links_found={get_all_bot_links(m)}")
-                        if m.media_group_id:
-                            if m.media_group_id in processed_media_groups:
-                                continue
-                            processed_media_groups.add(m.media_group_id)
-                            try:
-                                group_msgs = await user_bot.get_media_group(chat_id, m.id)
-                                print(f"DEBUG MEDIA GROUP: fetched {len(group_msgs)} messages for ID {m.id}")
+                        try:
+                            print(f"DEBUG FETCH: Msg ID={m.id}, empty={getattr(m, 'empty', None)}")
+                            if not m.empty:
+                                text_val = m.text or m.caption or ""
+                                rtm = getattr(m, 'reply_to_message', None)
+                                quote = getattr(m, 'quote', None)
+                                fwd_text = ""
+                                fwd_chat, _ = get_forward_info(m)
+                                if fwd_chat:
+                                    fwd_text = "(has forward_origin or forward_from_chat)"
+                                print(f"DEBUG FETCH FIELDS: "
+                                      f"text={repr(text_val[:80]) if text_val else 'EMPTY'} | "
+                                      f"reply_to_message={'YES text='+repr((rtm.text or rtm.caption or '')[:60]) if rtm else 'NONE'} | "
+                                      f"quote={'YES text='+repr(getattr(quote,'text','')[:60]) if quote else 'NONE'} | "
+                                      f"fwd={fwd_text} | "
+                                      f"links_found={get_all_bot_links(m)}")
+                            if m.media_group_id:
+                                if m.media_group_id in processed_media_groups:
+                                    continue
+                                processed_media_groups.add(m.media_group_id)
+                                try:
+                                    group_msgs = await user_bot.get_media_group(chat_id, m.id)
+                                    print(f"DEBUG MEDIA GROUP: fetched {len(group_msgs)} messages for ID {m.id}")
+                                    for gm in group_msgs:
+                                        try:
+                                            gm_text = gm.text or gm.caption or ""
+                                            gm_rtm = getattr(gm, 'reply_to_message', None)
+                                            gm_quote = getattr(gm, 'quote', None)
+                                            print(f"DEBUG MEDIA GROUP MSG: ID={gm.id} | "
+                                                  f"text={repr(gm_text[:60]) if gm_text else 'EMPTY'} | "
+                                                  f"reply_to={'YES text='+repr((gm_rtm.text or gm_rtm.caption or '')[:50]) if gm_rtm else 'NONE'} | "
+                                                  f"quote={'YES text='+repr(getattr(gm_quote,'text','')[:50]) if gm_quote else 'NONE'} | "
+                                                  f"links={get_all_bot_links(gm)}")
+                                        except Exception as gm_err:
+                                            print(f"DEBUG: Failed to inspect media group msg: {gm_err}")
+                                except Exception as e:
+                                    print(f"DEBUG: Failed to get media group {m.media_group_id}: {e}")
+                                    group_msgs = [m]
+                                
+                                has_links = False
                                 for gm in group_msgs:
-                                    gm_text = gm.text or gm.caption or ""
-                                    gm_rtm = getattr(gm, 'reply_to_message', None)
-                                    gm_quote = getattr(gm, 'quote', None)
-                                    print(f"DEBUG MEDIA GROUP MSG: ID={gm.id} | "
-                                          f"text={repr(gm_text[:60]) if gm_text else 'EMPTY'} | "
-                                          f"reply_to={'YES text='+repr((gm_rtm.text or gm_rtm.caption or '')[:50]) if gm_rtm else 'NONE'} | "
-                                          f"quote={'YES text='+repr(getattr(gm_quote,'text','')[:50]) if gm_quote else 'NONE'} | "
-                                          f"links={get_all_bot_links(gm)}")
-                            except Exception as e:
-                                print(f"DEBUG: Failed to get media group {m.media_group_id}: {e}")
-                                group_msgs = [m]
-                            
-                            has_links = False
-                            for gm in group_msgs:
-                                if get_all_bot_links(gm):
-                                    has_links = True
-                                    break
-                            
-                            if has_links:
-                                all_messages.append(group_msgs)
-                        else:
-                            if get_all_bot_links(m):
-                                all_messages.append(m)
+                                    try:
+                                        if get_all_bot_links(gm):
+                                            has_links = True
+                                            break
+                                    except Exception:
+                                        pass
+                                
+                                if has_links:
+                                    all_messages.append(group_msgs)
+                            else:
+                                if get_all_bot_links(m):
+                                    all_messages.append(m)
+                        except Exception as msg_err:
+                            print(f"DEBUG FETCH: Skipping message ID={getattr(m, 'id', 'unknown')} due to error: {msg_err}")
             
             total = len(all_messages)
             if total == 0:
