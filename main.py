@@ -30,6 +30,17 @@ def get_peer_type_patched(peer_id: int) -> str:
     return "user"
 
 utils.get_peer_type = get_peer_type_patched
+
+def get_forward_info(message):
+    if not message:
+        return None, None
+    if getattr(message, "forward_origin", None):
+        origin = message.forward_origin
+        if hasattr(origin, "chat") and origin.chat:
+            return origin.chat, getattr(origin, "message_id", None)
+    chat = getattr(message, "forward_from_chat", None)
+    msg_id = getattr(message, "forward_from_message_id", None)
+    return chat, msg_id
 # --------------------------
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument, InputMediaAnimation
 from pyrogram.errors import FloodWait, MessageNotModified
@@ -263,8 +274,16 @@ async def start_cmd(client, message):
         "• /scheduler - Manage scheduler settings\n"
         "• /queue - View scheduled posts queue\n"
         "• /q - Add ready-made posts directly to queue\n"
+        "• /restart - Restart the bot process\n"
         "<i>Processes only one post at a time.</i>"
     )
+
+@bot.on_message(filters.command("restart") & filters.user(ADMINS))
+async def restart_handler(client, message):
+    await message.reply_text("🔄 **Restarting the bot...** Please wait.")
+    await asyncio.sleep(2)
+    import sys
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 @bot.on_message(filters.command("set_bot") & filters.user(ADMINS))
 async def set_bot_handler(client, message):
@@ -288,11 +307,12 @@ async def handle_forward(client, message):
     state_info = user_states.get(user_id)
     
     if state_info and state_info.get("state") == "AWAITING_FIRST_MSG":
-        if not message.forward_from_chat:
+        f_chat, f_msg_id = get_forward_info(message)
+        if not f_chat:
             return await message.reply_text("❌ Could not detect the original chat. Make sure it's a channel or group message.")
         
-        chat_id = message.forward_from_chat.id
-        msg_id = message.forward_from_message_id
+        chat_id = f_chat.id
+        msg_id = f_msg_id
         
         import time
         user_states[user_id] = {
@@ -326,11 +346,12 @@ async def handle_forward(client, message):
         if elapsed < 2.0:
             return
             
-        if not message.forward_from_chat:
+        f_chat, f_msg_id = get_forward_info(message)
+        if not f_chat:
             return await message.reply_text("❌ Could not detect the original chat.")
         
-        chat_id = message.forward_from_chat.id
-        msg_id = message.forward_from_message_id
+        chat_id = f_chat.id
+        msg_id = f_msg_id
         
         if chat_id != state_info["chat_id"]:
             return await message.reply_text("❌ The last message must be from the same chat as the first message. Please try again or use /fetch to restart.")
@@ -370,7 +391,18 @@ async def handle_forward(client, message):
             print(f"DEBUG FETCH: Range start_id={start_id}, end_id={end_id}, total_ids={len(total_ids)}")
             for i in range(0, len(total_ids), chunk_size):
                 chunk = total_ids[i:i + chunk_size]
-                msgs = await user_bot.get_messages(chat_id, chunk)
+                try:
+                    msgs = await user_bot.get_messages(chat_id, chunk)
+                except Exception as chunk_err:
+                    print(f"DEBUG FETCH: Chunk get_messages failed ({chunk_err}). Fetching individually...")
+                    msgs = []
+                    for mid in chunk:
+                        try:
+                            m = await user_bot.get_messages(chat_id, mid)
+                            msgs.append(m)
+                        except Exception as ind_err:
+                            print(f"DEBUG FETCH: Failed to fetch message {mid} individually: {ind_err}")
+                            msgs.append(None)
                 if not isinstance(msgs, list):
                     msgs = [msgs]
                 import json
@@ -396,8 +428,9 @@ async def handle_forward(client, message):
                             rtm = getattr(m, 'reply_to_message', None)
                             quote = getattr(m, 'quote', None)
                             fwd_text = ""
-                            if hasattr(m, 'forward_from_chat') and m.forward_from_chat:
-                                fwd_text = "(has forward_from_chat)"
+                            fwd_chat, _ = get_forward_info(m)
+                            if fwd_chat:
+                                fwd_text = "(has forward_origin or forward_from_chat)"
                             print(f"DEBUG FETCH FIELDS: "
                                   f"text={repr(text_val[:80]) if text_val else 'EMPTY'} | "
                                   f"reply_to_message={'YES text='+repr((rtm.text or rtm.caption or '')[:60]) if rtm else 'NONE'} | "
@@ -463,8 +496,8 @@ async def handle_forward(client, message):
         return
 
     # default behavior (add channel)
-    if message.forward_from_chat:
-        f_chat = message.forward_from_chat
+    f_chat, _ = get_forward_info(message)
+    if f_chat:
         if f_chat.type not in [ChatType.CHANNEL, ChatType.SUPERGROUP]:
             return await message.reply_text(f"❌ Please forward from a Channel or Supergroup. (Type: {f_chat.type})")
         
@@ -1025,6 +1058,32 @@ async def handle_admin_text(client, message):
 
     elif state == "SET_CHAN":
         chan = message.text.strip()
+        
+        # 1. Reject invite links
+        if "t.me/+" in chan or "t.me/joinchat/" in chan or "+" in chan:
+            return await message.reply_text(
+                "❌ **Private invite links are not supported!**\n\n"
+                "Telegram bots cannot post directly to invite links.\n\n"
+                "Please do the following:\n"
+                "1. Add the bot to your private channel as an **Administrator**.\n"
+                "2. Forward a message from that channel to the bot to get the channel's numeric ID (starts with `-100`).\n"
+                "3. Try setting the target channel again using that numeric ID (e.g. `-100123456789`)."
+            )
+            
+        # 2. Clean public channel links (e.g. https://t.me/channelname -> @channelname)
+        if "t.me/" in chan:
+            parts = chan.split("t.me/")
+            if len(parts) > 1:
+                username = parts[1].split("/")[0].strip()
+                chan = f"@{username}"
+                
+        # 3. Convert numeric string to integer
+        try:
+            if chan.replace("-", "").isdigit():
+                chan = int(chan)
+        except ValueError:
+            pass
+
         settings = await get_scheduler_settings()
         settings["target_channel"] = chan
         await update_scheduler_settings(settings)
@@ -1124,6 +1183,13 @@ async def trigger_scheduler_batch():
     if not settings["target_channel"]:
         return "❌ Error: Target channel not set in scheduler settings."
     
+    target_channel = settings["target_channel"]
+    try:
+        if isinstance(target_channel, str) and (target_channel.replace("-", "").isdigit() or target_channel.isdigit()):
+            target_channel = int(target_channel)
+    except Exception:
+        pass
+    
     msg_ids = await pop_queue_batch(settings["batch_size"])
     if not msg_ids:
         return "ℹ️ Queue is empty. No posts to send."
@@ -1139,9 +1205,9 @@ async def trigger_scheduler_batch():
                     except Exception as e:
                         print(f"DEBUG: Failed to get media group {msg.media_group_id} from LOG: {e}")
                         group_msgs = [msg]
-                    copied = await robust_copy_media_group(bot, settings["target_channel"], group_msgs)
+                    copied = await robust_copy_media_group(bot, target_channel, group_msgs)
                 else:
-                    copied = await robust_copy(bot, settings["target_channel"], msg)
+                    copied = await robust_copy(bot, target_channel, msg)
                 if copied:
                     success += 1
                 await asyncio.sleep(2)
