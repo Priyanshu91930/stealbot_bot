@@ -628,39 +628,42 @@ def format_caption_with_new_template(html_text, replacements):
 
     html_text = html_text[:truncate_at].rstrip()
 
-    # Process replacements from first to last
-    for raw_match, new_bot_link in replacements:
-        # Try to find the link tag in html_text
-        pattern = rf'<a\s+href\s*=\s*["\']?{re.escape(raw_match)}["\']?\s*>.*?</a>'
-        match = re.search(pattern, html_text, re.IGNORECASE)
+    # Regex pattern to match optional marker, optional pointer, and the t.me link with start parameter.
+    link_pattern = re.compile(
+        r"(?:(?:✨\s*here\s+is\s+your\s+link\s*✨|here\s+is\s+your\s+link|✨\s*here\s+is\s+your\s+link\s*✨\s*|here\s+is\s+your\s+link\s*)\s*[\r\n]*\s*(?:👉\s*)?)?"
+        r"(<a\s+href\s*=\s*[\"']?(?:https?://)?t\.me/\S+\?start=\S+[\"']?>.*?</a>|(?:https?://)?t\.me/\S+\?start=\S+)",
+        re.IGNORECASE
+    )
 
-        # Also search for raw_match directly if it's plain text
-        if not match:
-            pattern = re.escape(raw_match)
-            match = re.search(pattern, html_text, re.IGNORECASE)
+    last_idx = 0
+    parts = []
+    rep_idx = 0
 
-        if match:
-            start_idx = match.start()
-            end_idx = match.end()
-            before_text = html_text[:start_idx]
-            after_text = html_text[end_idx:]
+    for match in link_pattern.finditer(html_text):
+        matched_str = match.group(0)
+        
+        # Add the text before the match
+        parts.append(html_text[last_idx:match.start()])
 
-            # Clean up any preceding "here is your link" or similar markers for this specific link
-            truncate_idx = start_idx
-            for marker in ["✨ here is your link ✨", "✨ here is your link  ✨", "here is your link"]:
-                idx = before_text.lower().rfind(marker.lower())
-                if idx != -1:
-                    # Only match if the marker is close to the link (within 150 chars)
-                    if start_idx - idx < 150:
-                        truncate_idx = idx
-                        break
+        # If we have a replacement for this link
+        if rep_idx < len(replacements):
+            raw_match, new_bot_link = replacements[rep_idx]
+            rep_idx += 1
 
-            cleaned_before = before_text[:truncate_idx].rstrip()
+            # Format the replaced link with the standard marker
             replaced_segment = (
                 f"✨ here is your link  ✨ \n\n"
                 f"👉 {new_bot_link}"
             )
-            html_text = f"{cleaned_before}\n\n{replaced_segment}\n\n{after_text.lstrip()}"
+            parts.append(replaced_segment)
+        else:
+            # If no replacement, keep original
+            parts.append(matched_str)
+
+        last_idx = match.end()
+
+    parts.append(html_text[last_idx:])
+    html_text = "".join(parts)
 
     # Now append the new footer exactly once at the end
     new_footer = (
