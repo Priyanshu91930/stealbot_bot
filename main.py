@@ -605,44 +605,74 @@ async def search_handler(client, message):
 
     await status_msg.edit(f"🏁 <b>Done!</b>\nTotal: {total}\nSuccess: {success_count}\nSkipped: {skip_count}")
 
-def format_caption_with_new_template(html_text, raw_match, new_bot_link):
-    # Try to find the link tag in html_text
-    pattern = rf'<a\s+href\s*=\s*["\']?{re.escape(raw_match)}["\']?\s*>.*?</a>'
-    match = re.search(pattern, html_text, re.IGNORECASE)
-    
-    # Also search for raw_match directly if it's plain text
-    if not match:
-        pattern = re.escape(raw_match)
+def format_caption_with_new_template(html_text, replacements):
+    if not replacements:
+        return html_text
+
+    # First, truncate/clean the original footer from the end of the message if any exists
+    lower_text = html_text.lower()
+    footer_markers = [
+        "╭─────────────────⭓",
+        "💎 ᴍᴜsᴛ ᴊᴏɪɴ",
+        "💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ",
+        "must join :",
+        "give some love to us",
+        "hit the reaction"
+    ]
+
+    truncate_at = len(html_text)
+    for fm in footer_markers:
+        idx = lower_text.find(fm.lower())
+        if idx != -1:
+            truncate_at = min(truncate_at, idx)
+
+    html_text = html_text[:truncate_at].rstrip()
+
+    # Process replacements from first to last
+    for raw_match, new_bot_link in replacements:
+        # Try to find the link tag in html_text
+        pattern = rf'<a\s+href\s*=\s*["\']?{re.escape(raw_match)}["\']?\s*>.*?</a>'
         match = re.search(pattern, html_text, re.IGNORECASE)
-        
-    if match:
-        start_idx = match.start()
-        before_text = html_text[:start_idx]
-        
-        # Clean up any preceding "here is your link" or similar markers to avoid duplicates
-        truncate_idx = start_idx
-        for marker in ["✨ here is your link ✨", "✨ here is your link  ✨", "here is your link"]:
-            idx = before_text.lower().rfind(marker.lower())
-            if idx != -1:
-                truncate_idx = idx
-                break
-                
-        cleaned_base = html_text[:truncate_idx].rstrip()
-        
-        new_footer = (
-            f"✨ here is your link  ✨ \n\n"
-            f"👉 {new_bot_link}  \n\n"
-            f"╭─────────────────⭓\n"
-            f"💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ : 𝗩ɪʀᴀ𝗟𝗩ᴇʀsᴇ\n"
-            f"https://t.me/viralvideosmodel \n"
-            f"╰─────────────────⭓\n\n"
-            f"❤️ 𝗚ɪᴠᴇ sᴏᴍᴇ ʟᴏᴠᴇ ᴛᴏ ᴜs, ʜɪᴛ ᴛʜᴇ ʀᴇᴀᴄᴛɪᴏɴ!\n"
-            f"🔥 💫 ⚡️ 🚀"
-        )
-        
-        return f"{cleaned_base}\n\n{new_footer}"
-    
-    return html_text
+
+        # Also search for raw_match directly if it's plain text
+        if not match:
+            pattern = re.escape(raw_match)
+            match = re.search(pattern, html_text, re.IGNORECASE)
+
+        if match:
+            start_idx = match.start()
+            end_idx = match.end()
+            before_text = html_text[:start_idx]
+            after_text = html_text[end_idx:]
+
+            # Clean up any preceding "here is your link" or similar markers for this specific link
+            truncate_idx = start_idx
+            for marker in ["✨ here is your link ✨", "✨ here is your link  ✨", "here is your link"]:
+                idx = before_text.lower().rfind(marker.lower())
+                if idx != -1:
+                    # Only match if the marker is close to the link (within 150 chars)
+                    if start_idx - idx < 150:
+                        truncate_idx = idx
+                        break
+
+            cleaned_before = before_text[:truncate_idx].rstrip()
+            replaced_segment = (
+                f"✨ here is your link  ✨ \n\n"
+                f"👉 {new_bot_link}"
+            )
+            html_text = f"{cleaned_before}\n\n{replaced_segment}\n\n{after_text.lstrip()}"
+
+    # Now append the new footer exactly once at the end
+    new_footer = (
+        f"╭─────────────────⭓\n"
+        f"💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ : 𝗩ɪʀᴀ𝗟𝗩ᴇʀsᴇ\n"
+        f"https://t.me/viralvideosmodel \n"
+        f"╰─────────────────⭓\n\n"
+        f"❤️ 𝗚ɪᴠᴇ sᴏᴍᴇ ʟᴏᴠᴇ ᴛᴏ ᴜs, ʜɪᴛ ᴛʜᴇ ʀᴇᴀᴄᴛɪᴏɴ!\n"
+        f"🔥 💫 ⚡️ 🚀"
+    )
+
+    return f"{html_text.rstrip()}\n\n{new_footer}"
 
 async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
     is_media_group = isinstance(msg, list)
@@ -680,13 +710,14 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         html_text = ""
 
     new_reply_markup, processed_any = text_msg.reply_markup, False
-    
+    replacements = []
+
     for raw_match, bot_username, start_param in links:
         files = await collect_files_from_bot(bot_username, start_param)
         if not files: 
             print(f"DEBUG: No files found for {bot_username} in post {index}. Skipping link.")
             continue
-        
+
         new_bot_link = None
         if len(files) == 1: 
             print(f"DEBUG: 1 file found for {bot_username}. Using /link")
@@ -694,18 +725,18 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         else: 
             print(f"DEBUG: {len(files)} files found for {bot_username}. Using /batch")
             new_bot_link = await get_batch_link(fs_bot, files)
-        
+
         if not new_bot_link: 
             print(f"DEBUG: Failed to get new link for {bot_username}")
             continue
-        
+
         processed_any = True
         # Determine if we should keep https:// prefix
         replacement_link = new_bot_link
         if not raw_match.lower().startswith("http"):
             replacement_link = new_bot_link.replace("https://", "").replace("http://", "")
 
-        html_text = format_caption_with_new_template(html_text, raw_match, replacement_link)
+        replacements.append((raw_match, replacement_link))
         if new_reply_markup:
             for row in new_reply_markup.inline_keyboard:
                 for btn in row:
@@ -713,6 +744,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
                         btn.url = new_bot_link
 
     if processed_any:
+        html_text = format_caption_with_new_template(html_text, replacements)
         try:
             sent_msg = None
             if is_media_group:
@@ -722,7 +754,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
                     sent_msg = await bot.send_message(LOG_CHANNEL, html_text, reply_markup=new_reply_markup)
                 else: 
                     sent_msg = await robust_copy(user_bot, LOG_CHANNEL, msg, caption=html_text, reply_markup=new_reply_markup)
-            
+
             if sent_msg:
                 await add_to_queue(sent_msg.id)
                 print(f"DEBUG: Success for post index {index}. Added to scheduler queue.")
