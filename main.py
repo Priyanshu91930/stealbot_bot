@@ -786,15 +786,22 @@ async def collect_files_from_bot(bot_username, start_param):
         
         await user_bot.send_message(bot_username, f"/start {start_param}")
         
-        # Wait for files to appear
-        for i in range(12): 
+        # Wait for files to appear and stabilize
+        no_change_count = 0
+        last_count = 0
+        
+        # Check every 3 seconds, up to 20 times (1 minute max)
+        for i in range(20): 
             await asyncio.sleep(3)
-            new_found = False
-            async for msg in user_bot.get_chat_history(bot_username, limit=20):
-                if msg.id <= last_id: break
+            
+            # Scan the last 100 messages in case the bot sent a large batch
+            async for msg in user_bot.get_chat_history(bot_username, limit=100):
+                if msg.id <= last_id:
+                    break
                 
                 # Ignore self messages
-                if msg.from_user and msg.from_user.is_self: continue
+                if msg.from_user and msg.from_user.is_self:
+                    continue
 
                 # Log bot text responses for debugging
                 if not (msg.document or msg.video or msg.audio or msg.photo or msg.animation):
@@ -808,20 +815,24 @@ async def collect_files_from_bot(bot_username, start_param):
                 unique_id = getattr(media, "file_unique_id", None)
                 if unique_id and unique_id not in files_by_unique_id:
                     files_by_unique_id[unique_id] = msg
-                    new_found = True
-            
-            if new_found:
-                print(f"DEBUG: Found {len(files_by_unique_id)} files so far...")
-                await asyncio.sleep(5) # Wait for remaining files in batch
-                async for msg in user_bot.get_chat_history(bot_username, limit=20):
-                    if msg.id <= last_id: break
-                    media = msg.document or msg.video or msg.audio or msg.photo or msg.animation
-                    if media:
-                        unique_id = getattr(media, "file_unique_id", None)
-                        if unique_id and unique_id not in files_by_unique_id:
-                            files_by_unique_id[unique_id] = msg
-                break
-            if i % 4 == 0: print(f"DEBUG: Waiting for files from {bot_username}...")
+
+            current_count = len(files_by_unique_id)
+            if current_count > 0:
+                if current_count > last_count:
+                    # Found more files, reset no_change_count and keep waiting
+                    print(f"DEBUG: Found {current_count} files so far...")
+                    last_count = current_count
+                    no_change_count = 0
+                else:
+                    # Count hasn't increased, increment stabilize counter
+                    no_change_count += 1
+                    # If count stays the same for 2 checks (6 seconds), assume bot is done sending
+                    if no_change_count >= 2:
+                        print(f"DEBUG: File count stabilized at {current_count}. Stopping collection.")
+                        break
+            else:
+                if i % 4 == 0:
+                    print(f"DEBUG: Waiting for files from {bot_username}...")
     except FloodWait as e:
         print(f"DEBUG: FloodWait for {e.value}s")
         await asyncio.sleep(e.value)
