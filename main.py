@@ -797,8 +797,8 @@ async def collect_files_from_bot(bot_username, start_param, status_msg=None, bas
         no_change_count = 0
         last_count = 0
         
-        # Check every 3 seconds, up to 150 times (7.5 minutes max)
-        for i in range(150): 
+        # Check every 3 seconds, up to 300 times (15 minutes max)
+        for i in range(300): 
             await asyncio.sleep(3)
             
             # Scan the last 1000 messages in case the bot sent a large batch
@@ -852,8 +852,8 @@ async def collect_files_from_bot(bot_username, start_param, status_msg=None, bas
                 else:
                     # Count hasn't increased, increment stabilize counter
                     no_change_count += 1
-                    # If count stays the same for 8 checks (24 seconds), assume bot is done sending
-                    if no_change_count >= 8:
+                    # If count stays the same for 20 checks (60 seconds), assume bot is done sending
+                    if no_change_count >= 20:
                         print(f"DEBUG: File count stabilized at {current_count}. Stopping collection.")
                         break
             else:
@@ -1073,7 +1073,8 @@ async def get_link_with_command(fs_bot_username, media_msg, status_msg=None, bas
                 await status_msg.edit(f"{base_text}\n📥 Sending to File-Store bot...", parse_mode=enums.ParseMode.HTML)
             except Exception:
                 pass
-        sent = await robust_copy(user_bot, fs_bot_username, media_msg, force_document=True, status_msg=status_msg, base_text=base_text)
+        is_photo = bool(media_msg.photo)
+        sent = await robust_copy(user_bot, fs_bot_username, media_msg, force_document=is_photo, status_msg=status_msg, base_text=base_text)
         if not sent: return None
         
         await asyncio.sleep(3)
@@ -1107,7 +1108,8 @@ async def get_batch_link(fs_bot_username, files, status_msg=None, base_text=""):
                     await status_msg.edit(f"{file_base}\n⏳ Processing...", parse_mode=enums.ParseMode.HTML)
                 except Exception:
                     pass
-            lf = await robust_copy(user_bot, LOG_CHANNEL, f, force_document=True, status_msg=status_msg, base_text=file_base)
+            is_photo = bool(f.photo)
+            lf = await robust_copy(user_bot, LOG_CHANNEL, f, force_document=is_photo, status_msg=status_msg, base_text=file_base)
             if lf: log_files.append(lf)
             await asyncio.sleep(3)
         
