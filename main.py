@@ -797,8 +797,8 @@ async def collect_files_from_bot(bot_username, start_param, status_msg=None, bas
         no_change_count = 0
         last_count = 0
         
-        # Check every 3 seconds, up to 20 times (1 minute max)
-        for i in range(20): 
+        # Check every 3 seconds, up to 150 times (7.5 minutes max)
+        for i in range(150): 
             await asyncio.sleep(3)
             
             # Scan the last 1000 messages in case the bot sent a large batch
@@ -852,8 +852,8 @@ async def collect_files_from_bot(bot_username, start_param, status_msg=None, bas
                 else:
                     # Count hasn't increased, increment stabilize counter
                     no_change_count += 1
-                    # If count stays the same for 2 checks (6 seconds), assume bot is done sending
-                    if no_change_count >= 2:
+                    # If count stays the same for 8 checks (24 seconds), assume bot is done sending
+                    if no_change_count >= 8:
                         print(f"DEBUG: File count stabilized at {current_count}. Stopping collection.")
                         break
             else:
