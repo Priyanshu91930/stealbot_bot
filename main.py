@@ -715,8 +715,15 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
     new_reply_markup, processed_any = text_msg.reply_markup, False
     replacements = []
 
-    for raw_match, bot_username, start_param in links:
-        files = await collect_files_from_bot(bot_username, start_param)
+    msg_id_display = msg[0].id if isinstance(msg, list) else msg.id
+    base_text = (
+        f"⏳ <b>Processing:</b> [{index}/{total}]\n"
+        f"<b>Msg ID:</b> <code>{msg_id_display}</code>"
+    )
+
+    for link_idx, (raw_match, bot_username, start_param) in enumerate(links, 1):
+        link_base = f"{base_text}\n🔗 <b>Link {link_idx}/{len(links)}:</b> @{bot_username}"
+        files = await collect_files_from_bot(bot_username, start_param, status_msg=status_msg, base_text=link_base)
         if not files: 
             print(f"DEBUG: No files found for {bot_username} in post {index}. Skipping link.")
             continue
@@ -724,10 +731,10 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         new_bot_link = None
         if len(files) == 1: 
             print(f"DEBUG: 1 file found for {bot_username}. Using /link")
-            new_bot_link = await get_link_with_command(fs_bot, files[0])
+            new_bot_link = await get_link_with_command(fs_bot, files[0], status_msg=status_msg, base_text=f"{link_base}\nFound 1 file. Storing...")
         else: 
             print(f"DEBUG: {len(files)} files found for {bot_username}. Using /batch")
-            new_bot_link = await get_batch_link(fs_bot, files)
+            new_bot_link = await get_batch_link(fs_bot, files, status_msg=status_msg, base_text=f"{link_base}\nFound {len(files)} files. Storing batch...")
 
         if not new_bot_link: 
             print(f"DEBUG: Failed to get new link for {bot_username}")
@@ -776,7 +783,7 @@ async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
         print(f"DEBUG: No links processed for post index {index}.")
     return False
 
-async def collect_files_from_bot(bot_username, start_param):
+async def collect_files_from_bot(bot_username, start_param, status_msg=None, base_text=""):
     files_by_unique_id = {}
     try:
         await user_bot.read_chat_history(bot_username)
@@ -802,7 +809,7 @@ async def collect_files_from_bot(bot_username, start_param):
                 # Ignore self messages
                 if msg.from_user and msg.from_user.is_self:
                     continue
-
+ 
                 # Log bot text responses for debugging
                 if not (msg.document or msg.video or msg.audio or msg.photo or msg.animation):
                     if msg.text:
@@ -810,7 +817,7 @@ async def collect_files_from_bot(bot_username, start_param):
                         if "t.me/" in msg.text:
                             print(f"DEBUG: [{bot_username}] Bot sent a link instead of a file. Skipping as requested.")
                     continue
-
+ 
                 media = msg.document or msg.video or msg.audio or msg.photo or msg.animation
                 media_type = "unknown"
                 if msg.document: media_type = "document"
@@ -818,17 +825,24 @@ async def collect_files_from_bot(bot_username, start_param):
                 elif msg.audio: media_type = "audio"
                 elif msg.photo: media_type = "photo"
                 elif msg.animation: media_type = "animation"
-
+ 
                 unique_id = getattr(media, "file_unique_id", None)
                 if not unique_id and hasattr(media, "sizes") and media.sizes:
                     unique_id = getattr(media.sizes[-1], "file_unique_id", None)
-
+ 
                 print(f"DEBUG: [{bot_username}] Found {media_type} (Msg ID: {msg.id}, Unique ID: {unique_id})")
-
+ 
                 if unique_id and unique_id not in files_by_unique_id:
                     files_by_unique_id[unique_id] = msg
-
+ 
             current_count = len(files_by_unique_id)
+            
+            if status_msg:
+                try:
+                    await status_msg.edit(f"{base_text}\n🔍 <b>Scanning bot for files:</b> Found <code>{current_count}</code> files...", parse_mode=enums.ParseMode.HTML)
+                except Exception:
+                    pass
+
             if current_count > 0:
                 if current_count > last_count:
                     # Found more files, reset no_change_count and keep waiting
@@ -865,18 +879,54 @@ class ProgressTracker:
             self.last_percent = percent
             print(f"DEBUG: {self.action}: {percent}% ({current}/{total} bytes)")
 
-async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None, force_document=False):
+class TelegramProgressTracker:
+    def __init__(self, status_msg, base_text, action):
+        self.status_msg = status_msg
+        self.base_text = base_text
+        self.action = action
+        self.last_percent = -1
+        self.last_update_time = 0
+
+    def __call__(self, current, total):
+        if not total:
+            return
+        percent = int((current / total) * 100)
+        import time
+        now = time.time()
+        # Update progress and throttle edits to avoid Telegram rate limits (at most every 2.5 seconds)
+        if percent != self.last_percent and (now - self.last_update_time > 2.5 or percent == 100):
+            self.last_percent = percent
+            self.last_update_time = now
+            bar = "▰" * (percent // 10) + "▱" * (10 - (percent // 10))
+            text = f"{self.base_text}\n<b>{self.action}:</b> {percent}% [{bar}]"
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    loop.create_task(self.status_msg.edit(text, parse_mode=enums.ParseMode.HTML))
+            except Exception:
+                pass
+
+async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None, force_document=False, status_msg=None, base_text=""):
     """Tries to copy a message; if restricted, downloads and uploads it."""
     if force_document and msg.photo:
         try:
-            dl_tracker = ProgressTracker("Downloading (Force Doc)")
+            if status_msg:
+                dl_tracker = TelegramProgressTracker(status_msg, base_text, "📥 Downloading photo")
+            else:
+                dl_tracker = ProgressTracker("Downloading (Force Doc)")
+                
             file_path = await client.download_media(msg, progress=dl_tracker)
             if not file_path:
                 print("DEBUG: Download failed (returned None).")
                 return None
             final_caption = caption if caption is not None else (msg.caption or "")
             final_markup = reply_markup if reply_markup is not None else msg.reply_markup
-            ul_tracker = ProgressTracker("Uploading (Force Doc)")
+            
+            if status_msg:
+                ul_tracker = TelegramProgressTracker(status_msg, base_text, "📤 Uploading photo (as document)")
+            else:
+                ul_tracker = ProgressTracker("Uploading (Force Doc)")
+                
             res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -893,7 +943,11 @@ async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None, for
         print(f"DEBUG: Copy failed ({e}). Falling back to download/upload...")
         try:
             # Download the media with progress tracking
-            dl_tracker = ProgressTracker("Downloading")
+            if status_msg:
+                dl_tracker = TelegramProgressTracker(status_msg, base_text, "📥 Downloading file")
+            else:
+                dl_tracker = ProgressTracker("Downloading")
+                
             file_path = await client.download_media(msg, progress=dl_tracker)
             if not file_path:
                 print("DEBUG: Download failed (returned None).")
@@ -904,7 +958,11 @@ async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None, for
             final_markup = reply_markup if reply_markup is not None else msg.reply_markup
             
             print(f"DEBUG: Starting upload to {chat_id}...")
-            ul_tracker = ProgressTracker("Uploading")
+            if status_msg:
+                ul_tracker = TelegramProgressTracker(status_msg, base_text, "📤 Uploading file")
+            else:
+                ul_tracker = ProgressTracker("Uploading")
+                
             if force_document or msg.document:
                 res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.video:
@@ -1003,14 +1061,19 @@ async def robust_copy_media_group(client, chat_id, messages, caption=None, reply
                 
     return None
 
-async def get_link_with_command(fs_bot_username, media_msg):
+async def get_link_with_command(fs_bot_username, media_msg, status_msg=None, base_text=""):
     try:
         await user_bot.read_chat_history(fs_bot_username)
         last_id = 0
         async for m in user_bot.get_chat_history(fs_bot_username, limit=1):
             last_id = m.id
 
-        sent = await robust_copy(user_bot, fs_bot_username, media_msg, force_document=True)
+        if status_msg:
+            try:
+                await status_msg.edit(f"{base_text}\n📥 Sending to File-Store bot...", parse_mode=enums.ParseMode.HTML)
+            except Exception:
+                pass
+        sent = await robust_copy(user_bot, fs_bot_username, media_msg, force_document=True, status_msg=status_msg, base_text=base_text)
         if not sent: return None
         
         await asyncio.sleep(3)
@@ -1029,7 +1092,7 @@ async def get_link_with_command(fs_bot_username, media_msg):
         print(f"Error in get_link: {e}")
     return None
 
-async def get_batch_link(fs_bot_username, files):
+async def get_batch_link(fs_bot_username, files, status_msg=None, base_text=""):
     try:
         await user_bot.read_chat_history(fs_bot_username)
         last_id = 0
@@ -1037,8 +1100,14 @@ async def get_batch_link(fs_bot_username, files):
             last_id = m.id
 
         log_files = []
-        for f in files:
-            lf = await robust_copy(user_bot, LOG_CHANNEL, f, force_document=True)
+        for idx, f in enumerate(files, 1):
+            file_base = f"{base_text}\n📦 <b>File {idx}/{len(files)}</b>"
+            if status_msg:
+                try:
+                    await status_msg.edit(f"{file_base}\n⏳ Processing...", parse_mode=enums.ParseMode.HTML)
+                except Exception:
+                    pass
+            lf = await robust_copy(user_bot, LOG_CHANNEL, f, force_document=True, status_msg=status_msg, base_text=file_base)
             if lf: log_files.append(lf)
             await asyncio.sleep(3)
         
