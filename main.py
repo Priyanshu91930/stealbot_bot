@@ -794,8 +794,8 @@ async def collect_files_from_bot(bot_username, start_param):
         for i in range(20): 
             await asyncio.sleep(3)
             
-            # Scan the last 100 messages in case the bot sent a large batch
-            async for msg in user_bot.get_chat_history(bot_username, limit=100):
+            # Scan the last 1000 messages in case the bot sent a large batch
+            async for msg in user_bot.get_chat_history(bot_username, limit=1000):
                 if msg.id <= last_id:
                     break
                 
@@ -812,7 +812,19 @@ async def collect_files_from_bot(bot_username, start_param):
                     continue
 
                 media = msg.document or msg.video or msg.audio or msg.photo or msg.animation
+                media_type = "unknown"
+                if msg.document: media_type = "document"
+                elif msg.video: media_type = "video"
+                elif msg.audio: media_type = "audio"
+                elif msg.photo: media_type = "photo"
+                elif msg.animation: media_type = "animation"
+
                 unique_id = getattr(media, "file_unique_id", None)
+                if not unique_id and hasattr(media, "sizes") and media.sizes:
+                    unique_id = getattr(media.sizes[-1], "file_unique_id", None)
+
+                print(f"DEBUG: [{bot_username}] Found {media_type} (Msg ID: {msg.id}, Unique ID: {unique_id})")
+
                 if unique_id and unique_id not in files_by_unique_id:
                     files_by_unique_id[unique_id] = msg
 
@@ -853,9 +865,29 @@ class ProgressTracker:
             self.last_percent = percent
             print(f"DEBUG: {self.action}: {percent}% ({current}/{total} bytes)")
 
-async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
+async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None, force_document=False):
     """Tries to copy a message; if restricted, downloads and uploads it."""
+    if force_document and msg.photo:
+        try:
+            dl_tracker = ProgressTracker("Downloading (Force Doc)")
+            file_path = await client.download_media(msg, progress=dl_tracker)
+            if not file_path:
+                print("DEBUG: Download failed (returned None).")
+                return None
+            final_caption = caption if caption is not None else (msg.caption or "")
+            final_markup = reply_markup if reply_markup is not None else msg.reply_markup
+            ul_tracker = ProgressTracker("Uploading (Force Doc)")
+            res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            return res
+        except Exception as err:
+            print(f"DEBUG: Force document conversion failed: {err}")
+            return None
+
     try:
+        if force_document:
+            raise Exception("Force document fallback triggered")
         return await msg.copy(chat_id, caption=caption, reply_markup=reply_markup)
     except Exception as e:
         print(f"DEBUG: Copy failed ({e}). Falling back to download/upload...")
@@ -873,7 +905,7 @@ async def robust_copy(client, chat_id, msg, caption=None, reply_markup=None):
             
             print(f"DEBUG: Starting upload to {chat_id}...")
             ul_tracker = ProgressTracker("Uploading")
-            if msg.document:
+            if force_document or msg.document:
                 res = await client.send_document(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
             elif msg.video:
                 res = await client.send_video(chat_id, file_path, caption=final_caption, reply_markup=final_markup, progress=ul_tracker, parse_mode=enums.ParseMode.HTML)
@@ -978,7 +1010,7 @@ async def get_link_with_command(fs_bot_username, media_msg):
         async for m in user_bot.get_chat_history(fs_bot_username, limit=1):
             last_id = m.id
 
-        sent = await robust_copy(user_bot, fs_bot_username, media_msg)
+        sent = await robust_copy(user_bot, fs_bot_username, media_msg, force_document=True)
         if not sent: return None
         
         await asyncio.sleep(3)
@@ -1006,7 +1038,7 @@ async def get_batch_link(fs_bot_username, files):
 
         log_files = []
         for f in files:
-            lf = await robust_copy(user_bot, LOG_CHANNEL, f)
+            lf = await robust_copy(user_bot, LOG_CHANNEL, f, force_document=True)
             if lf: log_files.append(lf)
             await asyncio.sleep(3)
         
