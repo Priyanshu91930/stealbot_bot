@@ -669,7 +669,7 @@ def format_caption_with_new_template(html_text, replacements):
     new_footer = (
         f"╭─────────────────⭓\n"
         f"💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ : 𝗩ɪʀᴀ𝗟𝗩ᴇʀsᴇ\n"
-        f"https://t.me/viralvideosmodel \n"
+        f'<a href="https://t.me/+ezD-DHPDteVmMDg1">Viral verse</a>\n'
         f"╰─────────────────⭓\n\n"
         f"❤️ 𝗚ɪᴠᴇ sᴏᴍᴇ ʟᴏᴠᴇ ᴛᴏ ᴜs, ʜɪᴛ ᴛʜᴇ ʀᴇᴀᴄᴛɪᴏɴ!\n"
         f"🔥 💫 ⚡️ 🚀"
