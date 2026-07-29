@@ -721,7 +721,6 @@ def format_caption_with_new_template(html_text, replacements):
     if not replacements:
         return html_text
 
-    # First, truncate/clean the original footer from the end of the message if any exists
     lower_text = html_text.lower()
     footer_markers = [
         "╭─────────────────⭓",
@@ -729,21 +728,40 @@ def format_caption_with_new_template(html_text, replacements):
         "💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ",
         "must join :",
         "give some love to us",
-        "hit the reaction"
+        "hit the reaction",
+        "don't forget to react",
+        "react and comment"
     ]
-
     truncate_at = len(html_text)
     for fm in footer_markers:
         idx = lower_text.find(fm.lower())
         if idx != -1:
             truncate_at = min(truncate_at, idx)
-
     html_text = html_text[:truncate_at].rstrip()
 
-    # Regex pattern to match optional marker, optional pointer, and the t.me link with start parameter.
-    # Allows newlines, spaces, or <br> tags within the link structure.
+    link_markers = [
+        "🌚 here is your link",
+        "✨ here is your link",
+        "here is your link",
+        "don't forget to react",
+        "react and comment"
+    ]
+    lines = html_text.split("\n")
+    cleaned = []
+    for line in lines:
+        lc = line.strip().lower()
+        skip = False
+        for marker in link_markers:
+            if marker in lc:
+                skip = True
+                break
+        if lc.startswith("👉") and not cleaned:
+            skip = True
+        if not skip:
+            cleaned.append(line)
+    html_text = "\n".join(cleaned).strip()
+
     link_pattern = re.compile(
-        r"(?:(?:✨\s*here\s+is\s+your\s+link\s*✨|here\s+is\s+your\s+link|✨\s*here\s+is\s+your\s+link\s*✨\s*|here\s+is\s+your\s+link\s*)\s*[\r\n]*\s*(?:👉\s*)?)?"
         r"(<a\s+href\s*=\s*[\"']?(?:https?://)?t\s*\.\s*m\s*e\s*/[\w\s-]+\?\s*(?:<br\s*/?>\s*|\s*)start\s*=\s*[\w\s=-]+[\"']?>.*?</a>|(?:https?://)?t\s*\.\s*m\s*e\s*/[\w\s-]+\?\s*(?:<br\s*/?>\s*|\s*)start\s*=\s*[\w\s=-]+)",
         re.IGNORECASE
     )
@@ -751,34 +769,18 @@ def format_caption_with_new_template(html_text, replacements):
     last_idx = 0
     parts = []
     rep_idx = 0
-
     for match in link_pattern.finditer(html_text):
-        matched_str = match.group(0)
-        
-        # Add the text before the match
         parts.append(html_text[last_idx:match.start()])
-
-        # If we have a replacement for this link
         if rep_idx < len(replacements):
-            raw_match, new_bot_link = replacements[rep_idx]
+            _, new_bot_link = replacements[rep_idx]
             rep_idx += 1
-
-            # Format the replaced link with the standard marker
-            replaced_segment = (
-                f"✨ here is your link  ✨ \n\n"
-                f"👉 {new_bot_link}"
-            )
-            parts.append(replaced_segment)
+            parts.append(new_bot_link)
         else:
-            # If no replacement, keep original
-            parts.append(matched_str)
-
+            parts.append(match.group(0))
         last_idx = match.end()
-
     parts.append(html_text[last_idx:])
     html_text = "".join(parts)
 
-    # Fallback string replacement for any remaining raw matches in replacements
     for raw_match, new_bot_link in replacements:
         if not raw_match:
             continue
@@ -802,17 +804,7 @@ def format_caption_with_new_template(html_text, replacements):
             except Exception as e:
                 print(f"DEBUG: Fallback regex replacement failed: {e}")
 
-    # Now append the new footer exactly once at the end
-    new_footer = (
-        f"╭─────────────────⭓\n"
-        f"💎 𝗠ᴜsᴛ 𝗝ᴏɪɴ : 𝗩ɪʀᴀ𝗟𝗩ᴇʀsᴇ\n"
-        f'<a href="https://t.me/+ezD-DHPDteVmMDg1">Viral verse</a>\n'
-        f"╰─────────────────⭓\n\n"
-        f"❤️ 𝗚ɪᴠᴇ sᴏᴍᴇ ʟᴏᴠᴇ ᴛᴏ ᴜs, ʜɪᴛ ᴛʜᴇ ʀᴇᴀᴄᴛɪᴏɴ!\n"
-        f"🔥 💫 ⚡️ 🚀"
-    )
-
-    return f"{html_text.rstrip()}\n\n{new_footer}"
+    return html_text.rstrip()
 
 async def process_single_post(status_msg, ch_id, msg, fs_bot, index, total):
     is_media_group = isinstance(msg, list)
