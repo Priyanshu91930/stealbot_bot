@@ -57,12 +57,38 @@ user_bot = None
 if STRING_SESSION:
     user_bot = Client("BananaUser", api_id=API_ID, api_hash=API_HASH, session_string=STRING_SESSION, in_memory=True)
 
-BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/(\w+)\?start=([\w-]+)")
-MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)")
+async def ensure_message_details(chat_id, m, username=None):
+    if not m or getattr(m, 'empty', True):
+        return m
+    if m.text or m.caption:
+        return m
+    try:
+        target = username or chat_id
+        bot_msg = await bot.get_messages(target, m.id)
+        if bot_msg and not bot_msg.empty:
+            m.text = bot_msg.text
+            m.caption = bot_msg.caption
+            m.entities = bot_msg.entities
+            m.caption_entities = bot_msg.caption_entities
+            m.reply_markup = bot_msg.reply_markup
+            if not m.media and bot_msg.media:
+                m.media = bot_msg.media
+                m.photo = bot_msg.photo
+                m.video = bot_msg.video
+                m.document = bot_msg.document
+                m.audio = bot_msg.audio
+                m.animation = bot_msg.animation
+            print(f"DEBUG: Restored empty message ID={m.id} using bot client fallback")
+    except Exception as e:
+        print(f"DEBUG: Bot fallback failed for message ID={m.id}: {e}")
+    return m
+
+BOT_LINK_RE = re.compile(r"(?:https?://)?t\.me/([\w-]+)\?start=([\w=-]+)", re.IGNORECASE)
+MSG_LINK_RE = re.compile(r"https?://t\.me/(?:c/)?([\w-]+)/(\d+)", re.IGNORECASE)
 
 # Relaxed pattern to match t.me links that may contain newlines/whitespace inside the username or start parameter.
 BOT_LINK_RE_RELAXED = re.compile(
-    r"(?:https?://\s*)?t\s*\.\s*m\s*e\s*/\s*([\w\s]+)\s*\?\s*s\s*t\s*a\s*r\s*t\s*=\s*([\w\s-]+)",
+    r"(?:https?://\s*)?t\s*\.\s*m\s*e\s*/\s*([\w\s]+)\s*\?\s*s\s*t\s*a\s*r\s*t\s*=\s*([\w\s=-]+)",
     re.IGNORECASE
 )
 
@@ -146,7 +172,7 @@ def extract_bot_links(text):
         raw_start_span_end = scan_idx
         while scan_idx < len(text):
             char = text[scan_idx]
-            if char.isalnum() or char in ['_', '-']:
+            if char.isalnum() or char in ['_', '-', '=']:
                 start_chars.append(char)
                 scan_idx += 1
                 raw_start_span_end = scan_idx
@@ -160,7 +186,7 @@ def extract_bot_links(text):
                         newlines_count += 1
                     if newlines_count >= 2:
                         break
-                    if peek_char.isalnum() or peek_char in ['_', '-']:
+                    if peek_char.isalnum() or peek_char in ['_', '-', '=']:
                         has_more_param_chars = True
                         break
                     if not peek_char.isspace():
@@ -196,25 +222,25 @@ def _extract_links_from_msg_obj(text_msg):
     for entity in entities:
         type_str = str(entity.type).lower()
         if "text_link" in type_str and entity.url:
-            clean_url = "".join(entity.url.split())
+            clean_url = "".join(entity.url.split()).strip("\"'<> \t\n\r")
             m = BOT_LINK_RE.search(clean_url)
             if m:
-                links.append((entity.url, m.group(1), m.group(2)))
+                links.append((m.group(0), m.group(1), m.group(2)))
         elif "url" in type_str:
             raw_url = text[entity.offset : entity.offset + entity.length]
-            clean_url = "".join(raw_url.split())
+            clean_url = "".join(raw_url.split()).strip("\"'<> \t\n\r")
             m = BOT_LINK_RE.search(clean_url)
             if m:
-                links.append((raw_url, m.group(1), m.group(2)))
+                links.append((m.group(0), m.group(1), m.group(2)))
                 
     if text_msg.reply_markup and text_msg.reply_markup.inline_keyboard:
         for row in text_msg.reply_markup.inline_keyboard:
             for btn in row:
                 if btn.url:
-                    clean_url = "".join(btn.url.split())
+                    clean_url = "".join(btn.url.split()).strip("\"'<> \t\n\r")
                     m = BOT_LINK_RE.search(clean_url)
                     if m:
-                        links.append((btn.url, m.group(1), m.group(2)))
+                        links.append((m.group(0), m.group(1), m.group(2)))
     return links
 
 def get_all_bot_links(text_msg):
@@ -247,7 +273,7 @@ def get_all_bot_links(text_msg):
     unique_links = []
     seen = set()
     for raw_match, bot_username, start_param in links:
-        key = (raw_match, bot_username.lower(), start_param)
+        key = (bot_username.lower(), start_param)
         if key not in seen:
             seen.add(key)
             unique_links.append((raw_match, bot_username, start_param))
@@ -384,6 +410,9 @@ async def handle_forward(client, message):
             except Exception as je:
                 print(f"DEBUG JOIN: Could not join chat {chat_id}: {je}")
                 
+            chat_obj = await user_bot.get_chat(chat_id)
+            chat_username = getattr(chat_obj, 'username', None)
+            
             all_messages = []
             processed_media_groups = set()
             total_ids = list(range(start_id, end_id + 1))
@@ -405,6 +434,12 @@ async def handle_forward(client, message):
                             msgs.append(None)
                 if not isinstance(msgs, list):
                     msgs = [msgs]
+                
+                # Fetch raw details/captions from bot client if they are empty on user client
+                for idx, m in enumerate(msgs):
+                    if m:
+                        msgs[idx] = await ensure_message_details(chat_id, m, chat_username)
+
                 import json
                 try:
                     debug_data = []
@@ -445,6 +480,11 @@ async def handle_forward(client, message):
                                 try:
                                     group_msgs = await user_bot.get_media_group(chat_id, m.id)
                                     print(f"DEBUG MEDIA GROUP: fetched {len(group_msgs)} messages for ID {m.id}")
+                                    
+                                    # Fall back to bot client for media group members if empty
+                                    for idx, gm in enumerate(group_msgs):
+                                        group_msgs[idx] = await ensure_message_details(chat_id, gm, chat_username)
+                                        
                                     for gm in group_msgs:
                                         try:
                                             gm_text = gm.text or gm.caption or ""
@@ -472,9 +512,15 @@ async def handle_forward(client, message):
                                 
                                 if has_links:
                                     all_messages.append(group_msgs)
+                                else:
+                                    print(f"DEBUG FETCH: Media group at ID={m.id} has no caption/link — skipping.")
                             else:
                                 if get_all_bot_links(m):
                                     all_messages.append(m)
+                                else:
+                                    has_media = any([m.photo, m.video, m.document, m.audio, m.animation])
+                                    if has_media:
+                                        print(f"DEBUG FETCH: Msg ID={m.id} is a photo/media with no caption/link — skipping.")
                         except Exception as msg_err:
                             print(f"DEBUG FETCH: Skipping message ID={getattr(m, 'id', 'unknown')} due to error: {msg_err}")
             
@@ -553,18 +599,54 @@ async def check_link_handler(client, message):
     if not user_bot: return await message.reply_text("STRING_SESSION missing!")
     settings = user_settings.get(message.from_user.id)
     if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
-    link = message.command[1]
-    match = MSG_LINK_RE.match(link)
-    if not match: return await message.reply_text("❌ Invalid link.")
-    ch_id, msg_id = match.group(1), int(match.group(2))
-    if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
-    status_msg = await message.reply_text("⏳ Processing...")
-    try:
-        msg = await user_bot.get_messages(ch_id, msg_id)
-        # Use LOCK
-        async with interaction_lock:
-            await process_single_post(status_msg, ch_id, msg, settings["file_store_bot"], 1, 1)
-    except Exception as e: await status_msg.edit(f"❌ Error: {e}")
+    if len(message.command) < 2:
+        return await message.reply_text("Usage: `/check <link>`")
+        
+    raw_input = message.command[1].strip("\"'<> \t\n\r")
+    
+    match_msg = MSG_LINK_RE.search(raw_input)
+    if match_msg:
+        ch_id, msg_id = match_msg.group(1), int(match_msg.group(2))
+        if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
+        status_msg = await message.reply_text("⏳ Processing message link...")
+        try:
+            msg = await user_bot.get_messages(ch_id, msg_id)
+            chat_username = None
+            try:
+                chat_obj = await user_bot.get_chat(ch_id)
+                chat_username = getattr(chat_obj, 'username', None)
+            except Exception:
+                pass
+            msg = await ensure_message_details(ch_id, msg, chat_username)
+            
+            async with interaction_lock:
+                await process_single_post(status_msg, ch_id, msg, settings["file_store_bot"], 1, 1)
+        except Exception as e:
+            await status_msg.edit(f"❌ Error: {e}")
+        return
+
+    match_bot = BOT_LINK_RE.search(raw_input)
+    if match_bot:
+        bot_username, start_param = match_bot.group(1), match_bot.group(2)
+        status_msg = await message.reply_text(f"⏳ Processing bot link @{bot_username}...")
+        try:
+            fs_bot = settings["file_store_bot"]
+            files = await collect_files_from_bot(bot_username, start_param, status_msg=status_msg, base_text=f"🔗 @{bot_username}")
+            if not files:
+                return await status_msg.edit("❌ No files retrieved from bot.")
+            if len(files) == 1:
+                new_link = await get_link_with_command(fs_bot, files[0], status_msg=status_msg, base_text="Storing 1 file...")
+            else:
+                new_link = await get_batch_link(fs_bot, files, status_msg=status_msg, base_text=f"Storing {len(files)} files...")
+            if new_link:
+                await status_msg.edit(f"✅ **New Link Generated:**\n\n{new_link}")
+            else:
+                await status_msg.edit("❌ Failed to generate store link.")
+        except Exception as e:
+            await status_msg.edit(f"❌ Error: {e}")
+        return
+
+    return await message.reply_text("❌ Invalid link. Provide a valid Telegram message post link or bot start link.")
 
 @bot.on_message(filters.command("search") & filters.user(ADMINS))
 async def search_handler(client, message):
@@ -577,11 +659,17 @@ async def search_handler(client, message):
     
     target_channels = await get_channels()
     status_msg = await message.reply_text(f"🔍 Searching for <code>{query}</code>...")
-    
     all_messages = []
     for ch_id in target_channels:
+        chat_username = None
+        try:
+            chat_obj = await user_bot.get_chat(ch_id)
+            chat_username = getattr(chat_obj, 'username', None)
+        except Exception:
+            pass
         async for msg in user_bot.search_messages(ch_id, query=query):
-            all_messages.append((ch_id, msg))
+            refined_msg = await ensure_message_details(ch_id, msg, chat_username)
+            all_messages.append((ch_id, refined_msg))
     
     total = len(all_messages)
     if total == 0: return await status_msg.edit("❌ No posts found.")
@@ -629,9 +717,10 @@ def format_caption_with_new_template(html_text, replacements):
     html_text = html_text[:truncate_at].rstrip()
 
     # Regex pattern to match optional marker, optional pointer, and the t.me link with start parameter.
+    # Allows newlines, spaces, or <br> tags within the link structure.
     link_pattern = re.compile(
         r"(?:(?:✨\s*here\s+is\s+your\s+link\s*✨|here\s+is\s+your\s+link|✨\s*here\s+is\s+your\s+link\s*✨\s*|here\s+is\s+your\s+link\s*)\s*[\r\n]*\s*(?:👉\s*)?)?"
-        r"(<a\s+href\s*=\s*[\"']?(?:https?://)?t\.me/\S+\?start=\S+[\"']?>.*?</a>|(?:https?://)?t\.me/\S+\?start=\S+)",
+        r"(<a\s+href\s*=\s*[\"']?(?:https?://)?t\s*\.\s*m\s*e\s*/[\w\s-]+\?\s*(?:<br\s*/?>\s*|\s*)start\s*=\s*[\w\s=-]+[\"']?>.*?</a>|(?:https?://)?t\s*\.\s*m\s*e\s*/[\w\s-]+\?\s*(?:<br\s*/?>\s*|\s*)start\s*=\s*[\w\s=-]+)",
         re.IGNORECASE
     )
 
@@ -664,6 +753,30 @@ def format_caption_with_new_template(html_text, replacements):
 
     parts.append(html_text[last_idx:])
     html_text = "".join(parts)
+
+    # Fallback string replacement for any remaining raw matches in replacements
+    for raw_match, new_bot_link in replacements:
+        if not raw_match:
+            continue
+        if raw_match in html_text:
+            html_text = html_text.replace(raw_match, new_bot_link)
+        else:
+            try:
+                parts = re.split(r'(\s+|<br\s*/?>)', raw_match)
+                pattern_parts = []
+                for p in parts:
+                    if not p:
+                        continue
+                    if re.match(r'^(\s+|<br\s*/?>)$', p, re.IGNORECASE):
+                        pattern_parts.append(r'(?:\s|<br\s*/?>)+')
+                    else:
+                        pattern_parts.append(re.escape(p))
+                pattern_str = "".join(pattern_parts)
+                pattern_str = pattern_str.replace(r'\?', r'\?\s*(?:<br\s*/?>\s*)?')
+                pattern_str = pattern_str.replace(r'start\=', r'start\s*\=\s*')
+                html_text = re.sub(pattern_str, new_bot_link, html_text, flags=re.IGNORECASE)
+            except Exception as e:
+                print(f"DEBUG: Fallback regex replacement failed: {e}")
 
     # Now append the new footer exactly once at the end
     new_footer = (
