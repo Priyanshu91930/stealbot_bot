@@ -5,9 +5,9 @@ load_dotenv()
 
 API_ID = int(environ.get("API_ID", "27686895"))
 API_HASH = environ.get("API_HASH", "0e996bd3891969ec5dfebf8bb3e39e94")
-BOT_TOKEN = environ.get("BOT_TOKEN", "8811056986:AAEhjHZjujjwhZNII97Y5-5yrvFS19pz6KQ")
-STRING_SESSION = environ.get("STRING_SESSION", "BQGmd-8ASsYhTQ9_9JwftQk0jn_xb63j-_uoY97MFXuQwTUD-KjR9LYtek3Jp4m7CFnvEF2TqEPVxqv1K78OVFa2wCuG4uiPDwMSmyjRxm38dpTg9M7rSAtTzueWwg1uiQIboFwknGrH2-5rO6au85JYHJVZNKSwDeOCKx2lDRsMQptXqJucEjs6-MkX_DuYP9FsVvCJcQe1t5aoJXHFPK2qwXHITH5k5ePejysKTvL21NXc1S6hyVVJzMuTluehUmXct09yF1_1eYO0gfnhYOxkQwxQYTaF6gQpqjSEEe0XUiasIk5cdFOjUrHmtKaEMxksRNSTexbbXhVVF4uzJVohGcTLegAAAABKU4XBAA") # User session for bot interaction
-ADMINS = [1246987713]
+BOT_TOKEN = environ.get("BOT_TOKEN", "8970579876:AAHDeoKyUTSHDV1zzgr_Ng9nw_HyBlAow9Y")
+STRING_SESSION = environ.get("STRING_SESSION", "BQGmd-8Af2OyBWHzXHila4kqRwJO8v2_2WzrS9-oCBa9FXBm1ZWlAy_0iaInpbZdftpIvzHqNyjrz3OvSC71TzWeYwPQDyWoM9KCE_PHEpff1AibN7B1Y4fAKUBLlYSDz8rCzDp3eiQM1qGmRpoQi2dt2loPpL5JKdIbEhUuCH6YSBI_NmkjUQxuokGcgV5djpljr89y02yFGdvYBMETkGUEluIapbVOdXjOyKCW7VE8FQ40NYrGdbwnwXUhWctDWgSL_1oje4NWAcwBpiQqV4LR23mlUjxWzNxRlK7l9RPKpVOxRyep0Er9quYhAQBPL2RPuC38eYz3XRscpgXfzuF2jXK4RQAAAAH6SxnVAA") # User session for bot interaction
+ADMINS = [8494193109]
 DB_URI = environ.get("DB_URI", "mongodb+srv://anihubyt:Zxcvbnmm9193@cluster0.qv5tu12.mongodb.net/?appName=Cluster0")
 DB_NAME = environ.get("DB_NAME", "banana_bot")
-LOG_CHANNEL = int(environ.get("LOG_CHANNEL", "-1003591540042"))
+LOG_CHANNEL = int(environ.get("LOG_CHANNEL", "-1004423517320"))
