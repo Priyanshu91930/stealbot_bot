@@ -324,6 +324,30 @@ async def add_channel_cmd(client, message):
 
 @bot.on_message(filters.command("fetch") & filters.user(ADMINS))
 async def fetch_range_cmd(client, message):
+    if len(message.command) >= 2:
+        raw_input = message.command[1].strip("\"'<> \t\n\r")
+        match_msg = MSG_LINK_RE.search(raw_input)
+        if match_msg:
+            if not user_bot: return await message.reply_text("STRING_SESSION missing!")
+            settings = user_settings.get(message.from_user.id)
+            if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
+            ch_id, msg_id = match_msg.group(1), int(match_msg.group(2))
+            if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
+            status_msg = await message.reply_text("⏳ Fetching post...")
+            try:
+                msg = await user_bot.get_messages(ch_id, msg_id)
+                chat_username = None
+                try:
+                    chat_obj = await user_bot.get_chat(ch_id)
+                    chat_username = getattr(chat_obj, 'username', None)
+                except Exception:
+                    pass
+                msg = await ensure_message_details(ch_id, msg, chat_username)
+                async with interaction_lock:
+                    await process_single_post(status_msg, ch_id, msg, settings["file_store_bot"], 1, 1)
+            except Exception as e:
+                await status_msg.edit(f"❌ Error: {e}")
+            return
     user_states[message.from_user.id] = {"state": "AWAITING_FIRST_MSG"}
     await message.reply_text("Forward the **first message** of the range from the target channel/chat.")
 
