@@ -324,45 +324,140 @@ async def add_channel_cmd(client, message):
 
 @bot.on_message(filters.command("fetch") & filters.user(ADMINS))
 async def fetch_range_cmd(client, message):
-    if len(message.command) >= 2:
-        raw_input = message.command[1].strip("\"'<> \t\n\r")
-        match_msg = MSG_LINK_RE.search(raw_input)
-        if match_msg:
+    if len(message.command) >= 3:
+        raw_first = message.command[1].strip("\"'<> \t\n\r")
+        raw_last = message.command[2].strip("\"'<> \t\n\r")
+        match_first = MSG_LINK_RE.search(raw_first)
+        match_last = MSG_LINK_RE.search(raw_last)
+        if match_first and match_last:
             if not user_bot: return await message.reply_text("STRING_SESSION missing!")
             settings = user_settings.get(message.from_user.id)
             if not settings: return await message.reply_text("❌ Pehle `/set_bot` karein.")
-            ch_id, msg_id = match_msg.group(1), int(match_msg.group(2))
-            if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
-            status_msg = await message.reply_text("⏳ Fetching post...")
-            try:
-                msg = await user_bot.get_messages(ch_id, msg_id)
-                chat_username = None
-                try:
-                    chat_obj = await user_bot.get_chat(ch_id)
-                    chat_username = getattr(chat_obj, 'username', None)
-                except Exception:
-                    pass
-                msg = await ensure_message_details(ch_id, msg, chat_username)
-                async with interaction_lock:
-                    await process_single_post(status_msg, ch_id, msg, settings["file_store_bot"], 1, 1)
-            except Exception as e:
-                await status_msg.edit(f"❌ Error: {e}")
+            ch_id1, msg_id1 = match_first.group(1), int(match_first.group(2))
+            ch_id2, msg_id2 = match_last.group(1), int(match_last.group(2))
+            if ch_id1.isdigit(): ch_id1 = int(f"-100{ch_id1}")
+            if ch_id2.isdigit(): ch_id2 = int(f"-100{ch_id2}")
+            if ch_id1 != ch_id2:
+                return await message.reply_text("❌ Both links must be from the same chat.")
+            start_id = min(msg_id1, msg_id2)
+            end_id = max(msg_id1, msg_id2)
+            status_msg = await message.reply_text(f"⏳ Fetching range {start_id}-{end_id}...")
+            await process_range(user_id=message.from_user.id, chat_id=ch_id1, start_id=start_id, end_id=end_id, status_msg=status_msg, message=message)
             return
-    user_states[message.from_user.id] = {"state": "AWAITING_FIRST_MSG"}
-    await message.reply_text("Forward the **first message** of the range from the target channel/chat.")
+    user_states[message.from_user.id] = {"state": "AWAITING_FIRST_MSG", "time": __import__("time").time()}
+    await message.reply_text("Send the **first message link** or forward the first message of the range.")
 
-@bot.on_message(filters.forwarded & filters.private & filters.user(ADMINS))
+def parse_msg_link(text):
+    m = MSG_LINK_RE.search(text.strip("\"'<> \t\n\r"))
+    if m:
+        ch_id = m.group(1)
+        msg_id = int(m.group(2))
+        if ch_id.isdigit(): ch_id = int(f"-100{ch_id}")
+        return ch_id, msg_id
+    return None, None
+
+async def process_range(user_id, chat_id, start_id, end_id, status_msg, message):
+    if not user_bot:
+        return await status_msg.edit("❌ STRING_SESSION missing!")
+    settings = user_settings.get(user_id)
+    if not settings:
+        return await status_msg.edit("❌ Pehle `/set_bot` karein.")
+    fs_bot = settings["file_store_bot"]
+    try:
+        try:
+            await user_bot.join_chat(chat_id)
+        except Exception as je:
+            print(f"DEBUG JOIN: Could not join chat {chat_id}: {je}")
+        chat_obj = await user_bot.get_chat(chat_id)
+        chat_username = getattr(chat_obj, 'username', None)
+        all_messages = []
+        processed_media_groups = set()
+        total_ids = list(range(start_id, end_id + 1))
+        chunk_size = 100
+        for i in range(0, len(total_ids), chunk_size):
+            chunk = total_ids[i:i + chunk_size]
+            try:
+                msgs = await user_bot.get_messages(chat_id, chunk)
+            except Exception:
+                msgs = []
+                for mid in chunk:
+                    try:
+                        m = await user_bot.get_messages(chat_id, mid)
+                        msgs.append(m)
+                    except Exception:
+                        msgs.append(None)
+            if not isinstance(msgs, list):
+                msgs = [msgs]
+            for idx, m in enumerate(msgs):
+                if m:
+                    msgs[idx] = await ensure_message_details(chat_id, m, chat_username)
+            for m in msgs:
+                if m:
+                    try:
+                        if not m.empty:
+                            if m.media_group_id:
+                                if m.media_group_id in processed_media_groups:
+                                    continue
+                                processed_media_groups.add(m.media_group_id)
+                                try:
+                                    group_msgs = await user_bot.get_media_group(chat_id, m.id)
+                                except Exception:
+                                    group_msgs = [m]
+                                for idx, gm in enumerate(group_msgs):
+                                    group_msgs[idx] = await ensure_message_details(chat_id, gm, chat_username)
+                                has_links = False
+                                for gm in group_msgs:
+                                    try:
+                                        if get_all_bot_links(gm):
+                                            has_links = True
+                                            break
+                                    except Exception:
+                                        pass
+                                if has_links:
+                                    all_messages.append(group_msgs)
+                            else:
+                                if get_all_bot_links(m):
+                                    all_messages.append(m)
+                    except Exception:
+                        pass
+        total = len(all_messages)
+        if total == 0:
+            return await status_msg.edit("❌ No posts with file links found in the specified range.")
+        await status_msg.edit(f"✅ Found {total} posts. Processing sequentially...")
+        success_count = 0
+        skip_count = 0
+        async with interaction_lock:
+            for i, msg in enumerate(all_messages, 1):
+                msg_id_display = msg[0].id if isinstance(msg, list) else msg.id
+                await status_msg.edit(
+                    f"⏳ <b>Processing:</b> [{i}/{total}]\n"
+                    f"<b>Msg ID:</b> <code>{msg_id_display}</code>\n"
+                    f"<b>✅ Success:</b> {success_count} | <b>❌ Skipped:</b> {skip_count}"
+                )
+                res = await process_single_post(status_msg, chat_id, msg, fs_bot, i, total)
+                if res: success_count += 1
+                else: skip_count += 1
+                await asyncio.sleep(1)
+        await status_msg.edit(f"🏁 <b>Done!</b>\nTotal: {total}\nSuccess: {success_count}\nSkipped: {skip_count}")
+    except Exception as e:
+        await status_msg.edit(f"❌ Error while fetching/processing: {e}")
+
+@bot.on_message(filters.text & filters.private & filters.user(ADMINS))
 async def handle_forward(client, message):
     user_id = message.from_user.id
     state_info = user_states.get(user_id)
     
     if state_info and state_info.get("state") == "AWAITING_FIRST_MSG":
         f_chat, f_msg_id = get_forward_info(message)
-        if not f_chat:
-            return await message.reply_text("❌ Could not detect the original chat. Make sure it's a channel or group message.")
-        
-        chat_id = f_chat.id
-        msg_id = f_msg_id
+        chat_id = None
+        msg_id = None
+        if f_chat:
+            chat_id = f_chat.id
+            msg_id = f_msg_id
+        else:
+            chat_id, msg_id = parse_msg_link(message.text or "")
+        if not chat_id:
+            return await message.reply_text("❌ Forward a message or send a post link from the target channel.")
         
         import time
         user_states[user_id] = {
@@ -375,7 +470,7 @@ async def handle_forward(client, message):
             f"✅ First message received.\n"
             f"• Chat: <code>{chat_id}</code>\n"
             f"• Msg ID: <code>{msg_id}</code>\n\n"
-            f"Now forward the **last message** of the range from the same chat."
+            f"Now send the **last message link** or forward the last message of the range."
         )
         return
 
@@ -397,181 +492,26 @@ async def handle_forward(client, message):
             return
             
         f_chat, f_msg_id = get_forward_info(message)
-        if not f_chat:
-            return await message.reply_text("❌ Could not detect the original chat.")
-        
-        chat_id = f_chat.id
-        msg_id = f_msg_id
+        chat_id = None
+        msg_id = None
+        if f_chat:
+            chat_id = f_chat.id
+            msg_id = f_msg_id
+        else:
+            chat_id, msg_id = parse_msg_link(message.text or "")
+        if not chat_id:
+            return await message.reply_text("❌ Forward a message or send a post link from the same chat.")
         
         if chat_id != state_info["chat_id"]:
             return await message.reply_text("❌ The last message must be from the same chat as the first message. Please try again or use /fetch to restart.")
         
         first_msg_id = state_info["first_msg_id"]
-        # Clear state
         user_states.pop(user_id, None)
         
         status_msg = await message.reply_text("⏳ Processing range...")
-        
-        # Ensure we have user_bot
-        if not user_bot:
-            return await status_msg.edit("❌ STRING_SESSION missing!")
-        
-        settings = user_settings.get(user_id)
-        if not settings:
-            return await status_msg.edit("❌ Pehle `/set_bot` karein.")
-        
-        fs_bot = settings["file_store_bot"]
-        
-        # Determine start/end range
         start_id = min(first_msg_id, msg_id)
         end_id = max(first_msg_id, msg_id)
-        
-        # Fetch files in range
-        try:
-            try:
-                await user_bot.join_chat(chat_id)
-                print(f"DEBUG JOIN: Successfully joined or already in chat {chat_id}")
-            except Exception as je:
-                print(f"DEBUG JOIN: Could not join chat {chat_id}: {je}")
-                
-            chat_obj = await user_bot.get_chat(chat_id)
-            chat_username = getattr(chat_obj, 'username', None)
-            
-            all_messages = []
-            processed_media_groups = set()
-            total_ids = list(range(start_id, end_id + 1))
-            chunk_size = 100
-            print(f"DEBUG FETCH: Range start_id={start_id}, end_id={end_id}, total_ids={len(total_ids)}")
-            for i in range(0, len(total_ids), chunk_size):
-                chunk = total_ids[i:i + chunk_size]
-                try:
-                    msgs = await user_bot.get_messages(chat_id, chunk)
-                except Exception as chunk_err:
-                    print(f"DEBUG FETCH: Chunk get_messages failed ({chunk_err}). Fetching individually...")
-                    msgs = []
-                    for mid in chunk:
-                        try:
-                            m = await user_bot.get_messages(chat_id, mid)
-                            msgs.append(m)
-                        except Exception as ind_err:
-                            print(f"DEBUG FETCH: Failed to fetch message {mid} individually: {ind_err}")
-                            msgs.append(None)
-                if not isinstance(msgs, list):
-                    msgs = [msgs]
-                
-                # Fetch raw details/captions from bot client if they are empty on user client
-                for idx, m in enumerate(msgs):
-                    if m:
-                        msgs[idx] = await ensure_message_details(chat_id, m, chat_username)
-
-                import json
-                try:
-                    debug_data = []
-                    for m in msgs:
-                        if m:
-                            try:
-                                debug_data.append(json.loads(str(m)))
-                            except Exception as je:
-                                debug_data.append({"id": getattr(m, "id", None), "error": str(je)})
-                    with open("debug_messages.json", "w", encoding="utf-8") as df:
-                        json.dump(debug_data, df, indent=4, ensure_ascii=False)
-                    print("DEBUG: Saved fetched chunk messages to debug_messages.json")
-                except Exception as ex:
-                    print(f"DEBUG: Failed to write debug_messages.json: {ex}")
-                print(f"DEBUG FETCH: Chunk starting {chunk[0]} returned {len(msgs)} messages.")
-                for m in msgs:
-                    if m:
-                        try:
-                            print(f"DEBUG FETCH: Msg ID={m.id}, empty={getattr(m, 'empty', None)}")
-                            if not m.empty:
-                                text_val = m.text or m.caption or ""
-                                rtm = getattr(m, 'reply_to_message', None)
-                                quote = getattr(m, 'quote', None)
-                                fwd_text = ""
-                                fwd_chat, _ = get_forward_info(m)
-                                if fwd_chat:
-                                    fwd_text = "(has forward_origin or forward_from_chat)"
-                                print(f"DEBUG FETCH FIELDS: "
-                                      f"text={repr(text_val[:80]) if text_val else 'EMPTY'} | "
-                                      f"reply_to_message={'YES text='+repr((rtm.text or rtm.caption or '')[:60]) if rtm else 'NONE'} | "
-                                      f"quote={'YES text='+repr(getattr(quote,'text','')[:60]) if quote else 'NONE'} | "
-                                      f"fwd={fwd_text} | "
-                                      f"links_found={get_all_bot_links(m)}")
-                            if m.media_group_id:
-                                if m.media_group_id in processed_media_groups:
-                                    continue
-                                processed_media_groups.add(m.media_group_id)
-                                try:
-                                    group_msgs = await user_bot.get_media_group(chat_id, m.id)
-                                    print(f"DEBUG MEDIA GROUP: fetched {len(group_msgs)} messages for ID {m.id}")
-                                    
-                                    # Fall back to bot client for media group members if empty
-                                    for idx, gm in enumerate(group_msgs):
-                                        group_msgs[idx] = await ensure_message_details(chat_id, gm, chat_username)
-                                        
-                                    for gm in group_msgs:
-                                        try:
-                                            gm_text = gm.text or gm.caption or ""
-                                            gm_rtm = getattr(gm, 'reply_to_message', None)
-                                            gm_quote = getattr(gm, 'quote', None)
-                                            print(f"DEBUG MEDIA GROUP MSG: ID={gm.id} | "
-                                                  f"text={repr(gm_text[:60]) if gm_text else 'EMPTY'} | "
-                                                  f"reply_to={'YES text='+repr((gm_rtm.text or gm_rtm.caption or '')[:50]) if gm_rtm else 'NONE'} | "
-                                                  f"quote={'YES text='+repr(getattr(gm_quote,'text','')[:50]) if gm_quote else 'NONE'} | "
-                                                  f"links={get_all_bot_links(gm)}")
-                                        except Exception as gm_err:
-                                            print(f"DEBUG: Failed to inspect media group msg: {gm_err}")
-                                except Exception as e:
-                                    print(f"DEBUG: Failed to get media group {m.media_group_id}: {e}")
-                                    group_msgs = [m]
-                                
-                                has_links = False
-                                for gm in group_msgs:
-                                    try:
-                                        if get_all_bot_links(gm):
-                                            has_links = True
-                                            break
-                                    except Exception:
-                                        pass
-                                
-                                if has_links:
-                                    all_messages.append(group_msgs)
-                                else:
-                                    print(f"DEBUG FETCH: Media group at ID={m.id} has no caption/link — skipping.")
-                            else:
-                                if get_all_bot_links(m):
-                                    all_messages.append(m)
-                                else:
-                                    has_media = any([m.photo, m.video, m.document, m.audio, m.animation])
-                                    if has_media:
-                                        print(f"DEBUG FETCH: Msg ID={m.id} is a photo/media with no caption/link — skipping.")
-                        except Exception as msg_err:
-                            print(f"DEBUG FETCH: Skipping message ID={getattr(m, 'id', 'unknown')} due to error: {msg_err}")
-            
-            total = len(all_messages)
-            if total == 0:
-                return await status_msg.edit("❌ No posts with file links found in the specified range.")
-            
-            await status_msg.edit(f"✅ Found {total} posts. Processing sequentially...")
-            
-            success_count = 0
-            skip_count = 0
-            async with interaction_lock:
-                for i, msg in enumerate(all_messages, 1):
-                    msg_id_display = msg[0].id if isinstance(msg, list) else msg.id
-                    await status_msg.edit(
-                        f"⏳ <b>Processing:</b> [{i}/{total}]\n"
-                        f"<b>Msg ID:</b> <code>{msg_id_display}</code>\n"
-                        f"<b>✅ Success:</b> {success_count} | <b>❌ Skipped:</b> {skip_count}"
-                    )
-                    res = await process_single_post(status_msg, chat_id, msg, fs_bot, i, total)
-                    if res: success_count += 1
-                    else: skip_count += 1
-                    await asyncio.sleep(1)
-            
-            await status_msg.edit(f"🏁 <b>Done!</b>\nTotal: {total}\nSuccess: {success_count}\nSkipped: {skip_count}")
-        except Exception as e:
-            await status_msg.edit(f"❌ Error while fetching/processing: {e}")
+        await process_range(user_id=user_id, chat_id=chat_id, start_id=start_id, end_id=end_id, status_msg=status_msg, message=message)
         return
 
     # default behavior (add channel)
