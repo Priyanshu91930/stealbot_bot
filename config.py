@@ -10,4 +10,4 @@ STRING_SESSION = environ.get("STRING_SESSION", "BQGmd-8Af2OyBWHzXHila4kqRwJO8v2_
 ADMINS = [8494193109]
 DB_URI = environ.get("DB_URI", "mongodb+srv://anihubyt:Zxcvbnmm9193@cluster0.qv5tu12.mongodb.net/?appName=Cluster0")
 DB_NAME = environ.get("DB_NAME", "banana_bot")
-LOG_CHANNEL = int(environ.get("LOG_CHANNEL", "-1004423517320"))
+LOG_CHANNEL = int(environ.get("LOG_CHANNEL", "-1004161131573"))
